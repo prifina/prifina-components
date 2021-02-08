@@ -1,6 +1,10 @@
 import React from "react";
+//import { default as BlendTest } from "./BlendTest";
 
 export const ObjectTest = { test: "something" };
-export const ComponentTest = () => {
-  return <div>Testing React Component</div>;
+
+const ComponentTest = () => {
+  return <div>Testing React Component test</div>;
 };
+
+export default ComponentTest;

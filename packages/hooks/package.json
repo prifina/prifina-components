@@ -32,10 +32,20 @@
     "babel-plugin-react-docgen": "^4.2.1",
     "cross-env": "^7.0.2",
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6"
+    "react-dom": ">=16.8.6",
+    "@blend-ui/core": "1.1.55-alpha.0",
+    "@blend-ui/icons": "1.1.6-alpha.0",
+    "@iconify/icons-bx": "^1.1.0",
+    "@iconify/icons-fe": "^1.1.0",
+    "@styled-system/prop-types": "^5.1.5"
   },
   "peerDependencies": {
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6"
+    "react-dom": ">=16.8.6",
+    "@blend-ui/core": "1.1.55-alpha.0",
+    "@blend-ui/icons": "1.1.6-alpha.0",
+    "@iconify/icons-bx": "^1.1.0",
+    "@iconify/icons-fe": "^1.1.0",
+    "@styled-system/prop-types": "^5.1.5"
   }
 }
