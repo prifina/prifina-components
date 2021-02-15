@@ -69,10 +69,8 @@ var getVehicle = function getVehicle() {
 };
 
 var getInfo = function getInfo() {
-  var _usePrifina = (0, _hooks.usePrifina)({}),
-      currentUser = _usePrifina.currentUser;
-
-  console.log("GET INFO ", currentUser);
+  var hooks = (0, _hooks.useHooks)();
+  console.log("GET INFO ", hooks);
   return ["createCard", "contextualCard", "userCard", "createTransaction", "getAddress", "getCommerce", "getCompany", "getFinance", "getName", "getVehicle"];
 };
 

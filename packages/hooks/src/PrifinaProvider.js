@@ -22,7 +22,10 @@ const PrifinaContextProvider = (props) => {
 
   const connector = useCallback((opts) => {
     console.log("Prifina current", providerContext.current);
-    console.log("Prifina current", providerContext.current.init.connectors);
+    console.log(
+      "Prifina current connectors",
+      providerContext.current.init.connectors
+    );
     //console.log("CONNECTOR NAME ", opts);
     if (
       !Object.keys(opts).every((k) => {
@@ -40,7 +43,7 @@ const PrifinaContextProvider = (props) => {
       }
     );
     if (connectorIndex === -1) {
-      //throw new Error(`Connector (${opts.name}) not found!`);
+      throw new Error(`Connector (${opts.name}) not found!`);
     } else {
       const selectedConnector =
         providerContext.current.init.connectors[connectorIndex];

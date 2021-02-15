@@ -29,7 +29,7 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
   }, []);
   var connector = (0, _react.useCallback)(function (opts) {
     console.log("Prifina current", providerContext.current);
-    console.log("Prifina current", providerContext.current.init.connectors); //console.log("CONNECTOR NAME ", opts);
+    console.log("Prifina current connectors", providerContext.current.init.connectors); //console.log("CONNECTOR NAME ", opts);
 
     if (!Object.keys(opts).every(function (k) {
       return connectorOpts.indexOf(k) > -1;
@@ -41,7 +41,8 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
       return c.getModuleName() === opts.name;
     });
 
-    if (connectorIndex === -1) {//throw new Error(`Connector (${opts.name}) not found!`);
+    if (connectorIndex === -1) {
+      throw new Error("Connector (".concat(opts.name, ") not found!"));
     } else {
       var selectedConnector = providerContext.current.init.connectors[connectorIndex];
 

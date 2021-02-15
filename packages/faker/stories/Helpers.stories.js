@@ -38,13 +38,13 @@ export const helper5 = () => {
   console.log("Logged in user ", currentUser);
   const info = connector({ name: "Faker", function: "getInfo" });
   console.log(info);
-  const userCard = connector({ name: "Faker", function: "userCard" });
-  console.log(userCard);
+  const user = connector({ name: "Faker", function: "getName" });
+  console.log(user);
 
   return (
     <div>
       <div>Hello, {currentUser.name}</div>
-      <div>UserCard:{JSON.stringify(userCard)}</div>
+      <div>UserCard:{JSON.stringify(user)}</div>
     </div>
   );
 };
