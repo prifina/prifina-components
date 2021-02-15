@@ -15,6 +15,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+var connectorOpts = ["name", "function"];
 var PrifinaContext = /*#__PURE__*/(0, _react.createContext)({});
 exports.PrifinaContext = PrifinaContext;
 
@@ -26,8 +27,34 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
       check: "OK"
     };
   }, []);
+  var connector = (0, _react.useCallback)(function (opts) {
+    //console.log("Prifina current", providerContext.current.init.connectors);
+    //console.log("CONNECTOR NAME ", opts);
+    if (!Object.keys(opts).every(function (k) {
+      return connectorOpts.indexOf(k) > -1;
+    })) {
+      throw new Error("Invalid connector, only (".concat(connectorOpts.join(","), ") allowed."));
+    }
+
+    var connectorIndex = providerContext.current.init.connectors.findIndex(function (c) {
+      return c.getModuleName() === opts.name;
+    });
+
+    if (connectorIndex === -1) {
+      throw new Error("Connector (".concat(opts.name, ") not found!"));
+    } else {
+      var selectedConnector = providerContext.current.init.connectors[connectorIndex];
+
+      if (Object.keys(selectedConnector).indexOf(opts["function"]) > -1) {
+        return selectedConnector[opts["function"]]();
+      } else {
+        throw new Error("Connector function (".concat(opts["function"], ") not found!"));
+      }
+    }
+  }, []);
   providerContext.current = {
     check: check,
+    connector: connector,
     currentUser: {
       name: "Tero"
     }
@@ -42,20 +69,18 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
 
 
 var usePrifina = function usePrifina(_ref) {
-  var _ref$stage = _ref.stage,
-      stage = _ref$stage === void 0 ? "dev" : _ref$stage,
-      _ref$appID = _ref.appID,
-      appID = _ref$appID === void 0 ? "" : _ref$appID;
-  var prifinaContext = (0, _react.useContext)(PrifinaContext);
+  var _ref$appID = _ref.appID,
+      appID = _ref$appID === void 0 ? "" : _ref$appID,
+      _ref$connectors = _ref.connectors,
+      connectors = _ref$connectors === void 0 ? [] : _ref$connectors;
+  var prifinaContext = (0, _react.useContext)(PrifinaContext); //console.log(window.location.hostname);
+
+  var stage = "dev";
   var prifina = (0, _react.useMemo)(function () {
-    /*
-    if (theme === undefined) {
-        throw new Error("useTheme must be used within a ThemeProvider");
-      }
-      */
     prifinaContext.current.init = {
       stage: stage,
-      app: appID
+      app: appID,
+      connectors: connectors
     };
     return prifinaContext.current;
   }, [prifinaContext]);

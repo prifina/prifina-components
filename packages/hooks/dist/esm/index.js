@@ -8,22 +8,20 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "PrifinaProvider", {
   enumerable: true,
   get: function get() {
-    return _PrifinaProvider2["default"];
+    return _PrifinaProvider["default"];
   }
 });
 Object.defineProperty(exports, "usePrifina", {
   enumerable: true,
   get: function get() {
-    return _PrifinaProvider2.usePrifina;
+    return _PrifinaProvider.usePrifina;
   }
 });
 exports.ObjectTest = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _PrifinaProvider = _interopRequireDefault(require("../stories/PrifinaProvider.stories"));
-
-var _PrifinaProvider2 = _interopRequireWildcard(require("./PrifinaProvider"));
+var _PrifinaProvider = _interopRequireWildcard(require("./PrifinaProvider"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 

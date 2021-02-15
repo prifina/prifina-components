@@ -1,7 +1,7 @@
 import React from "react";
-import PrifinaProviderStories from "../stories/PrifinaProvider.stories";
 //import { default as BlendTest } from "./BlendTest";
 
+import { default as PrifinaProvider, usePrifina } from "./PrifinaProvider";
 export const ObjectTest = { test: "something" };
 /*
 const ComponentTest = () => {
@@ -11,4 +11,4 @@ const ComponentTest = () => {
 export default ComponentTest;
 */
 
-export { default as PrifinaProvider, usePrifina } from "./PrifinaProvider";
+export { PrifinaProvider, usePrifina };
