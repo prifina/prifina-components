@@ -2,10 +2,11 @@
 
 > TODO: description
 
-## Usage
+## Install
 
 ```
-const faker = require('faker');
+npm install @prifina/faker or yarn add @prifina/faker
+
 
 // TODO: DEMONSTRATE API
 ```

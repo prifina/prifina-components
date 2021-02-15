@@ -2,10 +2,12 @@
 
 > TODO: description
 
-## Usage
+## Install
 
 ```
-const hooks = require('hooks');
+npm install @prifina/hooks or yarn add @prifina/hooks
+
+
 
 // TODO: DEMONSTRATE API
 ```
