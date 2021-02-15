@@ -17,6 +17,12 @@ Object.defineProperty(exports, "usePrifina", {
     return _PrifinaProvider.usePrifina;
   }
 });
+Object.defineProperty(exports, "useHooks", {
+  enumerable: true,
+  get: function get() {
+    return _PrifinaProvider.useHooks;
+  }
+});
 exports.ObjectTest = void 0;
 
 var _react = _interopRequireDefault(require("react"));

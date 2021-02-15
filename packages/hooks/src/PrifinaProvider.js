@@ -21,7 +21,8 @@ const PrifinaContextProvider = (props) => {
   }, []);
 
   const connector = useCallback((opts) => {
-    //console.log("Prifina current", providerContext.current.init.connectors);
+    console.log("Prifina current", providerContext.current);
+    console.log("Prifina current", providerContext.current.init.connectors);
     //console.log("CONNECTOR NAME ", opts);
     if (
       !Object.keys(opts).every((k) => {
@@ -39,7 +40,7 @@ const PrifinaContextProvider = (props) => {
       }
     );
     if (connectorIndex === -1) {
-      throw new Error(`Connector (${opts.name}) not found!`);
+      //throw new Error(`Connector (${opts.name}) not found!`);
     } else {
       const selectedConnector =
         providerContext.current.init.connectors[connectorIndex];
@@ -72,6 +73,17 @@ export const usePrifina = ({ appID = "", connectors = [] }) => {
       app: appID,
       connectors: connectors,
     };
+    return prifinaContext.current;
+  }, [prifinaContext]);
+  return prifina;
+};
+
+/* Hook */
+// ==============================
+export const useHooks = () => {
+  const prifinaContext = useContext(PrifinaContext);
+
+  const prifina = useMemo(() => {
     return prifinaContext.current;
   }, [prifinaContext]);
   return prifina;

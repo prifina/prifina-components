@@ -36,8 +36,11 @@ helper4.story = {
 export const helper5 = () => {
   const { currentUser, connector } = usePrifina({ connectors: [Faker] });
   console.log("Logged in user ", currentUser);
-  const userCard = connector({ name: "Faker", function: "userCard" });
   const info = connector({ name: "Faker", function: "getInfo" });
+  console.log(info);
+  const userCard = connector({ name: "Faker", function: "userCard" });
+  console.log(userCard);
+
   return (
     <div>
       <div>Hello, {currentUser.name}</div>

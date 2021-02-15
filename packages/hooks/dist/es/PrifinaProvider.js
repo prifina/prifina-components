@@ -5,7 +5,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.usePrifina = exports.PrifinaContext = void 0;
+exports["default"] = exports.useHooks = exports.usePrifina = exports.PrifinaContext = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -28,8 +28,9 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
     };
   }, []);
   var connector = (0, _react.useCallback)(function (opts) {
-    //console.log("Prifina current", providerContext.current.init.connectors);
-    //console.log("CONNECTOR NAME ", opts);
+    console.log("Prifina current", providerContext.current);
+    console.log("Prifina current", providerContext.current.init.connectors); //console.log("CONNECTOR NAME ", opts);
+
     if (!Object.keys(opts).every(function (k) {
       return connectorOpts.indexOf(k) > -1;
     })) {
@@ -40,8 +41,7 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
       return c.getModuleName() === opts.name;
     });
 
-    if (connectorIndex === -1) {
-      throw new Error("Connector (".concat(opts.name, ") not found!"));
+    if (connectorIndex === -1) {//throw new Error(`Connector (${opts.name}) not found!`);
     } else {
       var selectedConnector = providerContext.current.init.connectors[connectorIndex];
 
@@ -86,10 +86,23 @@ var usePrifina = function usePrifina(_ref) {
   }, [prifinaContext]);
   return prifina;
 };
-/* @component */
+/* Hook */
+// ==============================
 
 
 exports.usePrifina = usePrifina;
+
+var useHooks = function useHooks() {
+  var prifinaContext = (0, _react.useContext)(PrifinaContext);
+  var prifina = (0, _react.useMemo)(function () {
+    return prifinaContext.current;
+  }, [prifinaContext]);
+  return prifina;
+};
+/* @component */
+
+
+exports.useHooks = useHooks;
 PrifinaContextProvider.__docgenInfo = {
   "description": "",
   "methods": [],
