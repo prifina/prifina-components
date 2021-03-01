@@ -4,7 +4,13 @@ import PrifinaProvider, { usePrifina } from "../src/PrifinaProvider";
 export default { title: "ProviderTest" };
 
 export const providerTest = () => {
-  const { currentUser, check } = usePrifina({});
+  const {
+    currentUser,
+    check,
+    setSettings,
+    getSettings,
+    getLocalization,
+  } = usePrifina({});
   console.log(currentUser);
 
   return (
@@ -12,10 +18,18 @@ export const providerTest = () => {
       Provider Testing{" "}
       <button
         onClick={() => {
-          console.log(check());
+          console.log(setSettings({ test: 10 }));
         }}
       >
-        Test
+        Test setSettings
+      </button>
+      <button
+        onClick={() => {
+          console.log(getSettings());
+          console.log(getLocalization());
+        }}
+      >
+        Test getSettings
       </button>
     </div>
   );

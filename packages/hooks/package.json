@@ -47,5 +47,8 @@
     "@styled-system/prop-types": "^5.1.5",
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
+  },
+  "dependencies": {
+    "short-uuid": "^4.1.0"
   }
 }
