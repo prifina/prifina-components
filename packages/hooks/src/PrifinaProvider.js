@@ -136,7 +136,7 @@ const PrifinaContextProvider = (props) => {
   }
   return (
     <PrifinaContext.Provider value={providerContext}>
-      {props.children}
+      <div className={"prifina-provider"}>{props.children}</div>
     </PrifinaContext.Provider>
   );
 };
@@ -145,6 +145,7 @@ const PrifinaContextProvider = (props) => {
 // ==============================
 export const usePrifina = ({ appID = "", connectors = [] }) => {
   const prifinaContext = useContext(PrifinaContext);
+  console.log("PRIFINA CONTEXT ", prifinaContext);
   //console.log(window.location.hostname);
   const stage = "dev";
 

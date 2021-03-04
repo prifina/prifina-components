@@ -142,7 +142,9 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
 
   return /*#__PURE__*/_react["default"].createElement(PrifinaContext.Provider, {
     value: providerContext
-  }, props.children);
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: "prifina-provider"
+  }, props.children));
 };
 /* Hook */
 // ==============================
@@ -153,7 +155,8 @@ var usePrifina = function usePrifina(_ref) {
       appID = _ref$appID === void 0 ? "" : _ref$appID,
       _ref$connectors = _ref.connectors,
       connectors = _ref$connectors === void 0 ? [] : _ref$connectors;
-  var prifinaContext = (0, _react.useContext)(PrifinaContext); //console.log(window.location.hostname);
+  var prifinaContext = (0, _react.useContext)(PrifinaContext);
+  console.log("PRIFINA CONTEXT ", prifinaContext); //console.log(window.location.hostname);
 
   var stage = "dev";
 
