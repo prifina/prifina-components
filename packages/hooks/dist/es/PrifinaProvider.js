@@ -13,8 +13,6 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -35,6 +33,7 @@ exports.PrifinaContext = PrifinaContext;
 
 var PrifinaContextProvider = function PrifinaContextProvider(props) {
   var providerContext = (0, _react.useRef)(null);
+  var callbacks = (0, _react.useRef)([]);
 
   var _useState = (0, _react.useState)({
     name: "Tero",
@@ -79,12 +78,12 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
   var setSettings = (0, _react.useCallback)(function () {
     var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     //console.log(providerContext.current.init.app);
-    localStorage.setItem("PrifinaAppSettings-" + providerContext.current.init.app, JSON.stringify(settings));
+    localStorage.setItem("PrifinaAppSettings-" + providerContext.current.init.appID, JSON.stringify(settings));
     return true;
   }, []);
   var getSettings = (0, _react.useCallback)(function () {
     //console.log(providerContext.current.init.app);
-    var appSettings = JSON.parse(localStorage.getItem("PrifinaAppSettings-" + providerContext.current.init.app));
+    var appSettings = JSON.parse(localStorage.getItem("PrifinaAppSettings-" + providerContext.current.init.appID));
 
     if (appSettings === null) {
       appSettings = {};
@@ -93,7 +92,7 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
     return appSettings;
   }, []);
   var getLocalization = (0, _react.useCallback)(function () {
-    var appLocalization = JSON.parse(localStorage.getItem("PrifinaAppLocalization-" + providerContext.current.init.app));
+    var appLocalization = JSON.parse(localStorage.getItem("PrifinaAppLocalization"));
 
     if (appLocalization === null) {
       appLocalization = {
@@ -116,18 +115,34 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
 
     return appLocalization;
   }, []);
+  var onUpdate = (0, _react.useCallback)(function (fn) {
+    callbacks.current.push({
+      appID: providerContext.current.init.appID,
+      callback: fn
+    });
+  }, []);
+  var getCallbacks = (0, _react.useCallback)(function () {
+    return callbacks.current;
+  }, []);
   providerContext.current = {
     check: check,
     connector: connector,
     setSettings: setSettings,
     getSettings: getSettings,
     getLocalization: getLocalization,
+    onUpdate: onUpdate,
+    getCallbacks: getCallbacks,
     currentUser: currentUser
   };
   console.log("Prifina ", providerContext);
-  return /*#__PURE__*/_react["default"].createElement(PrifinaContext.Provider, _extends({
+
+  if (!props.children) {
+    return null;
+  }
+
+  return /*#__PURE__*/_react["default"].createElement(PrifinaContext.Provider, {
     value: providerContext
-  }, props));
+  }, props.children);
 };
 /* Hook */
 // ==============================
@@ -149,7 +164,7 @@ var usePrifina = function usePrifina(_ref) {
   var prifina = (0, _react.useMemo)(function () {
     prifinaContext.current.init = {
       stage: stage,
-      app: appID,
+      appID: appID,
       connectors: connectors
     };
     return prifinaContext.current;

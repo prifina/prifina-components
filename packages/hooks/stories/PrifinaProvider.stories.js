@@ -12,7 +12,7 @@ export const providerTest = () => {
     getLocalization,
     onUpdate,
     getCallbacks,
-  } = usePrifina({});
+  } = usePrifina({ appID: "TESTING" });
   console.log(currentUser);
 
   const updateTest = () => {

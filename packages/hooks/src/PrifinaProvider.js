@@ -131,7 +131,14 @@ const PrifinaContextProvider = (props) => {
     currentUser,
   };
   console.log("Prifina ", providerContext);
-  return <PrifinaContext.Provider value={providerContext} {...props} />;
+  if (!props.children) {
+    return null;
+  }
+  return (
+    <PrifinaContext.Provider value={providerContext}>
+      {props.children}
+    </PrifinaContext.Provider>
+  );
 };
 
 /* Hook */
