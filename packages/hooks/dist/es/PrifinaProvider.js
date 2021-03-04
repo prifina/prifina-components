@@ -15,12 +15,35 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var _short = require("short-uuid");
+
 var connectorOpts = ["name", "function"];
 var PrifinaContext = /*#__PURE__*/(0, _react.createContext)({});
 exports.PrifinaContext = PrifinaContext;
 
 var PrifinaContextProvider = function PrifinaContextProvider(props) {
   var providerContext = (0, _react.useRef)(null);
+
+  var _useState = (0, _react.useState)({
+    name: "Tero",
+    uuid: "Testing-uuid"
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      currentUser = _useState2[0],
+      setCurrentUser = _useState2[1];
+
   var check = (0, _react.useCallback)(function () {
     console.log("Prifina current", providerContext.current);
     return {
@@ -53,12 +76,53 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
       }
     }
   }, []);
+  var setSettings = (0, _react.useCallback)(function () {
+    var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    //console.log(providerContext.current.init.app);
+    localStorage.setItem("PrifinaAppSettings-" + providerContext.current.init.app, JSON.stringify(settings));
+    return true;
+  }, []);
+  var getSettings = (0, _react.useCallback)(function () {
+    //console.log(providerContext.current.init.app);
+    var appSettings = JSON.parse(localStorage.getItem("PrifinaAppSettings-" + providerContext.current.init.app));
+
+    if (appSettings === null) {
+      appSettings = {};
+    }
+
+    return appSettings;
+  }, []);
+  var getLocalization = (0, _react.useCallback)(function () {
+    var appLocalization = JSON.parse(localStorage.getItem("PrifinaAppLocalization-" + providerContext.current.init.app));
+
+    if (appLocalization === null) {
+      appLocalization = {
+        calendar: "gregory",
+        country: "FI",
+        day: "2-digit",
+        desktop: true,
+        language: "en-US,en;q=0.9",
+        locale: "en-GB",
+        mobile: false,
+        month: "2-digit",
+        numberingSystem: "latn",
+        smarttv: false,
+        tablet: false,
+        timeZone: "Europe/Helsinki",
+        timeZoneOffset: -120,
+        year: "numeric"
+      };
+    }
+
+    return appLocalization;
+  }, []);
   providerContext.current = {
     check: check,
     connector: connector,
-    currentUser: {
-      name: "Tero"
-    }
+    setSettings: setSettings,
+    getSettings: getSettings,
+    getLocalization: getLocalization,
+    currentUser: currentUser
   };
   console.log("Prifina ", providerContext);
   return /*#__PURE__*/_react["default"].createElement(PrifinaContext.Provider, _extends({
@@ -77,6 +141,11 @@ var usePrifina = function usePrifina(_ref) {
   var prifinaContext = (0, _react.useContext)(PrifinaContext); //console.log(window.location.hostname);
 
   var stage = "dev";
+
+  if (appID === "" && stage === "dev") {
+    appID = _short.generate();
+  }
+
   var prifina = (0, _react.useMemo)(function () {
     prifinaContext.current.init = {
       stage: stage,

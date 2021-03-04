@@ -19,6 +19,8 @@ export const PrifinaContext = createContext({});
 const PrifinaContextProvider = (props) => {
   const providerContext = useRef(null);
 
+  const callbacks = useRef([]);
+
   const [currentUser, setCurrentUser] = useState({
     name: "Tero",
     uuid: "Testing-uuid",
@@ -66,7 +68,7 @@ const PrifinaContextProvider = (props) => {
   const setSettings = useCallback((settings = {}) => {
     //console.log(providerContext.current.init.app);
     localStorage.setItem(
-      "PrifinaAppSettings-" + providerContext.current.init.app,
+      "PrifinaAppSettings-" + providerContext.current.init.appID,
       JSON.stringify(settings)
     );
     return true;
@@ -75,7 +77,7 @@ const PrifinaContextProvider = (props) => {
     //console.log(providerContext.current.init.app);
     let appSettings = JSON.parse(
       localStorage.getItem(
-        "PrifinaAppSettings-" + providerContext.current.init.app
+        "PrifinaAppSettings-" + providerContext.current.init.appID
       )
     );
     if (appSettings === null) {
@@ -86,9 +88,7 @@ const PrifinaContextProvider = (props) => {
 
   const getLocalization = useCallback(() => {
     let appLocalization = JSON.parse(
-      localStorage.getItem(
-        "PrifinaAppLocalization-" + providerContext.current.init.app
-      )
+      localStorage.getItem("PrifinaAppLocalization")
     );
     if (appLocalization === null) {
       appLocalization = {
@@ -111,12 +111,23 @@ const PrifinaContextProvider = (props) => {
     return appLocalization;
   }, []);
 
+  const onUpdate = useCallback((fn) => {
+    callbacks.current.push({
+      appID: providerContext.current.init.appID,
+      callback: fn,
+    });
+  }, []);
+  const getCallbacks = useCallback(() => {
+    return callbacks.current;
+  }, []);
   providerContext.current = {
     check,
     connector,
     setSettings,
     getSettings,
     getLocalization,
+    onUpdate,
+    getCallbacks,
     currentUser,
   };
   console.log("Prifina ", providerContext);
@@ -136,7 +147,7 @@ export const usePrifina = ({ appID = "", connectors = [] }) => {
   const prifina = useMemo(() => {
     prifinaContext.current.init = {
       stage: stage,
-      app: appID,
+      appID: appID,
       connectors: connectors,
     };
     return prifinaContext.current;

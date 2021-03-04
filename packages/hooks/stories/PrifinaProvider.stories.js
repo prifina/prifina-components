@@ -10,9 +10,16 @@ export const providerTest = () => {
     setSettings,
     getSettings,
     getLocalization,
+    onUpdate,
+    getCallbacks,
   } = usePrifina({});
   console.log(currentUser);
 
+  const updateTest = () => {
+    console.log("UPDATE TEST");
+  };
+
+  onUpdate(updateTest);
   return (
     <div>
       Provider Testing{" "}
@@ -27,6 +34,7 @@ export const providerTest = () => {
         onClick={() => {
           console.log(getSettings());
           console.log(getLocalization());
+          console.log(getCallbacks());
         }}
       >
         Test getSettings
