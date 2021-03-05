@@ -1,17 +1,17 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.useHooks = exports.usePrifina = exports.PrifinaContext = void 0;
+exports["default"] = exports.usePrifina = exports.PrifinaContext = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -115,9 +115,9 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
 
     return appLocalization;
   }, []);
-  var onUpdate = (0, _react.useCallback)(function (fn) {
+  var onUpdate = (0, _react.useCallback)(function (appID, fn) {
     callbacks.current.push({
-      //appID: providerContext.current.init.appID,
+      appID: appID,
       callback: fn
     });
   }, []);
@@ -150,50 +150,43 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
 /* Hook */
 // ==============================
 
-
-var usePrifina = function usePrifina(_ref) {
-  var _ref$appID = _ref.appID,
-      appID = _ref$appID === void 0 ? "" : _ref$appID,
-      _ref$connectors = _ref.connectors,
-      connectors = _ref$connectors === void 0 ? [] : _ref$connectors;
-  var prifinaContext = (0, _react.useContext)(PrifinaContext);
-  console.log("PRIFINA CONTEXT ", prifinaContext); //console.log(window.location.hostname);
-
-  var stage = "dev";
+/*
+export const usePrifina = ({ appID = "", connectors = [] }) => {
+  const prifinaContext = useContext(PrifinaContext);
+  console.log("PRIFINA CONTEXT ", prifinaContext);
+  //console.log(window.location.hostname);
+  const stage = "dev";
 
   if (appID === "" && stage === "dev") {
-    appID = _short.generate();
+    appID = short.generate();
   }
-
-  var prifina = (0, _react.useMemo)(function () {
+  const prifina = useMemo(() => {
     prifinaContext.current.init = {
       stage: stage,
       appID: appID,
-      connectors: connectors
+      connectors: connectors,
     };
     return prifinaContext.current;
   }, [prifinaContext]);
   return prifina;
 };
+*/
+
 /* Hook */
 // ==============================
 
 
-exports.usePrifina = usePrifina;
-
-var useHooks = function useHooks(_ref2) {
-  var Context = _ref2.Context,
-      _ref2$appID = _ref2.appID,
-      appID = _ref2$appID === void 0 ? "" : _ref2$appID,
-      _ref2$connectors = _ref2.connectors,
-      connectors = _ref2$connectors === void 0 ? [] : _ref2$connectors;
-  console.log("HOOK ", _typeof(Context), Context);
+var usePrifina = function usePrifina(_ref) {
+  var Context = _ref.Context,
+      _ref$appID = _ref.appID,
+      appID = _ref$appID === void 0 ? "" : _ref$appID,
+      _ref$connectors = _ref.connectors,
+      connectors = _ref$connectors === void 0 ? [] : _ref$connectors;
   var contextExists = false;
 
   if (typeof Context !== "undefined") {
     Context = /*#__PURE__*/(0, _react.createContext)(Context);
     contextExists = true;
-    console.log("CONTEXT EXISTS...");
   }
 
   var prifinaContext = (0, _react.useContext)(Context || PrifinaContext);
@@ -205,13 +198,10 @@ var useHooks = function useHooks(_ref2) {
 
   var prifina = (0, _react.useMemo)(function () {
     if (prifinaContext === null || typeof prifinaContext.current === "undefined") {
-      console.log("MEMO 1 ", prifinaContext);
-
       if (contextExists) {
-        prifinaContext.init.apps.push({
-          app: appID,
+        prifinaContext.init.apps[appID] = {
           connectors: connectors
-        });
+        };
       } else {
         throw new Error("Invalid Prifina context provider");
       }
@@ -228,9 +218,9 @@ var useHooks = function useHooks(_ref2) {
         prifinaContext.current.init.apps[appID] = {
           connectors: connectors
         };
-      }
+      } // console.log("MEMO 2 ", contextExists, prifinaContext);
 
-      console.log("MEMO 2 ", contextExists, prifinaContext);
+
       return prifinaContext.current;
     }
   }, [prifinaContext]);
@@ -285,7 +275,7 @@ export const useHooks = ({ Context, appID = "", connectors = [] }) => {
 /* @component */
 
 
-exports.useHooks = useHooks;
+exports.usePrifina = usePrifina;
 PrifinaContextProvider.__docgenInfo = {
   "description": "",
   "methods": [],

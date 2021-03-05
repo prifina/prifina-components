@@ -111,9 +111,9 @@ const PrifinaContextProvider = (props) => {
     return appLocalization;
   }, []);
 
-  const onUpdate = useCallback((fn) => {
+  const onUpdate = useCallback((appID, fn) => {
     callbacks.current.push({
-      //appID: providerContext.current.init.appID,
+      appID: appID,
       callback: fn,
     });
   }, []);
@@ -144,6 +144,8 @@ const PrifinaContextProvider = (props) => {
 
 /* Hook */
 // ==============================
+
+/*
 export const usePrifina = ({ appID = "", connectors = [] }) => {
   const prifinaContext = useContext(PrifinaContext);
   console.log("PRIFINA CONTEXT ", prifinaContext);
@@ -163,17 +165,14 @@ export const usePrifina = ({ appID = "", connectors = [] }) => {
   }, [prifinaContext]);
   return prifina;
 };
-
+*/
 /* Hook */
 // ==============================
-export const useHooks = ({ Context, appID = "", connectors = [] }) => {
-  console.log("HOOK ", typeof Context, Context);
-
+export const usePrifina = ({ Context, appID = "", connectors = [] }) => {
   let contextExists = false;
   if (typeof Context !== "undefined") {
     Context = createContext(Context);
     contextExists = true;
-    console.log("CONTEXT EXISTS...");
   }
   const prifinaContext = useContext(Context || PrifinaContext);
   const stage = "dev";
@@ -186,13 +185,10 @@ export const useHooks = ({ Context, appID = "", connectors = [] }) => {
       prifinaContext === null ||
       typeof prifinaContext.current === "undefined"
     ) {
-      console.log("MEMO 1 ", prifinaContext);
-
       if (contextExists) {
-        prifinaContext.init.apps.push({
-          app: appID,
+        prifinaContext.init.apps[appID] = {
           connectors: connectors,
-        });
+        };
       } else {
         throw new Error("Invalid Prifina context provider");
       }
@@ -209,7 +205,7 @@ export const useHooks = ({ Context, appID = "", connectors = [] }) => {
           connectors: connectors,
         };
       }
-      console.log("MEMO 2 ", contextExists, prifinaContext);
+      // console.log("MEMO 2 ", contextExists, prifinaContext);
       return prifinaContext.current;
     }
   }, [prifinaContext]);
