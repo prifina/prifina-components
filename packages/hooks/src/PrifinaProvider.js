@@ -185,11 +185,11 @@ export const useHooks = ({ Context, appID = "", connectors = [] }) => {
       typeof prifinaContext.current === "undefined"
     ) {
       console.log("MEMO 1 ", prifinaContext);
-      throw new Error("");
+      throw new Error("Invalid Prifina context provider");
       return prifinaContext;
     } else {
-      console.log("MEMO 2 ", prifinaContext);
       if (contextExists) {
+        console.log("MEMO 2.0 ", prifinaContext.current.init);
         prifinaContext.current.init.apps.push({
           app: appID,
           connectors: connectors,
@@ -200,6 +200,7 @@ export const useHooks = ({ Context, appID = "", connectors = [] }) => {
           apps: [],
         };
       }
+      console.log("MEMO 2 ", prifinaContext);
       return prifinaContext.current;
     }
   }, [prifinaContext]);

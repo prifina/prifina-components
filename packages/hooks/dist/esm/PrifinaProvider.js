@@ -205,12 +205,11 @@ var useHooks = function useHooks(_ref2) {
   var prifina = (0, _react.useMemo)(function () {
     if (prifinaContext === null || typeof prifinaContext.current === "undefined") {
       console.log("MEMO 1 ", prifinaContext);
-      throw new Error("");
+      throw new Error("Invalid Prifina context provider");
       return prifinaContext;
     } else {
-      console.log("MEMO 2 ", prifinaContext);
-
       if (contextExists) {
+        console.log("MEMO 2.0 ", prifinaContext.current.init);
         prifinaContext.current.init.apps.push({
           app: appID,
           connectors: connectors
@@ -222,6 +221,7 @@ var useHooks = function useHooks(_ref2) {
         };
       }
 
+      console.log("MEMO 2 ", prifinaContext);
       return prifinaContext.current;
     }
   }, [prifinaContext]);
