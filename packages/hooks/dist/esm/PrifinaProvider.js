@@ -183,9 +183,15 @@ exports.usePrifina = usePrifina;
 var useHooks = function useHooks(Context) {
   console.log("HOOK ", Context);
   var prifinaContext = (0, _react.useContext)(Context || PrifinaContext);
+  console.log("MEMO ", prifinaContext, _typeof(prifinaContext), Object.keys(prifinaContext));
   var prifina = (0, _react.useMemo)(function () {
-    console.log("MEMO ", prifinaContext, _typeof(prifinaContext), Object.keys(prifinaContext));
-    return typeof prifinaContext.current !== "undefined" ? prifinaContext.current : prifinaContext;
+    if (prifinaContext === null || typeof prifinaContext.current === "undefined") {
+      console.log("MEMO 1");
+      return prifinaContext;
+    } else {
+      console.log("MEMO 2");
+      return prifinaContext.current;
+    }
   }, [prifinaContext]);
   return prifina;
 };
