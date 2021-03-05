@@ -222,13 +222,12 @@ var useHooks = function useHooks(_ref2) {
       if (appID === "WIDGETS" || appID == "APP") {
         prifinaContext.current.init = {
           stage: stage,
-          apps: []
+          apps: {}
         };
       } else {
-        prifinaContext.current.init.apps.push({
-          app: appID,
+        prifinaContext.current.init.apps[appID] = {
           connectors: connectors
-        });
+        };
       }
 
       console.log("MEMO 2 ", contextExists, prifinaContext);
