@@ -117,7 +117,8 @@ const PrifinaContextProvider = (props) => {
       callback: fn,
     });
   }, []);
-  const getCallbacks = useCallback(() => {
+  const getCallbacks = useCallback((data) => {
+    console.log("GET CALLBACk ", data);
     return callbacks.current;
   }, []);
   providerContext.current = {
@@ -171,16 +172,24 @@ export const useHooks = (Context) => {
     Context = createContext(Context);
   }
   const prifinaContext = useContext(Context || PrifinaContext);
+  const stage = "dev";
 
+  if (appID === "" && stage === "dev") {
+    appID = short.generate();
+  }
   const prifina = useMemo(() => {
     if (
       prifinaContext === null ||
       typeof prifinaContext.current === "undefined"
     ) {
-      //console.log("MEMO 1");
+      console.log("MEMO 1 ", prifinaContext);
       return prifinaContext;
     } else {
       //console.log("MEMO 2");
+      prifinaContext.current.init = {
+        stage: stage,
+        apps: [],
+      };
       return prifinaContext.current;
     }
   }, [prifinaContext]);

@@ -121,7 +121,8 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
       callback: fn
     });
   }, []);
-  var getCallbacks = (0, _react.useCallback)(function () {
+  var getCallbacks = (0, _react.useCallback)(function (data) {
+    console.log("GET CALLBACk ", data);
     return callbacks.current;
   }, []);
   providerContext.current = {
@@ -187,12 +188,22 @@ var useHooks = function useHooks(Context) {
   }
 
   var prifinaContext = (0, _react.useContext)(Context || PrifinaContext);
+  var stage = "dev";
+
+  if (appID === "" && stage === "dev") {
+    appID = _short.generate();
+  }
+
   var prifina = (0, _react.useMemo)(function () {
     if (prifinaContext === null || typeof prifinaContext.current === "undefined") {
-      //console.log("MEMO 1");
+      console.log("MEMO 1 ", prifinaContext);
       return prifinaContext;
     } else {
       //console.log("MEMO 2");
+      prifinaContext.current.init = {
+        stage: stage,
+        apps: []
+      };
       return prifinaContext.current;
     }
   }, [prifinaContext]);
