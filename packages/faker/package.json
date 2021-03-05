@@ -1,6 +1,6 @@
 {
   "name": "@prifina/faker",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Prifina Faker Hook",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "react-dom": ">=16.8.6"
   },
   "dependencies": {
-    "@prifina/hooks": "^0.0.22",
+    "@prifina/hooks": "^0.0.23",
     "faker": "^5.4.0"
   }
 }
