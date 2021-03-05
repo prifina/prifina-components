@@ -219,9 +219,61 @@ var useHooks = function useHooks(_ref2) {
       return prifinaContext;
     } else {
       //   console.log("MEMO 2.0 ", prifinaContext.current.init);
+      if (appID === "WIDGETS" || appID == "APP") {
+        prifinaContext.current.init = {
+          stage: stage,
+          apps: []
+        };
+      } else {
+        prifinaContext.init.apps.push({
+          app: appID,
+          connectors: connectors
+        });
+      }
+
+      console.log("MEMO 2 ", contextExists, prifinaContext);
+      return prifinaContext.current;
+    }
+  }, [prifinaContext]);
+  return prifina;
+};
+/*
+export const useHooks = ({ Context, appID = "", connectors = [] }) => {
+  console.log("HOOK ", typeof Context, Context);
+
+  let contextExists = false;
+  if (typeof Context !== "undefined") {
+    Context = createContext(Context);
+    contextExists = true;
+    console.log("CONTEXT EXISTS...");
+  }
+  const prifinaContext = useContext(Context || PrifinaContext);
+  const stage = "dev";
+
+  if (appID === "" && stage === "dev") {
+    appID = short.generate();
+  }
+  const prifina = useMemo(() => {
+    if (
+      prifinaContext === null ||
+      typeof prifinaContext.current === "undefined"
+    ) {
+      console.log("MEMO 1 ", prifinaContext);
+
+      if (contextExists) {
+        prifinaContext.init.apps.push({
+          app: appID,
+          connectors: connectors,
+        });
+      } else {
+        throw new Error("Invalid Prifina context provider");
+      }
+      return prifinaContext;
+    } else {
+      //   console.log("MEMO 2.0 ", prifinaContext.current.init);
       prifinaContext.current.init = {
         stage: stage,
-        apps: []
+        apps: [],
       };
       console.log("MEMO 2 ", contextExists, prifinaContext);
       return prifinaContext.current;
@@ -229,6 +281,8 @@ var useHooks = function useHooks(_ref2) {
   }, [prifinaContext]);
   return prifina;
 };
+*/
+
 /* @component */
 
 
