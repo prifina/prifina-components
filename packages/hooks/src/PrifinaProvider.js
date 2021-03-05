@@ -167,6 +167,9 @@ export const usePrifina = ({ appID = "", connectors = [] }) => {
 // ==============================
 export const useHooks = (Context) => {
   console.log("HOOK ", Context);
+  if (typeof Context !== "undefined") {
+    Context = createContext(Context);
+  }
   const prifinaContext = useContext(Context || PrifinaContext);
   console.log("MEMO ", prifinaContext);
   console.log(
