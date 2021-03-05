@@ -1,4 +1,4 @@
-import { useHooks } from "@prifina/hooks";
+//import { useHooks } from "@prifina/hooks";
 const faker = require("faker");
 
 const createCard = () => {
@@ -51,8 +51,8 @@ const getVehicle = () => {
   return fakerObject(faker.vehicle);
 };
 export const getInfo = () => {
-  const hooks = useHooks();
-  console.log("GET INFO ", hooks);
+  //const hooks = useHooks();
+  //console.log("GET INFO ", hooks);
   return [
     "createCard",
     "contextualCard",

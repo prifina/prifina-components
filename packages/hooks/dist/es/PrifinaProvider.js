@@ -181,7 +181,13 @@ var usePrifina = function usePrifina(_ref) {
 
 exports.usePrifina = usePrifina;
 
-var useHooks = function useHooks(Context) {
+var useHooks = function useHooks(_ref2) {
+  var Context = _ref2.Context,
+      _ref2$appID = _ref2.appID,
+      appID = _ref2$appID === void 0 ? "" : _ref2$appID,
+      _ref2$connectors = _ref2.connectors,
+      connectors = _ref2$connectors === void 0 ? [] : _ref2$connectors;
+
   //console.log("HOOK ", Context);
   if (typeof Context !== "undefined") {
     Context = /*#__PURE__*/(0, _react.createContext)(Context);

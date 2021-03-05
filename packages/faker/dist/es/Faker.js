@@ -5,10 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Helpers = exports.FakerObjects = exports.getModuleName = exports.getInfo = void 0;
 
-var _hooks = require("@prifina/hooks");
-
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+//import { useHooks } from "@prifina/hooks";
 var faker = require("faker");
 
 var createCard = function createCard() {
@@ -69,8 +68,8 @@ var getVehicle = function getVehicle() {
 };
 
 var getInfo = function getInfo() {
-  var hooks = (0, _hooks.useHooks)();
-  console.log("GET INFO ", hooks);
+  //const hooks = useHooks();
+  //console.log("GET INFO ", hooks);
   return ["createCard", "contextualCard", "userCard", "createTransaction", "getAddress", "getCommerce", "getCompany", "getFinance", "getName", "getVehicle"];
 };
 

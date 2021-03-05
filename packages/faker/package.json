@@ -40,7 +40,6 @@
     "react-dom": ">=16.8.6"
   },
   "dependencies": {
-    "@prifina/hooks": "^0.0.23",
     "faker": "^5.4.0"
   }
 }
