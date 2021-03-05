@@ -170,7 +170,9 @@ export const useHooks = (Context) => {
   const prifinaContext = useContext(Context || PrifinaContext);
 
   const prifina = useMemo(() => {
-    return prifinaContext.current || prifinaContext;
+    return typeof prifinaContext.current !== "undefined"
+      ? prifinaContext.current
+      : prifinaContext;
   }, [prifinaContext]);
   return prifina;
 };
