@@ -113,6 +113,7 @@ const PrifinaContextProvider = (props) => {
 
   const onUpdate = useCallback((appID, fn) => {
     callbacks.current[appID] = fn;
+    console.log("UPDATE SET ", callbacks.current);
   }, []);
   const getCallbacks = useCallback(() => {
     //console.log("GET CALLBACk ", data);

@@ -117,6 +117,7 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
   }, []);
   var onUpdate = (0, _react.useCallback)(function (appID, fn) {
     callbacks.current[appID] = fn;
+    console.log("UPDATE SET ", callbacks.current);
   }, []);
   var getCallbacks = (0, _react.useCallback)(function () {
     //console.log("GET CALLBACk ", data);
