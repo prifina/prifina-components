@@ -187,10 +187,12 @@ var useHooks = function useHooks(_ref2) {
       appID = _ref2$appID === void 0 ? "" : _ref2$appID,
       _ref2$connectors = _ref2.connectors,
       connectors = _ref2$connectors === void 0 ? [] : _ref2$connectors;
-
   //console.log("HOOK ", Context);
+  var contextExists = false;
+
   if (typeof Context !== "undefined") {
     Context = /*#__PURE__*/(0, _react.createContext)(Context);
+    contextExists = true;
   }
 
   var prifinaContext = (0, _react.useContext)(Context || PrifinaContext);
@@ -203,13 +205,23 @@ var useHooks = function useHooks(_ref2) {
   var prifina = (0, _react.useMemo)(function () {
     if (prifinaContext === null || typeof prifinaContext.current === "undefined") {
       console.log("MEMO 1 ", prifinaContext);
+      throw new Error("");
       return prifinaContext;
     } else {
       console.log("MEMO 2 ", prifinaContext);
-      prifinaContext.current.init = {
-        stage: stage,
-        apps: []
-      };
+
+      if (contextExists) {
+        prifinaContext.current.init.apps.push({
+          app: appID,
+          connectors: connectors
+        });
+      } else {
+        prifinaContext.current.init = {
+          stage: stage,
+          apps: []
+        };
+      }
+
       return prifinaContext.current;
     }
   }, [prifinaContext]);

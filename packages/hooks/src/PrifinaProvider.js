@@ -168,8 +168,10 @@ export const usePrifina = ({ appID = "", connectors = [] }) => {
 // ==============================
 export const useHooks = ({ Context, appID = "", connectors = [] }) => {
   //console.log("HOOK ", Context);
+  let contextExists = false;
   if (typeof Context !== "undefined") {
     Context = createContext(Context);
+    contextExists = true;
   }
   const prifinaContext = useContext(Context || PrifinaContext);
   const stage = "dev";
@@ -183,13 +185,21 @@ export const useHooks = ({ Context, appID = "", connectors = [] }) => {
       typeof prifinaContext.current === "undefined"
     ) {
       console.log("MEMO 1 ", prifinaContext);
+      throw new Error("");
       return prifinaContext;
     } else {
       console.log("MEMO 2 ", prifinaContext);
-      prifinaContext.current.init = {
-        stage: stage,
-        apps: [],
-      };
+      if (contextExists) {
+        prifinaContext.current.init.apps.push({
+          app: appID,
+          connectors: connectors,
+        });
+      } else {
+        prifinaContext.current.init = {
+          stage: stage,
+          apps: [],
+        };
+      }
       return prifinaContext.current;
     }
   }, [prifinaContext]);
