@@ -113,7 +113,7 @@ const PrifinaContextProvider = (props) => {
 
   const onUpdate = useCallback((fn) => {
     callbacks.current.push({
-      appID: providerContext.current.init.appID,
+      //appID: providerContext.current.init.appID,
       callback: fn,
     });
   }, []);
@@ -166,27 +166,21 @@ export const usePrifina = ({ appID = "", connectors = [] }) => {
 /* Hook */
 // ==============================
 export const useHooks = (Context) => {
-  console.log("HOOK ", Context);
+  //console.log("HOOK ", Context);
   if (typeof Context !== "undefined") {
     Context = createContext(Context);
   }
   const prifinaContext = useContext(Context || PrifinaContext);
-  console.log("MEMO ", prifinaContext);
-  console.log(
-    "MEMO ",
-
-    typeof prifinaContext
-  );
 
   const prifina = useMemo(() => {
     if (
       prifinaContext === null ||
       typeof prifinaContext.current === "undefined"
     ) {
-      console.log("MEMO 1");
+      //console.log("MEMO 1");
       return prifinaContext;
     } else {
-      console.log("MEMO 2");
+      //console.log("MEMO 2");
       return prifinaContext.current;
     }
   }, [prifinaContext]);
