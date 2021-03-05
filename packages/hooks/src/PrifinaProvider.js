@@ -19,7 +19,7 @@ export const PrifinaContext = createContext({});
 const PrifinaContextProvider = (props) => {
   const providerContext = useRef(null);
 
-  const callbacks = useRef([]);
+  const callbacks = useRef({});
 
   const [currentUser, setCurrentUser] = useState({
     name: "Tero",
@@ -112,10 +112,7 @@ const PrifinaContextProvider = (props) => {
   }, []);
 
   const onUpdate = useCallback((appID, fn) => {
-    callbacks.current.push({
-      appID: appID,
-      callback: fn,
-    });
+    callbacks.current[appID] = fn;
   }, []);
   const getCallbacks = useCallback(() => {
     //console.log("GET CALLBACk ", data);

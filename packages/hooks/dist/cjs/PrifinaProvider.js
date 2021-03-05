@@ -33,7 +33,7 @@ exports.PrifinaContext = PrifinaContext;
 
 var PrifinaContextProvider = function PrifinaContextProvider(props) {
   var providerContext = (0, _react.useRef)(null);
-  var callbacks = (0, _react.useRef)([]);
+  var callbacks = (0, _react.useRef)({});
 
   var _useState = (0, _react.useState)({
     name: "Tero",
@@ -116,10 +116,7 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
     return appLocalization;
   }, []);
   var onUpdate = (0, _react.useCallback)(function (appID, fn) {
-    callbacks.current.push({
-      appID: appID,
-      callback: fn
-    });
+    callbacks.current[appID] = fn;
   }, []);
   var getCallbacks = (0, _react.useCallback)(function () {
     //console.log("GET CALLBACk ", data);
