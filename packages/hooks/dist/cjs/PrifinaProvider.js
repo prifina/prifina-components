@@ -193,6 +193,7 @@ var useHooks = function useHooks(_ref2) {
   if (typeof Context !== "undefined") {
     Context = /*#__PURE__*/(0, _react.createContext)(Context);
     contextExists = true;
+    console.log("CONTEXT EXISTS...");
   }
 
   var prifinaContext = (0, _react.useContext)(Context || PrifinaContext);
@@ -221,7 +222,7 @@ var useHooks = function useHooks(_ref2) {
         };
       }
 
-      console.log("MEMO 2 ", prifinaContext);
+      console.log("MEMO 2 ", contextExists, prifinaContext);
       return prifinaContext.current;
     }
   }, [prifinaContext]);
