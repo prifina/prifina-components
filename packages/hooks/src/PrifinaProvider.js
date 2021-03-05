@@ -205,7 +205,7 @@ export const useHooks = ({ Context, appID = "", connectors = [] }) => {
           apps: [],
         };
       } else {
-        prifinaContext.init.apps.push({
+        prifinaContext.current.init.apps.push({
           app: appID,
           connectors: connectors,
         });

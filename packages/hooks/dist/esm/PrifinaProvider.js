@@ -225,7 +225,7 @@ var useHooks = function useHooks(_ref2) {
           apps: []
         };
       } else {
-        prifinaContext.init.apps.push({
+        prifinaContext.current.init.apps.push({
           app: appID,
           connectors: connectors
         });
