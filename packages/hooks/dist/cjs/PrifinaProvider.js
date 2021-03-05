@@ -121,8 +121,8 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
       callback: fn
     });
   }, []);
-  var getCallbacks = (0, _react.useCallback)(function (data) {
-    console.log("GET CALLBACk ", data);
+  var getCallbacks = (0, _react.useCallback)(function () {
+    //console.log("GET CALLBACk ", data);
     return callbacks.current;
   }, []);
   providerContext.current = {
@@ -205,7 +205,7 @@ var useHooks = function useHooks(_ref2) {
       console.log("MEMO 1 ", prifinaContext);
       return prifinaContext;
     } else {
-      //console.log("MEMO 2");
+      console.log("MEMO 2 ", prifinaContext);
       prifinaContext.current.init = {
         stage: stage,
         apps: []
