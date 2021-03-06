@@ -65,25 +65,29 @@ const PrifinaContextProvider = (props) => {
     }
   }, []);
 
-  const setSettings = useCallback((settings = {}) => {
+  const setSettings = useCallback((appID, settings = {}) => {
     //console.log(providerContext.current.init.app);
-    localStorage.setItem(
-      "PrifinaAppSettings-" + providerContext.current.init.appID,
-      JSON.stringify(settings)
-    );
+    if (providerContext.current.init.stage === "dev") {
+      localStorage.setItem(
+        "PrifinaAppSettings-" + appID,
+        JSON.stringify(settings)
+      );
+    }
     return true;
   }, []);
-  const getSettings = useCallback(() => {
+  const getSettings = useCallback((appID) => {
     //console.log(providerContext.current.init.app);
-    let appSettings = JSON.parse(
-      localStorage.getItem(
-        "PrifinaAppSettings-" + providerContext.current.init.appID
-      )
-    );
-    if (appSettings === null) {
-      appSettings = {};
+    if (providerContext.current.init.stage === "dev") {
+      let appSettings = JSON.parse(
+        localStorage.getItem("PrifinaAppSettings-" + appID)
+      );
+      if (appSettings === null) {
+        appSettings = {};
+      }
+      return appSettings;
+    } else {
+      return {};
     }
-    return appSettings;
   }, []);
 
   const getLocalization = useCallback(() => {
@@ -133,6 +137,10 @@ const PrifinaContextProvider = (props) => {
     getCallbacks,
     currentUser,
   };
+  if (props.stage === "dev") {
+    console.log("DEV STAGE INIT FOR STORYBOOK");
+    providerContext.current.init = { stage: "dev", apps: {} };
+  }
   console.log("Prifina ", providerContext);
   if (!props.children) {
     return null;

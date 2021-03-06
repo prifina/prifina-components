@@ -75,21 +75,29 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
       }
     }
   }, []);
-  var setSettings = (0, _react.useCallback)(function () {
-    var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    //console.log(providerContext.current.init.app);
-    localStorage.setItem("PrifinaAppSettings-" + providerContext.current.init.appID, JSON.stringify(settings));
-    return true;
-  }, []);
-  var getSettings = (0, _react.useCallback)(function () {
-    //console.log(providerContext.current.init.app);
-    var appSettings = JSON.parse(localStorage.getItem("PrifinaAppSettings-" + providerContext.current.init.appID));
+  var setSettings = (0, _react.useCallback)(function (appID) {
+    var settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-    if (appSettings === null) {
-      appSettings = {};
+    //console.log(providerContext.current.init.app);
+    if (providerContext.current.init.stage === "dev") {
+      localStorage.setItem("PrifinaAppSettings-" + appID, JSON.stringify(settings));
     }
 
-    return appSettings;
+    return true;
+  }, []);
+  var getSettings = (0, _react.useCallback)(function (appID) {
+    //console.log(providerContext.current.init.app);
+    if (providerContext.current.init.stage === "dev") {
+      var appSettings = JSON.parse(localStorage.getItem("PrifinaAppSettings-" + appID));
+
+      if (appSettings === null) {
+        appSettings = {};
+      }
+
+      return appSettings;
+    } else {
+      return {};
+    }
   }, []);
   var getLocalization = (0, _react.useCallback)(function () {
     var appLocalization = JSON.parse(localStorage.getItem("PrifinaAppLocalization"));
@@ -138,6 +146,15 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
     getCallbacks: getCallbacks,
     currentUser: currentUser
   };
+
+  if (props.stage === "dev") {
+    console.log("DEV STAGE INIT FOR STORYBOOK");
+    providerContext.current.init = {
+      stage: "dev",
+      apps: {}
+    };
+  }
+
   console.log("Prifina ", providerContext);
 
   if (!props.children) {
