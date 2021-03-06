@@ -163,10 +163,9 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
 
   return /*#__PURE__*/_react["default"].createElement(PrifinaContext.Provider, {
     value: providerContext
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "prifina-provider"
-  }, props.children));
-};
+  }, props.children);
+}; //<div className={"prifina-provider"}>{props.children}</div>
+
 /* Hook */
 // ==============================
 

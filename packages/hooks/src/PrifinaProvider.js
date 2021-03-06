@@ -147,11 +147,11 @@ const PrifinaContextProvider = (props) => {
   }
   return (
     <PrifinaContext.Provider value={providerContext}>
-      <div className={"prifina-provider"}>{props.children}</div>
+      {props.children}
     </PrifinaContext.Provider>
   );
 };
-
+//<div className={"prifina-provider"}>{props.children}</div>
 /* Hook */
 // ==============================
 
