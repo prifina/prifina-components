@@ -11,15 +11,22 @@ import React, {
   useMemo,
 } from "react";
 
+import * as QLqueries from "./queries";
+import * as QLsubscriptions from "./subscriptions";
+import * as QLmutations from "./mutations";
+
 const short = require("short-uuid");
 
 const connectorOpts = ["name", "function"];
 export const PrifinaContext = createContext({});
 
 const PrifinaContextProvider = (props) => {
+  console.log(QLmutations);
   const providerContext = useRef(null);
 
   const callbacks = useRef({});
+  const mockups = useRef({});
+  const appSubscriptions = useRef({});
 
   const [currentUser, setCurrentUser] = useState({
     name: "Tero",
@@ -27,7 +34,131 @@ const PrifinaContextProvider = (props) => {
   });
   const check = useCallback(() => {
     console.log("Prifina current", providerContext.current);
+    //timerTest();
     return { check: "OK" };
+  }, []);
+
+  const subscriptionTest = useCallback(
+    (appID, mockupData, interval = 10000) => {
+      if (providerContext.current.init.stage === "dev") {
+        if (mockups.current) {
+          if (Object.keys(mockups.current).length === 0) mockups.current = {};
+          mockups.current[appID] = mockupData;
+        }
+        const subscriptionTimer = setInterval(() => {
+          const rInt = Math.floor(Math.random() * Math.floor(10));
+          //console.log("RANDOM ", rInt);
+          if (!(rInt % 3)) {
+            console.log("RANDOM ", rInt);
+            //console.log("MOCKUPS ", mockups.current[appID]);
+            //console.log("MOCKUP KEYS ", Object.keys(mockups.current[appID]));
+            if (
+              mockups.current[appID] &&
+              Object.keys(mockups.current[appID]).length > 0
+            ) {
+              Object.keys(mockups.current[appID]).map((mockup) => {
+                const data = mockups.current[appID][mockup];
+                if (Array.isArray(data)) {
+                  const r = Math.floor(Math.random() * Math.floor(data.length));
+                  callbacks.current[appID](data[r]);
+                } else {
+                  callbacks.current[appID](data);
+                }
+              });
+            } else {
+              if (Object.keys(mockups.current).length === 0) {
+                clearInterval(subscriptionTimer);
+              }
+            }
+          }
+        }, interval);
+
+        return true;
+      }
+    },
+    []
+  );
+
+  const unSubscribe = useCallback((appID, subscription) => {
+    if (providerContext.current.init.stage === "dev") {
+      if (
+        mockups.current[appID] &&
+        typeof mockups.current[appID][subscription]
+      ) {
+        console.log("DELETE MOCKUP ");
+        delete mockups.current[appID][subscription];
+        if (Object.keys(mockups.current[appID]).length === 0) {
+          delete mockups.current[appID];
+        }
+      }
+    } else {
+      //QL subscriptio...
+      // register subscription to appSubscriptions.current[appID]
+      // subscription.unsubscribe()
+    }
+    return true;
+  }, []);
+
+  const subscriptions = useCallback((appID, subscription, variables = null) => {
+    console.log("QL ", typeof QLsubscriptions[subscription]);
+    if (typeof QLsubscriptions[subscription] !== "function") {
+      throw new Error("Invalid Subscription");
+    } else if (subscription === "getInfo") {
+      return QLsubscriptions.getInfo();
+    } else {
+      //console.log("CHECK 1 ", typeof callbacks.current[appID]);
+      if (typeof callbacks.current[appID] === "undefined") {
+        throw new Error("OnUpdate callback function is missing");
+      }
+      //console.log("CHECK 2 ", providerContext.current.init.stage);
+      if (providerContext.current.init.stage === "dev") {
+        //console.log("CHECK 3 ", typeof mockups.current[appID]);
+        if (typeof mockups.current[appID] === "undefined") {
+          throw new Error("Mockup Subscription data is missing");
+        }
+        return true;
+      } else {
+        //QL subscriptio...
+        // register subscription to appSubscriptions.current[appID]
+        // subscription.unsubscribe()
+        return true;
+      }
+      /*
+      return QLsubscription[subscription](
+        providerContext.current.init.stage,
+        appID,
+        currentUser.uuid,
+        variables
+      );
+      */
+    }
+  }, []);
+
+  const mutations = useCallback((appID, mutation, variables) => {
+    console.log("QL ", typeof QLmutations[mutation], mutation);
+    if (typeof QLmutations[mutation] !== "function") {
+      return Promise.reject("INVALID_MUTATION");
+    } else {
+      return QLmutations[mutation](
+        providerContext.current.init.stage,
+        appID,
+        currentUser.uuid,
+        variables
+      );
+    }
+  }, []);
+  const queries = useCallback((appID, query, filter = null) => {
+    console.log("QL ", typeof QLqueries[query]);
+    if (typeof QLqueries[query] !== "function") {
+      return Promise.reject("INVALID_QUERY");
+    } else {
+      return QLqueries[query](
+        providerContext.current.init.stage,
+        appID,
+        currentUser.uuid,
+        filter
+      );
+    }
   }, []);
 
   const connector = useCallback((opts) => {
@@ -67,13 +198,14 @@ const PrifinaContextProvider = (props) => {
 
   const setSettings = useCallback((appID, settings = {}) => {
     //console.log(providerContext.current.init.app);
+
     if (providerContext.current.init.stage === "dev") {
       localStorage.setItem(
         "PrifinaAppSettings-" + appID,
         JSON.stringify(settings)
       );
     }
-    return true;
+    return Promise.resolve(true);
   }, []);
   const getSettings = useCallback((appID) => {
     //console.log(providerContext.current.init.app);
@@ -84,9 +216,9 @@ const PrifinaContextProvider = (props) => {
       if (appSettings === null) {
         appSettings = {};
       }
-      return appSettings;
+      return Promise.resolve(appSettings);
     } else {
-      return {};
+      return Promise.resolve({});
     }
   }, []);
 
@@ -116,11 +248,11 @@ const PrifinaContextProvider = (props) => {
   }, []);
 
   const onUpdate = useCallback((appID, fn) => {
-    console.log("UPDATE SET ", appID);
+    //console.log("UPDATE SET ", appID);
     if (callbacks.current) {
       if (Object.keys(callbacks.current).length === 0) callbacks.current = {};
       callbacks.current[appID] = fn;
-      console.log("UPDATE SET ", callbacks.current);
+      //console.log("UPDATE SET ", callbacks.current);
     }
   }, []);
   const getCallbacks = useCallback(() => {
@@ -136,6 +268,11 @@ const PrifinaContextProvider = (props) => {
     onUpdate,
     getCallbacks,
     currentUser,
+    queries,
+    mutations,
+    subscriptions,
+    subscriptionTest,
+    unSubscribe,
   };
   if (props.stage === "dev") {
     console.log("DEV STAGE INIT FOR STORYBOOK");

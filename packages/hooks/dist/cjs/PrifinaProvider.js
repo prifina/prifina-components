@@ -1,7 +1,5 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,9 +7,17 @@ exports["default"] = exports.usePrifina = exports.PrifinaContext = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var QLqueries = _interopRequireWildcard(require("./queries"));
+
+var QLsubscriptions = _interopRequireWildcard(require("./subscriptions"));
+
+var QLmutations = _interopRequireWildcard(require("./mutations"));
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -32,8 +38,11 @@ var PrifinaContext = /*#__PURE__*/(0, _react.createContext)({});
 exports.PrifinaContext = PrifinaContext;
 
 var PrifinaContextProvider = function PrifinaContextProvider(props) {
+  console.log(QLmutations);
   var providerContext = (0, _react.useRef)(null);
   var callbacks = (0, _react.useRef)({});
+  var mockups = (0, _react.useRef)({});
+  var appSubscriptions = (0, _react.useRef)({});
 
   var _useState = (0, _react.useState)({
     name: "Tero",
@@ -44,10 +53,123 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
       setCurrentUser = _useState2[1];
 
   var check = (0, _react.useCallback)(function () {
-    console.log("Prifina current", providerContext.current);
+    console.log("Prifina current", providerContext.current); //timerTest();
+
     return {
       check: "OK"
     };
+  }, []);
+  var subscriptionTest = (0, _react.useCallback)(function (appID, mockupData) {
+    var interval = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10000;
+
+    if (providerContext.current.init.stage === "dev") {
+      if (mockups.current) {
+        if (Object.keys(mockups.current).length === 0) mockups.current = {};
+        mockups.current[appID] = mockupData;
+      }
+
+      var subscriptionTimer = setInterval(function () {
+        var rInt = Math.floor(Math.random() * Math.floor(10)); //console.log("RANDOM ", rInt);
+
+        if (!(rInt % 3)) {
+          console.log("RANDOM ", rInt); //console.log("MOCKUPS ", mockups.current[appID]);
+          //console.log("MOCKUP KEYS ", Object.keys(mockups.current[appID]));
+
+          if (mockups.current[appID] && Object.keys(mockups.current[appID]).length > 0) {
+            Object.keys(mockups.current[appID]).map(function (mockup) {
+              var data = mockups.current[appID][mockup];
+
+              if (Array.isArray(data)) {
+                var r = Math.floor(Math.random() * Math.floor(data.length));
+                callbacks.current[appID](data[r]);
+              } else {
+                callbacks.current[appID](data);
+              }
+            });
+          } else {
+            if (Object.keys(mockups.current).length === 0) {
+              clearInterval(subscriptionTimer);
+            }
+          }
+        }
+      }, interval);
+      return true;
+    }
+  }, []);
+  var unSubscribe = (0, _react.useCallback)(function (appID, subscription) {
+    if (providerContext.current.init.stage === "dev") {
+      if (mockups.current[appID] && _typeof(mockups.current[appID][subscription])) {
+        console.log("DELETE MOCKUP ");
+        delete mockups.current[appID][subscription];
+
+        if (Object.keys(mockups.current[appID]).length === 0) {
+          delete mockups.current[appID];
+        }
+      }
+    } else {//QL subscriptio...
+      // register subscription to appSubscriptions.current[appID]
+      // subscription.unsubscribe()
+    }
+
+    return true;
+  }, []);
+  var subscriptions = (0, _react.useCallback)(function (appID, subscription) {
+    var variables = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    console.log("QL ", _typeof(QLsubscriptions[subscription]));
+
+    if (typeof QLsubscriptions[subscription] !== "function") {
+      throw new Error("Invalid Subscription");
+    } else if (subscription === "getInfo") {
+      return QLsubscriptions.getInfo();
+    } else {
+      //console.log("CHECK 1 ", typeof callbacks.current[appID]);
+      if (typeof callbacks.current[appID] === "undefined") {
+        throw new Error("OnUpdate callback function is missing");
+      } //console.log("CHECK 2 ", providerContext.current.init.stage);
+
+
+      if (providerContext.current.init.stage === "dev") {
+        //console.log("CHECK 3 ", typeof mockups.current[appID]);
+        if (typeof mockups.current[appID] === "undefined") {
+          throw new Error("Mockup Subscription data is missing");
+        }
+
+        return true;
+      } else {
+        //QL subscriptio...
+        // register subscription to appSubscriptions.current[appID]
+        // subscription.unsubscribe()
+        return true;
+      }
+      /*
+      return QLsubscription[subscription](
+        providerContext.current.init.stage,
+        appID,
+        currentUser.uuid,
+        variables
+      );
+      */
+
+    }
+  }, []);
+  var mutations = (0, _react.useCallback)(function (appID, mutation, variables) {
+    console.log("QL ", _typeof(QLmutations[mutation]), mutation);
+
+    if (typeof QLmutations[mutation] !== "function") {
+      return Promise.reject("INVALID_MUTATION");
+    } else {
+      return QLmutations[mutation](providerContext.current.init.stage, appID, currentUser.uuid, variables);
+    }
+  }, []);
+  var queries = (0, _react.useCallback)(function (appID, query) {
+    var filter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    console.log("QL ", _typeof(QLqueries[query]));
+
+    if (typeof QLqueries[query] !== "function") {
+      return Promise.reject("INVALID_QUERY");
+    } else {
+      return QLqueries[query](providerContext.current.init.stage, appID, currentUser.uuid, filter);
+    }
   }, []);
   var connector = (0, _react.useCallback)(function (opts) {
     console.log("Prifina current", providerContext.current);
@@ -83,7 +205,7 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
       localStorage.setItem("PrifinaAppSettings-" + appID, JSON.stringify(settings));
     }
 
-    return true;
+    return Promise.resolve(true);
   }, []);
   var getSettings = (0, _react.useCallback)(function (appID) {
     //console.log(providerContext.current.init.app);
@@ -94,9 +216,9 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
         appSettings = {};
       }
 
-      return appSettings;
+      return Promise.resolve(appSettings);
     } else {
-      return {};
+      return Promise.resolve({});
     }
   }, []);
   var getLocalization = (0, _react.useCallback)(function () {
@@ -124,12 +246,10 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
     return appLocalization;
   }, []);
   var onUpdate = (0, _react.useCallback)(function (appID, fn) {
-    console.log("UPDATE SET ", appID);
-
+    //console.log("UPDATE SET ", appID);
     if (callbacks.current) {
       if (Object.keys(callbacks.current).length === 0) callbacks.current = {};
-      callbacks.current[appID] = fn;
-      console.log("UPDATE SET ", callbacks.current);
+      callbacks.current[appID] = fn; //console.log("UPDATE SET ", callbacks.current);
     }
   }, []);
   var getCallbacks = (0, _react.useCallback)(function () {
@@ -144,7 +264,12 @@ var PrifinaContextProvider = function PrifinaContextProvider(props) {
     getLocalization: getLocalization,
     onUpdate: onUpdate,
     getCallbacks: getCallbacks,
-    currentUser: currentUser
+    currentUser: currentUser,
+    queries: queries,
+    mutations: mutations,
+    subscriptions: subscriptions,
+    subscriptionTest: subscriptionTest,
+    unSubscribe: unSubscribe
   };
 
   if (props.stage === "dev") {
