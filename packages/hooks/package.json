@@ -37,7 +37,8 @@
     "babel-plugin-react-docgen": "^4.2.1",
     "cross-env": "^7.0.2",
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6"
+    "react-dom": ">=16.8.6",
+    "@paciolan/remote-component": "^2.11.0"
   },
   "peerDependencies": {
     "@blend-ui/core": "1.1.55-alpha.0",

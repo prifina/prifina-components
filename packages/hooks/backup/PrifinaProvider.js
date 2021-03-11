@@ -288,7 +288,31 @@ const PrifinaContextProvider = (props) => {
     </PrifinaContext.Provider>
   );
 };
+//<div className={"prifina-provider"}>{props.children}</div>
+/* Hook */
+// ==============================
 
+/*
+export const usePrifina = ({ appID = "", connectors = [] }) => {
+  const prifinaContext = useContext(PrifinaContext);
+  console.log("PRIFINA CONTEXT ", prifinaContext);
+  //console.log(window.location.hostname);
+  const stage = "dev";
+
+  if (appID === "" && stage === "dev") {
+    appID = short.generate();
+  }
+  const prifina = useMemo(() => {
+    prifinaContext.current.init = {
+      stage: stage,
+      appID: appID,
+      connectors: connectors,
+    };
+    return prifinaContext.current;
+  }, [prifinaContext]);
+  return prifina;
+};
+*/
 /* Hook */
 // ==============================
 export const usePrifina = ({ Context, appID = "", connectors = [] }) => {
