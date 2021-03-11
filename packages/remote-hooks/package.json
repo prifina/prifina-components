@@ -1,6 +1,6 @@
 {
   "name": "@prifina/remote-hooks",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Prifina Remote Provider Component",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
@@ -8,8 +8,6 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-  },
   "devDependencies": {
     "@babel/cli": "^7.12.13",
     "@babel/core": "^7.12.13",

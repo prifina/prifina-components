@@ -1,6 +1,6 @@
 {
   "name": "@prifina/hooks",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "description": "Prifina Hooks Component",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "@blend-ui/icons": "1.1.6-alpha.0",
     "@iconify/icons-bx": "^1.1.0",
     "@iconify/icons-fe": "^1.1.0",
+    "@paciolan/remote-component": "^2.11.0",
     "@storybook/addon-actions": "^6.0.16",
     "@storybook/addon-storyshots": "^6.0.16",
     "@storybook/react": "^6.0.16",
@@ -37,8 +38,7 @@
     "babel-plugin-react-docgen": "^4.2.1",
     "cross-env": "^7.0.2",
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6",
-    "@paciolan/remote-component": "^2.11.0"
+    "react-dom": ">=16.8.6"
   },
   "peerDependencies": {
     "@blend-ui/core": "1.1.55-alpha.0",
