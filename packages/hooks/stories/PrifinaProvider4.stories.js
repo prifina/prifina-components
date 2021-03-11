@@ -6,10 +6,10 @@ import PrifinaProvider, {
 
 import { RemoteComponent } from "./RemoteComponent";
 
-export default { title: "ProviderTest" };
+export default { title: "ProviderTest2" };
 
 const appID = "TESTING";
-export const providerTest = () => {
+export const providerTest2 = () => {
   const { currentUser, check } = usePrifina({ appID: appID });
   console.log(currentUser);
 
@@ -31,13 +31,17 @@ providerTest.story = {
   name: "Provider Test",
 };
 */
-providerTest.story = {
+//REACT_APP_REMOTE_URL=https://raw.githubusercontent.com/prifina/widgets/master/packages/hello/dist/main.bundle.js
+
+providerTest2.story = {
   name: "Provider Test New",
   decorators: [
     (Story) => {
       return (
         <RemoteComponent
-          url={"./main.bundle.js"}
+          url={
+            "https://raw.githubusercontent.com/prifina/prifina-components/main/packages/remote-hooks/dist/main.bundle.js"
+          }
           Context={PrifinaContext}
           stage={"dev"}
         >
@@ -47,8 +51,9 @@ providerTest.story = {
     },
   ],
 };
+
 /*
-providerTest.story = {
+providerTest2.story = {
   name: "Provider Test New",
   decorators: [
     (Story) => {

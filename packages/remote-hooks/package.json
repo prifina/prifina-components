@@ -1,13 +1,10 @@
 {
-  "name": "@prifina-widgets/remote-hooks",
+  "name": "@prifina/remote-hooks",
   "version": "0.0.0",
-  "description": "Prifina Chat widget",
+  "description": "Prifina Remote Provider Component",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
   "main": "dist/esm/index.js",
-  "publishConfig": {
-    "access": "public"
-  },
   "files": [
     "dist"
   ],
@@ -56,8 +53,6 @@
     "storybook": "start-storybook -p 9009 -s public"
   },
   "peerDependencies": {
-    "react": "^17.0.1",
-    "styled-components": "^5.2.1",
-    "styled-system": "^5.1.5"
+    "react": "^17.0.1"
   }
 }

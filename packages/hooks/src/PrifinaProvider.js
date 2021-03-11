@@ -299,6 +299,8 @@ export const usePrifina = ({ Context, appID = "", connectors = [] }) => {
   }
   const prifinaContext = useContext(Context || PrifinaContext);
   const stage = "dev";
+  console.log("HOOK ", prifinaContext);
+  console.log("HOOK2 ", prifinaContext.current);
 
   if (appID === "" && stage === "dev") {
     appID = short.generate();
