@@ -1,3 +1,5 @@
+/* global localStorage */
+
 import React, {
   useState,
   /* useEffect,
