@@ -265,6 +265,7 @@ export const Provider = ({ Context, children, ...props }) => {
       stage: providerContext.current.init.stage,
       uuid: currentUser.uuid,
     };
+    providerContext.current.init.apps[appId] = {};
     /*
     let queries = {
       get: function () {

@@ -46,7 +46,7 @@ export const helper5 = () => {
   console.log("Logged in user ", currentUser);
   //console.log(Faker);
   const Test = new Prifina({ appId: appID, modules: { faker: Faker } });
-  console.log(Test);
+  //console.log(Test.faker.getInfo());
   return (
     <div>
       <div>Hello, {currentUser.name}</div>
