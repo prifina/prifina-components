@@ -1,6 +1,6 @@
 {
   "name": "@prifina/hooks",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "Prifina Hooks Component",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
@@ -36,9 +36,9 @@
     "react-dom": ">=16.8.6"
   },
   "peerDependencies": {
+    "@paciolan/remote-component": "^2.11.0",
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6",
-    "@paciolan/remote-component": "^2.11.0"
+    "react-dom": ">=16.8.6"
   },
   "gitHead": "9a93a783bf99eaa3c5060fec441ba37108a43925"
 }
