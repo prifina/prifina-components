@@ -1,6 +1,6 @@
 {
   "name": "@prifina/remote-hooks",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Prifina Remote Provider Component",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "name": "@prifina/hooks",
-  "version": "0.0.43",
+  "version": "0.0.44",
   "description": "Prifina Hooks Component",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
@@ -27,7 +27,6 @@
     "@storybook/addon-actions": "^6.0.16",
     "@storybook/addon-storyshots": "^6.0.16",
     "@storybook/react": "^6.0.16",
-    
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.1.0",
@@ -37,12 +36,8 @@
     "react-dom": ">=16.8.6"
   },
   "peerDependencies": {
-   
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
-  },
-  "dependencies": {
-    
   },
   "gitHead": "d22a0228c37c6851a058e72e8ca0b306014697c5"
 }
