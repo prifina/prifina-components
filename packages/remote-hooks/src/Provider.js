@@ -259,7 +259,7 @@ export const Provider = ({ Context, children, ...props }) => {
     return callbacks.current;
   }, []);
 
-  const Prifina = useCallback(({ appId, modules = [] }) => {
+  const Prifina = useCallback(({ appId, modules = {} }) => {
     let config = {
       appId: appId,
       stage: providerContext.current.init.stage,
@@ -275,7 +275,7 @@ export const Provider = ({ Context, children, ...props }) => {
     let queryList = QLqueries.getInfo();
     let queries = {};
     queryList.forEach((q) => {
-      console.log(q);
+      //console.log(q);
       queries[q] = (filter) => {
         return QLqueries[q](config.stage, config.appId, config.uuid, filter);
       };
@@ -283,7 +283,7 @@ export const Provider = ({ Context, children, ...props }) => {
     let mutationList = QLmutations.getInfo();
     let mutations = {};
     mutationList.forEach((q) => {
-      console.log(q);
+      //console.log(q);
       mutations[q] = (variables) => {
         return QLmutations[q](
           config.stage,
@@ -313,7 +313,11 @@ export const Provider = ({ Context, children, ...props }) => {
         subscriptions: subscriptions,
       },
     };
-
+    if (Object.keys(modules).length > 0) {
+      Object.keys(modules).forEach((module) => {
+        prifinaHooks[module] = modules[module];
+      });
+    }
     return prifinaHooks;
   }, []);
 

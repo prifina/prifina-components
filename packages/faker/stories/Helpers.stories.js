@@ -1,6 +1,7 @@
 import React from "react";
 import { Helpers } from "../src/Faker";
 import { PrifinaProvider, usePrifina } from "@prifina/hooks";
+import Faker from "../src";
 
 export default { title: "Helpers" };
 
@@ -39,11 +40,13 @@ helper4.story = {
   const user = connector({ name: "Faker", function: "getName" });
   console.log(user);
   */
-
+const appID = "testing";
 export const helper5 = () => {
-  const { currentUser } = usePrifina();
+  const { currentUser, Prifina } = usePrifina();
   console.log("Logged in user ", currentUser);
-
+  //console.log(Faker);
+  const Test = new Prifina({ appId: appID, modules: { faker: Faker } });
+  console.log(Test);
   return (
     <div>
       <div>Hello, {currentUser.name}</div>
