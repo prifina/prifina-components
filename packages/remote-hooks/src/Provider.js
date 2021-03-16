@@ -13,7 +13,7 @@ import * as QLqueries from "./queries";
 import * as QLsubscriptions from "./subscriptions";
 import * as QLmutations from "./mutations";
 
-const PrifinaContext = createContext({});
+export const PrifinaContext = createContext({});
 
 export const Provider = ({ Context, children, ...props }) => {
   console.log("CTX ", Context);
@@ -259,20 +259,82 @@ export const Provider = ({ Context, children, ...props }) => {
     return callbacks.current;
   }, []);
 
+  const Prifina = useCallback(({ appId, modules = [] }) => {
+    let config = {
+      appId: appId,
+      stage: providerContext.current.init.stage,
+      uuid: currentUser.uuid,
+    };
+    /*
+    let queries = {
+      get: function () {
+        console.log("GET ", config);
+      },
+    };
+    */
+    let queryList = QLqueries.getInfo();
+    let queries = {};
+    queryList.forEach((q) => {
+      console.log(q);
+      queries[q] = (filter) => {
+        return QLqueries[q](config.stage, config.appId, config.uuid, filter);
+      };
+    });
+    let mutationList = QLmutations.getInfo();
+    let mutations = {};
+    mutationList.forEach((q) => {
+      console.log(q);
+      mutations[q] = (variables) => {
+        return QLmutations[q](
+          config.stage,
+          config.appId,
+          config.uuid,
+          variables
+        );
+      };
+    });
+    let subscriptionList = QLsubscriptions.getInfo();
+    let subscriptions = {};
+    subscriptionList.forEach((q) => {
+      subscriptions[q] = (variables) => {
+        return QLsubscriptions[q](
+          config.stage,
+          config.appId,
+          config.uuid,
+          variables
+        );
+      };
+    });
+    let prifinaHooks = {
+      config: config,
+      core: {
+        queries: queries,
+        mutations: mutations,
+        subscriptions: subscriptions,
+      },
+    };
+
+    return prifinaHooks;
+  }, []);
+
   providerContext.current = {
     check,
-    connector,
+
     setSettings,
     getSettings,
     getLocalization,
     onUpdate,
     getCallbacks,
     currentUser,
+    subscriptionTest,
+    unSubscribe,
+    Prifina,
+    /*
+    connector,
     queries,
     mutations,
     subscriptions,
-    subscriptionTest,
-    unSubscribe,
+    */
   };
 
   if (props.stage === "dev") {

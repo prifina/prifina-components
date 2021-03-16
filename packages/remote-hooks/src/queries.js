@@ -5,7 +5,7 @@ const addressBook = [
 ];
 
 export const getInfo = () => {
-  return ["getTest", getAddressBook];
+  return ["getTest", "getAddressBook"];
 };
 
 export const getTest = (stage, appID, uuid, filter) => {

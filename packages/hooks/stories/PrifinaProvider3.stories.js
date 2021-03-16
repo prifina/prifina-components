@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { createMessage } from "../src/mutations";
 import PrifinaProvider, { usePrifina } from "../src/PrifinaProvider";
 
 export default { title: "ProviderTest Chat mockups" };
