@@ -342,7 +342,10 @@ export const Provider = ({ Context, children, ...props }) => {
     */
   };
 
-  if (props.stage === "dev") {
+  if (
+    props.stage === "dev" &&
+    typeof providerContext.current.init === "undefined"
+  ) {
     console.log("DEV STAGE INIT FOR STORYBOOK");
     providerContext.current.init = { stage: "dev", apps: {} };
   }

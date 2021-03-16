@@ -42,10 +42,11 @@ helper4.story = {
   */
 const appID = "testing";
 export const helper5 = () => {
-  const { currentUser, Prifina } = usePrifina();
+  const { currentUser, Prifina, check } = usePrifina();
   console.log("Logged in user ", currentUser);
   //console.log(Faker);
   const Test = new Prifina({ appId: appID, modules: { faker: Faker } });
+  console.log(check());
   //console.log(Test.faker.getInfo());
   return (
     <div>
@@ -57,7 +58,7 @@ helper5.story = {
   name: "Provider test",
   decorators: [
     (Story) => {
-      console.log("PROVIDER ", PrifinaProvider);
+      //console.log("PROVIDER ", PrifinaProvider);
       return (
         <PrifinaProvider stage={"dev"}>
           <Story />
