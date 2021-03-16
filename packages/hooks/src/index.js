@@ -1,9 +1,3 @@
-import React from "react";
+import { PrifinaContext, usePrifina } from "./UsePrifinaProvider";
 
-import {
-  default as PrifinaProvider,
-  PrifinaContext,
-  usePrifina,
-} from "./PrifinaProvider";
-
-export { PrifinaProvider, usePrifina, PrifinaContext };
+export { usePrifina, PrifinaContext };

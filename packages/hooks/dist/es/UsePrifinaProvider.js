@@ -5,11 +5,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.usePrifina = exports.PrifinaContext = void 0;
+exports.usePrifina = exports.PrifinaContext = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
-
-var _RemoteComponent = require("./RemoteComponent");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -18,28 +16,17 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var _short = require("short-uuid");
 
 var PrifinaContext = /*#__PURE__*/(0, _react.createContext)({});
-exports.PrifinaContext = PrifinaContext;
-
-var PrifinaContextProvider = function PrifinaContextProvider(_ref) {
-  var _ref$stage = _ref.stage,
-      stage = _ref$stage === void 0 ? "dev" : _ref$stage,
-      children = _ref.children;
-  return /*#__PURE__*/_react["default"].createElement(_RemoteComponent.RemoteComponent, {
-    url: "https://raw.githubusercontent.com/prifina/prifina-components/main/packages/remote-hooks/dist/main.bundle.js",
-    Context: PrifinaContext,
-    stage: stage
-  }, children);
-};
 /* Hook */
 // ==============================
 
+exports.PrifinaContext = PrifinaContext;
 
-var usePrifina = function usePrifina(_ref2) {
-  var Context = _ref2.Context,
-      _ref2$appID = _ref2.appID,
-      appID = _ref2$appID === void 0 ? "" : _ref2$appID,
-      _ref2$connectors = _ref2.connectors,
-      connectors = _ref2$connectors === void 0 ? [] : _ref2$connectors;
+var usePrifina = function usePrifina(_ref) {
+  var Context = _ref.Context,
+      _ref$appID = _ref.appID,
+      appID = _ref$appID === void 0 ? "" : _ref$appID,
+      _ref$connectors = _ref.connectors,
+      connectors = _ref$connectors === void 0 ? [] : _ref$connectors;
   var contextExists = false;
 
   if (typeof Context !== "undefined") {
@@ -86,22 +73,7 @@ var usePrifina = function usePrifina(_ref2) {
   return prifina;
 };
 /* @component */
+//export default PrifinaContextProvider;
 
 
 exports.usePrifina = usePrifina;
-PrifinaContextProvider.__docgenInfo = {
-  "description": "",
-  "methods": [],
-  "displayName": "PrifinaContextProvider",
-  "props": {
-    "stage": {
-      "defaultValue": {
-        "value": "\"dev\"",
-        "computed": false
-      },
-      "required": false
-    }
-  }
-};
-var _default = PrifinaContextProvider;
-exports["default"] = _default;

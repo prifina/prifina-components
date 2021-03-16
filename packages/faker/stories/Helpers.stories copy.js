@@ -1,7 +1,7 @@
 import React from "react";
 import { Helpers } from "../src/Faker";
-import PrifinaProvider, { usePrifina } from "@prifina/hooks";
-
+import Faker from "../src";
+import { usePrifina, PrifinaContext } from "@prifina/hooks";
 export default { title: "Helpers" };
 
 export const helper = () => {
@@ -33,20 +33,20 @@ helper4.story = {
   name: "CreateTransaction",
 };
 
-/*
+export const helper5 = () => {
+  const { currentUser } = usePrifina({ connectors: [Faker] });
+  console.log("Logged in user ", currentUser);
+  /*
   const info = connector({ name: "Faker", function: "getInfo" });
   console.log(info);
   const user = connector({ name: "Faker", function: "getName" });
   console.log(user);
   */
 
-export const helper5 = () => {
-  const { currentUser } = usePrifina({ connectors: [Faker] });
-  console.log("Logged in user ", currentUser);
-
   return (
     <div>
       <div>Hello, {currentUser.name}</div>
+      <div>UserCard:{JSON.stringify(user)}</div>
     </div>
   );
 };
@@ -54,9 +54,8 @@ helper5.story = {
   name: "Provider test",
   decorators: [
     (Story) => {
-      console.log("PROVIDER ", PrifinaProvider);
       return (
-        <PrifinaProvider stage={"dev"}>
+        <PrifinaProvider stage={"dev"} Context={PrifinaContext}>
           <Story />
         </PrifinaProvider>
       );

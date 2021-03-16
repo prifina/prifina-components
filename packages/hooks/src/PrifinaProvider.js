@@ -1,8 +1,24 @@
 import React, { createContext, useContext, useMemo } from "react";
 
+import { RemoteComponent } from "./RemoteComponent";
+
 const short = require("short-uuid");
 
 export const PrifinaContext = createContext({});
+
+const PrifinaContextProvider = ({ stage = "dev", children }) => {
+  return (
+    <RemoteComponent
+      url={
+        "https://raw.githubusercontent.com/prifina/prifina-components/main/packages/remote-hooks/dist/main.bundle.js"
+      }
+      Context={PrifinaContext}
+      stage={stage}
+    >
+      {children}
+    </RemoteComponent>
+  );
+};
 
 /* Hook */
 // ==============================
