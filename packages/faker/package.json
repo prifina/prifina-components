@@ -23,7 +23,6 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
-    "@prifina/hooks": "latest",
     "@storybook/addon-actions": "^6.0.16",
     "@storybook/addon-storyshots": "^6.0.16",
     "@storybook/react": "^6.0.16",
@@ -34,7 +33,8 @@
     "babel-plugin-react-docgen": "^4.2.1",
     "cross-env": "^7.0.2",
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6"
+    "react-dom": ">=16.8.6",
+    "@prifina/hooks":"latest"
   },
   "peerDependencies": {
     "react": ">=16.8.6",
@@ -42,5 +42,6 @@
   },
   "dependencies": {
     "faker": "^5.4.0"
-  }
+  },
+  "gitHead": "d22a0228c37c6851a058e72e8ca0b306014697c5"
 }

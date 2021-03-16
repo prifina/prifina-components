@@ -4,7 +4,7 @@ import PrifinaProvider, {
   usePrifina,
 } from "../src/PrifinaProvider";
 
-import { RemoteComponent } from "./RemoteComponent";
+import { RemoteComponent } from "../src/RemoteComponent";
 
 export default { title: "ProviderTest2" };
 

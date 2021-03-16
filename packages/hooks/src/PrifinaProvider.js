@@ -2,7 +2,7 @@ import React, { createContext, useContext, useMemo } from "react";
 
 import { RemoteComponent } from "./RemoteComponent";
 
-const short = require("short-uuid");
+//const short = require("short-uuid");
 
 export const PrifinaContext = createContext({});
 
@@ -22,6 +22,14 @@ const PrifinaContextProvider = ({ stage = "dev", children }) => {
 
 /* Hook */
 // ==============================
+export const usePrifina = () => {
+  const prifinaContext = useContext(PrifinaContext);
+  const prifina = useMemo(() => {
+    return prifinaContext.current;
+  }, [prifinaContext]);
+  return prifina;
+};
+/*
 export const usePrifina = ({ Context, appID = "", connectors = [] }) => {
   let contextExists = false;
   if (typeof Context !== "undefined") {
@@ -67,6 +75,6 @@ export const usePrifina = ({ Context, appID = "", connectors = [] }) => {
   }, [prifinaContext]);
   return prifina;
 };
-
+*/
 /* @component */
 export default PrifinaContextProvider;

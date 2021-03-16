@@ -1,3 +1,3 @@
-import { PrifinaContext, usePrifina } from "./UsePrifinaProvider";
+import PrifinaProvider, { PrifinaContext, usePrifina } from "./PrifinaProvider";
 
-export { usePrifina, PrifinaContext };
+export { usePrifina, PrifinaContext, PrifinaProvider };
