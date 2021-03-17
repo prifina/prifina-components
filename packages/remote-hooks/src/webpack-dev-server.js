@@ -8,9 +8,10 @@ import ReactDOM from "react-dom";
 //import { PrifinaProvider } from "@prifina/hooks";
 
 import LocalComponent from "./index.js";
+import { PrifinaContext } from "./Provider";
 
 const node = document.getElementById("app");
 
 const App = (props) => <LocalComponent {...props} />;
 
-ReactDOM.render(<App msg={"Hello, Tero"} />, node);
+ReactDOM.render(<App stage={"dev"} Context={PrifinaContext} />, node);
