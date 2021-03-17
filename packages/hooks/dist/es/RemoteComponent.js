@@ -5,24 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.RemoteComponent = void 0;
 
-var _axios = _interopRequireDefault(require("axios"));
-
 var _remoteComponent = require("@paciolan/remote-component");
 
 var _remoteComponentConfig = require("./remote-component.config.js");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var fetcher = function fetcher(url) {
-  return _axios["default"].get(url).then(function (request) {
-    return request.data;
-  });
-};
-
-var requires = (0, _remoteComponent.createRequires)(_remoteComponentConfig.resolve); //export const RemoteComponent = createRemoteComponent({ requires });
-
+//import axios from "axios";
+//const fetcher = (url) => axios.get(url).then((request) => request.data);
+var requires = (0, _remoteComponent.createRequires)(_remoteComponentConfig.resolve);
 var RemoteComponent = (0, _remoteComponent.createRemoteComponent)({
-  requires: requires,
-  fetcher: fetcher
-});
+  requires: requires
+}); //export const RemoteComponent = createRemoteComponent({ requires, fetcher });
+
 exports.RemoteComponent = RemoteComponent;
