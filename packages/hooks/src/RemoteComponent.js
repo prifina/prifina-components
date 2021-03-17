@@ -1,4 +1,4 @@
-import axios from "axios";
+//import axios from "axios";
 import {
   createRequires,
   createRemoteComponent,
@@ -6,8 +6,8 @@ import {
 
 import { resolve } from "./remote-component.config.js";
 
-const fetcher = (url) => axios.get(url).then((request) => request.data);
+//const fetcher = (url) => axios.get(url).then((request) => request.data);
 const requires = createRequires(resolve);
 
-//export const RemoteComponent = createRemoteComponent({ requires });
-export const RemoteComponent = createRemoteComponent({ requires, fetcher });
+export const RemoteComponent = createRemoteComponent({ requires });
+//export const RemoteComponent = createRemoteComponent({ requires, fetcher });
