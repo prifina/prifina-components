@@ -19,7 +19,8 @@
     "storybook": "start-storybook"
   },
   "dependencies": {
-    "@paciolan/remote-component": "^2.11.0"
+    "@paciolan/remote-component": "^2.11.0",
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.5",
