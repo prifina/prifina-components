@@ -18,12 +18,14 @@
     "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel ./src --out-dir ./dist/es",
     "storybook": "start-storybook"
   },
+  "dependencies": {
+    "@paciolan/remote-component": "^2.11.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.11.5",
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
-    "@paciolan/remote-component": "^2.11.0",
     "@storybook/addon-actions": "^6.0.16",
     "@storybook/addon-storyshots": "^6.0.16",
     "@storybook/react": "^6.0.16",
@@ -36,9 +38,8 @@
     "react-dom": ">=16.8.6"
   },
   "peerDependencies": {
-    "@paciolan/remote-component": "^2.11.0",
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
   },
-  "gitHead": "9a93a783bf99eaa3c5060fec441ba37108a43925"
+  "gitHead": "bc0e813deffa55299a9bbc19b675c8532c394a86"
 }
