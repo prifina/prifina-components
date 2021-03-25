@@ -2,8 +2,7 @@
 
 import React, {
   useState,
-  /* useEffect,
-   */
+  useEffect,
   useCallback,
   createContext,
   useRef,
@@ -19,13 +18,14 @@ export const Provider = ({ Context, children, ...props }) => {
   console.log("CTX ", Context);
   console.log("PROPS ", props);
 
-  const connectorOpts = ["name", "function"];
-
   const providerContext = useRef(null);
 
   const callbacks = useRef({});
   const mockups = useRef({});
-  const appSubscriptions = useRef({});
+  const [appSubscriptions, setAppSubscriptions] = useState({});
+  //const appSubscriptions = useRef({});
+  //let appSubscriptions = {};
+  const API = useRef({});
 
   const [currentUser, setCurrentUser] = useState({
     name: "Tero",
@@ -35,6 +35,58 @@ export const Provider = ({ Context, children, ...props }) => {
     console.log("Prifina current", providerContext.current);
     //timerTest();
     return { check: "OK" };
+  }, []);
+
+  const registerHooks = useCallback((appID, modules) => {
+    if (modules.length > 0) {
+      modules.forEach((module, mi) => {
+        const functionList = module.getInfo();
+        let fn = {};
+        const subscriptionList = module.getSubscriptions() || [];
+        functionList.forEach((q) => {
+          if (q.startsWith("query")) {
+            fn[q] = (executionID, filter) => {
+              console.log("INIT ", providerContext.current.init);
+
+              if (subscriptionList.length > 0) {
+                const querySubscription = subscriptionList.find(
+                  (s) => s.subscription === q
+                );
+                if (querySubscription) {
+                  console.log("SUBS ", querySubscription);
+                  addSubscription(appID, q, {
+                    executionID: executionID,
+                    mockups: querySubscription.mockup || null,
+                  });
+                  /*
+                  if (!appSubscriptions.current.hasOwnProperty(appID))
+                    appSubscriptions.current[appID] = {};
+
+                  appSubscriptions.current[appID][q] = {
+                    executionID: executionID,
+                    mockups: querySubscription.mockup || null,
+                  };
+                  */
+                  //TBD output fields selection....
+                }
+              }
+
+              return module[q](
+                providerContext.current.init.stage,
+                appID,
+                currentUser.uuid,
+                executionID,
+                filter
+              );
+            };
+          }
+        });
+        //console.log(subscriptionList);
+        //console.log(providerContext.current.init);
+        API.current[appID] = fn;
+      });
+      //console.log("HOOKS", appSubscriptions);
+    }
   }, []);
 
   const subscriptionTest = useCallback(
@@ -160,41 +212,6 @@ export const Provider = ({ Context, children, ...props }) => {
     }
   }, []);
 
-  const connector = useCallback((opts) => {
-    console.log("Prifina current", providerContext.current);
-    console.log(
-      "Prifina current connectors",
-      providerContext.current.init.connectors
-    );
-    //console.log("CONNECTOR NAME ", opts);
-    if (
-      !Object.keys(opts).every((k) => {
-        return connectorOpts.indexOf(k) > -1;
-      })
-    ) {
-      throw new Error(
-        `Invalid connector, only (${connectorOpts.join(",")}) allowed.`
-      );
-    }
-
-    const connectorIndex = providerContext.current.init.connectors.findIndex(
-      (c) => {
-        return c.getModuleName() === opts.name;
-      }
-    );
-    if (connectorIndex === -1) {
-      throw new Error(`Connector (${opts.name}) not found!`);
-    } else {
-      const selectedConnector =
-        providerContext.current.init.connectors[connectorIndex];
-      if (Object.keys(selectedConnector).indexOf(opts.function) > -1) {
-        return selectedConnector[opts.function]();
-      } else {
-        throw new Error(`Connector function (${opts.function}) not found!`);
-      }
-    }
-  }, []);
-
   const setSettings = useCallback((appID, settings = {}) => {
     //console.log(providerContext.current.init.app);
 
@@ -259,6 +276,41 @@ export const Provider = ({ Context, children, ...props }) => {
     return callbacks.current;
   }, []);
 
+  useEffect(() => {
+    //console.log("APP SUBS ", appSubscriptions);
+    if (Object.keys(appSubscriptions).length > 0) {
+      //console.log("TRIGGER SUBS...");
+      //console.log(providerContext.current.init);
+      if (providerContext.current.init.stage === "dev") {
+        Object.keys(appSubscriptions).forEach((app) => {
+          const subscriptionTimer = setInterval(() => {
+            //console.log("APP ", app);
+            Object.keys(appSubscriptions[app]).forEach((f) => {
+              const data = {
+                data: {
+                  [f]: {
+                    data: appSubscriptions[app][f].mockups,
+                    status: "READY",
+                  },
+                },
+              };
+              //console.log("DATA ", data);
+              callbacks.current[app](data);
+            });
+
+            clearInterval(subscriptionTimer);
+          }, 1000);
+        });
+      }
+    }
+  }, [appSubscriptions]);
+
+  const addSubscription = (appID, fnName, fnSub) => {
+    setAppSubscriptions({ ...appSubscriptions, [appID]: { [fnName]: fnSub } });
+
+    return true;
+  };
+
   const Prifina = useCallback(({ appId, modules = {} }) => {
     let config = {
       appId: appId,
@@ -266,13 +318,7 @@ export const Provider = ({ Context, children, ...props }) => {
       uuid: currentUser.uuid,
     };
     providerContext.current.init.apps[appId] = {};
-    /*
-    let queries = {
-      get: function () {
-        console.log("GET ", config);
-      },
-    };
-    */
+
     let queryList = QLqueries.getInfo();
     let queries = {};
     queryList.forEach((q) => {
@@ -308,17 +354,19 @@ export const Provider = ({ Context, children, ...props }) => {
     });
     let prifinaHooks = {
       config: config,
+      appSubscriptions: {},
+      addSubscription: function (t) {
+        prifinaHooks.appSubscriptions[t] = "OK";
+        console.log("CALLBACKS ", callbacks);
+        appSubscriptions.current[t] = "SUB TEST";
+      },
       core: {
         queries: queries,
         mutations: mutations,
         subscriptions: subscriptions,
       },
     };
-    if (Object.keys(modules).length > 0) {
-      Object.keys(modules).forEach((module) => {
-        prifinaHooks[module] = modules[module];
-      });
-    }
+
     return prifinaHooks;
   }, []);
 
@@ -334,6 +382,8 @@ export const Provider = ({ Context, children, ...props }) => {
     subscriptionTest,
     unSubscribe,
     Prifina,
+    registerHooks,
+    API: API.current,
     /*
     connector,
     queries,

@@ -2,6 +2,8 @@ import React, { createContext, useContext, useMemo, useEffect } from "react";
 
 import { Provider, PrifinaContext } from "../src/Provider";
 
+import GoogleTimeline from "../../google-timeline/";
+
 //import { PrifinaProvider } from "@prifina/hooks";
 export const usePrifina = ({ Context, appID = "", connectors = [] }) => {
   let contextExists = false;
@@ -49,9 +51,17 @@ export default { title: "App" };
 
 const appID = "testing";
 export const app = () => {
-  const { Prifina, subscriptionTest, onUpdate } = usePrifina({});
+  const {
+    Prifina,
+    subscriptionTest,
+    onUpdate,
+    registerHooks,
+    API,
+  } = usePrifina({});
   //console.log(Prifina);
-  const Test = new Prifina({ appId: appID, modules: [] });
+  console.log(GoogleTimeline.getInfo());
+
+  const Test = new Prifina({ appId: appID, modules: [GoogleTimeline] });
 
   const updateTest = (data) => {
     console.log("UPDATE TEST ", data);
@@ -61,6 +71,7 @@ export const app = () => {
   useEffect(async () => {
     console.log("UPDATE INIT ");
     onUpdate(appID, updateTest);
+    registerHooks(appID, [GoogleTimeline]);
 
     /*
     subscriptionTest(appID, {
@@ -82,9 +93,22 @@ export const app = () => {
     */
   }, []);
 
-  console.log(Test.core.queries);
-  console.log(Test.core.queries.getTest().then((data) => console.log(data)));
-  return <div>Testing</div>;
+  console.log("PROVIDER TEST ", Test);
+  //console.log(Test.core.queries.getTest().then((data) => console.log(data)));
+  return (
+    <>
+      <div>Testing</div>
+      <button
+        onClick={async () => {
+          //await Test.GoogleTimeline.queryActivities("TEST-ID");
+          console.log(Test);
+          console.log("API ", await API[appID].queryActivities("TEST-ID"));
+        }}
+      >
+        GET DATA
+      </button>
+    </>
+  );
 };
 /*
 app.story = {

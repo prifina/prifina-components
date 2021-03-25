@@ -1,7 +1,7 @@
 {
-  "name": "@prifina/hooks",
-  "version": "0.0.48",
-  "description": "Prifina Hooks Component",
+  "name": "@prifina/google-timeline",
+  "version": "0.0.0",
+  "description": "Prifina Google timeline Hook",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
   "main": "dist/esm/index.js",
@@ -18,17 +18,16 @@
     "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel ./src --out-dir ./dist/es",
     "storybook": "start-storybook"
   },
-  "dependencies": {
-    "@paciolan/remote-component": "^2.11.0"
-  },
   "devDependencies": {
     "@babel/cli": "^7.11.5",
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
+    "@prifina/hooks": "latest",
     "@storybook/addon-actions": "^6.0.16",
     "@storybook/addon-storyshots": "^6.0.16",
     "@storybook/react": "^6.0.16",
+    "@styled-system/prop-types": "^5.1.5",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.1.0",
@@ -41,5 +40,6 @@
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
   },
-  "gitHead": "66292d541a566bc74971adca127fccc77d0196ab"
+  "dependencies": {
+  }
 }
