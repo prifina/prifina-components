@@ -1,6 +1,6 @@
 {
   "name": "@prifina/google-timeline",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Prifina Google timeline Hook",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
@@ -39,7 +39,5 @@
   "peerDependencies": {
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
-  },
-  "dependencies": {
   }
 }
