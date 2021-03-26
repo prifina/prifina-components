@@ -12,6 +12,8 @@ import * as QLqueries from "./queries";
 import * as QLsubscriptions from "./subscriptions";
 import * as QLmutations from "./mutations";
 
+const short = require("short-uuid");
+
 export const PrifinaContext = createContext({});
 
 export const Provider = ({ Context, children, ...props }) => {
@@ -45,9 +47,9 @@ export const Provider = ({ Context, children, ...props }) => {
         const subscriptionList = module.getSubscriptions() || [];
         functionList.forEach((q) => {
           if (q.startsWith("query")) {
-            fn[q] = (executionID, filter) => {
+            fn[q] = (filter) => {
               console.log("INIT ", providerContext.current.init);
-
+              const executionID = short.generate();
               if (subscriptionList.length > 0) {
                 const querySubscription = subscriptionList.find(
                   (s) => s.subscription === q

@@ -17,10 +17,9 @@
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "webpack": "^5.15.0",
-    "terser": "^5.5.1"
+    "short-uuid": "^4.1.0",
+    "terser": "^5.5.1",
+    "webpack": "^5.15.0"
   },
-  "dependencies": {
-    
-  }
+  "dependencies": {}
 }
