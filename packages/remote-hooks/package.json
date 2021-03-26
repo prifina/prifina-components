@@ -11,6 +11,9 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "short-uuid": "^4.1.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.12.13",
     "@babel/core": "^7.12.13",
@@ -36,7 +39,6 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "short-uuid": "^4.1.0",
     "styled-components": "^5.2.1",
     "styled-system": "^5.1.5",
     "terser-webpack-plugin": "^5.1.1",
@@ -54,8 +56,7 @@
     "storybook": "start-storybook -p 9009 -s public"
   },
   "peerDependencies": {
-    "react": "^17.0.1",
-    "short-uuid": "^4.1.0"
+    "react": "^17.0.1"
   },
-  "gitHead": "2a9ee73ed8fbe442e38ceb6b266b28700a38709f"
+  "gitHead": "7b4a6687f4df9d8cddb610207de6808660a7b99a"
 }
