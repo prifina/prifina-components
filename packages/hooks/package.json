@@ -19,7 +19,8 @@
     "storybook": "start-storybook"
   },
   "dependencies": {
-    "@paciolan/remote-component": "^2.11.0"
+    "@paciolan/remote-component": "^2.11.0",
+    "short-uuid": "^4.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.5",
@@ -41,5 +42,5 @@
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
   },
-  "gitHead": "5a6d0fe89dc18901e5dc60f9dca8b12b92d5a8a6"
+  "gitHead": "09d5a12792be12a5b5cc11af091468ba735cb941"
 }
