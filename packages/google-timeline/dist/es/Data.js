@@ -40,7 +40,7 @@ var queryActivities = function queryActivities(stage, appID, uuid, executionID, 
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getActivities: {
+        queryActivities: {
           id: executionID,
           status: "PENDING"
         }
