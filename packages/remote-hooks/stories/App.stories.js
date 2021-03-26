@@ -102,7 +102,7 @@ export const app = () => {
         onClick={async () => {
           //await Test.GoogleTimeline.queryActivities("TEST-ID");
           console.log(Test);
-          console.log("API ", await API[appID].queryActivities("TEST-ID"));
+          console.log("API ", await API[appID].queryActivities());
         }}
       >
         GET DATA
