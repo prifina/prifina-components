@@ -28,6 +28,18 @@ export const getAddressBook = (stage, appID, uuid, filter) => {
   }
 };
 
+export const checkUsername = `query checkUsername($userName: String!) {
+  checkUsername(userName: $userName)
+}
+`;
+
+export const getSettings = `query MyQuery($id:String!,$widget:String) {
+  getInstalledWidgets(id: $id, widget: $widget) {
+    id
+    installedWidgets
+  }
+}`;
+
 /*
 
  const sendMessage = async (msg, username) => {

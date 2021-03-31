@@ -11,3 +11,9 @@ export const createMessage = (stage, appID, uuid, variables) => {
     return Promise.resolve({ data: { createMessage: {} } });
   }
 };
+
+export const setSettings = `mutation MyMutation($id:String!,$widget: WidgetInput) {
+  updateInstalledWidgets(id: $id, widget: $widget) {
+    id
+  }
+}`;

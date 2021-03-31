@@ -11,8 +11,10 @@ import React, {
 import * as QLqueries from "./queries";
 import * as QLsubscriptions from "./subscriptions";
 import * as QLmutations from "./mutations";
+import * as DataModels from "./dataModels";
+import gql from "graphql-tag";
 
-const short = require("short-uuid");
+//const short = require("short-uuid");
 
 export const PrifinaContext = createContext({});
 
@@ -28,6 +30,7 @@ export const Provider = ({ Context, children, ...props }) => {
   //const appSubscriptions = useRef({});
   //let appSubscriptions = {};
   const API = useRef({});
+  const CLIENT = useRef({});
 
   const [currentUser, setCurrentUser] = useState({
     name: "Tero",
@@ -38,58 +41,170 @@ export const Provider = ({ Context, children, ...props }) => {
     //timerTest();
     return { check: "OK" };
   }, []);
+  /*
+  Promise.resolve()
+  .then(() => {
+    // Makes .then() return a rejected promise
+    throw new Error('Oh no!');
+  })
+  .catch(error => {
+    console.error('onRejected function called: ' + error.message);
+  })
+  .then(() => {
+    console.log("I am always called even if the prior then's promise rejects");
+  });
+*/
+  const createQuery = (opts) => {
+    console.log("OPTS ", opts);
+    /*
+    input S3ObjectInput {
+      bucket:String!
+      key:String!
+      sql:String
+      fields:[String]
+      filter:String
+      options: S3OptionsInput
+    }
+    */
+    const moduleParts = opts.name.split("/");
+    const datamodel = DataModels[moduleParts[0]][moduleParts[1]];
+    console.log(datamodel);
+    if (opts.fields && opts.fields.length > 0) {
+      // check fields matches datamodel + add prefix
+      opts.fields.forEach((f, i) => {
+        if (!f.startsWith("p_")) {
+          opts.fields[i] = "p_" + f;
+        }
+        if (datamodel.fields.indexOf(f) === -1) {
+          //return Promise.reject("INVALID_FIELD (" + f + ")");
+          throw new Error("INVALID_FIELD (" + f + ")");
+        }
+      });
+    }
+
+    return new Promise(function (resolve, reject) {
+      //const S3Bucket = "athena-test-prifina";
+      //const S3Key = "google-timeline-data/csv-data/activities/activities.csv";
+      const S3Bucket = datamodel.bucket;
+      const S3Key = datamodel.key;
+
+      CLIENT.current.user
+        .query({
+          query: gql(opts.query),
+          variables: {
+            input: {
+              bucket: S3Bucket,
+              key: S3Key,
+              fields: opts.fields,
+              filter: opts.filter,
+              next: opts.next,
+            },
+          },
+        })
+        .then((res) => {
+          console.log("RES ", res);
+          let s3Object = JSON.parse(res.data.getS3Object.result);
+
+          resolve({ data: { getS3Object: s3Object } });
+        })
+        .catch((error) => {
+          console.log("QUERY ERROR ", error);
+          reject(error);
+        });
+    });
+
+    //return Promise.resolve({});
+    //createQuery({ query: query, fields, filter, next });
+    /*
+    const query = `query s3Object {
+      getS3Object {
+        result
+      }
+    }`;
+    //const result = await client.query({ query: gql(test) });
+    return CLIENT.query({ query: GQL(query), variables: {} });
+
+    */
+
+    /*
+
+input S3OptionsInput {
+  input:String
+  output:String
+}  
+input S3ObjectInput {
+  bucket:String!
+  key:String!
+  sql:String
+  fields:[String]
+  filter:String
+  options: S3OptionsInput
+}
+
+type Query @aws_iam @aws_cognito_user_pools {
+	getS3Object(input:S3ObjectInput): S3ObjectData
+
+  */
+  };
+  const registerClient = useCallback((client) => {
+    CLIENT.current["user"] = client[0];
+    CLIENT.current["prifina"] = client[1];
+  }, []);
 
   const registerHooks = useCallback((appID, modules) => {
     if (modules.length > 0) {
+      API.current[appID] = {};
+
       modules.forEach((module, mi) => {
+        const moduleName = module.getModuleName();
         const functionList = module.getInfo();
         let fn = {};
-        const subscriptionList = module.getSubscriptions() || [];
+        //const subscriptionList = module.getSubscriptions() || [];
+        console.log("LIST ", functionList);
         functionList.forEach((q) => {
           if (q.startsWith("query")) {
-            fn[q] = (filter) => {
+            fn[q] = ({ fields, filter, next }) => {
               console.log("INIT ", providerContext.current.init);
-              const executionID = short.generate();
-              if (subscriptionList.length > 0) {
-                const querySubscription = subscriptionList.find(
-                  (s) => s.subscription === q
-                );
-                if (querySubscription) {
-                  console.log("SUBS ", querySubscription);
-                  addSubscription(appID, q, {
-                    executionID: executionID,
-                    mockups: querySubscription.mockup || null,
-                  });
-                  /*
-                  if (!appSubscriptions.current.hasOwnProperty(appID))
-                    appSubscriptions.current[appID] = {};
-
-                  appSubscriptions.current[appID][q] = {
-                    executionID: executionID,
-                    mockups: querySubscription.mockup || null,
-                  };
-                  */
-                  //TBD output fields selection....
-                }
-              }
+              const stage = providerContext.current.init.stage;
+              //const executionID = short.generate();
 
               return module[q](
-                providerContext.current.init.stage,
+                stage,
                 appID,
-                currentUser.uuid,
-                executionID,
-                filter
+                moduleName + "/" + q,
+                createQuery,
+
+                fields,
+                filter,
+                next
               );
             };
           }
         });
         //console.log(subscriptionList);
         //console.log(providerContext.current.init);
-        API.current[appID] = fn;
+        API.current[appID][moduleName] = fn;
       });
       //console.log("HOOKS", appSubscriptions);
     }
   }, []);
+
+  /*
+  if (subscriptionList.length > 0) {
+    const querySubscription = subscriptionList.find(
+      (s) => s.subscription === q
+    );
+    if (querySubscription) {
+      console.log("SUBS ", querySubscription);
+      addSubscription(appID, q, {
+        executionID: executionID,
+        mockups: querySubscription.mockup || null,
+      });
+
+      //TBD output fields selection....
+    }
+  }
+*/
 
   const subscriptionTest = useCallback(
     (appID, mockupData, interval = 10000) => {
@@ -214,7 +329,7 @@ export const Provider = ({ Context, children, ...props }) => {
     }
   }, []);
 
-  const setSettings = useCallback((appID, settings = {}) => {
+  const setSettings = useCallback((appID, uuid, settings = [{}]) => {
     //console.log(providerContext.current.init.app);
 
     if (providerContext.current.init.stage === "dev") {
@@ -222,10 +337,22 @@ export const Provider = ({ Context, children, ...props }) => {
         "PrifinaAppSettings-" + appID,
         JSON.stringify(settings)
       );
+
+      return Promise.resolve(true);
+    } else {
+      return CLIENT.current.prifina.graphql({
+        query: QLmutations.setSettings,
+        variables: { id: uuid, widget: { name: appID, settings: settings } },
+        authMode: "AWS_IAM",
+      });
+      /*
+        await setSettings(appID, "f902cbca-8748-437d-a7bb-bd2dc9d25be5", [
+          { field: "msg", value: "Hello" },
+        ])
+        */
     }
-    return Promise.resolve(true);
   }, []);
-  const getSettings = useCallback((appID) => {
+  const getSettings = useCallback((appID, uuid = "") => {
     //console.log(providerContext.current.init.app);
     if (providerContext.current.init.stage === "dev") {
       let appSettings = JSON.parse(
@@ -236,7 +363,13 @@ export const Provider = ({ Context, children, ...props }) => {
       }
       return Promise.resolve(appSettings);
     } else {
-      return Promise.resolve({});
+      //console.log("CLIENT ", CLIENT);
+
+      return CLIENT.current.prifina.graphql({
+        query: QLqueries.getSettings,
+        variables: { id: uuid, widget: appID },
+        authMode: "AWS_IAM",
+      });
     }
   }, []);
 
@@ -385,6 +518,7 @@ export const Provider = ({ Context, children, ...props }) => {
     unSubscribe,
     Prifina,
     registerHooks,
+    registerClient,
     API: API.current,
     /*
     connector,
