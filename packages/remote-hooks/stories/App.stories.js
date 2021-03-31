@@ -206,7 +206,7 @@ export const app = () => {
           console.log(API);
           console.log(
             await API[appID].GoogleTimeline.queryActivities({
-              fields: ["datetimex", "type", "confidence"],
+              fields: ["datetime", "type", "confidence"],
             })
           );
           /*

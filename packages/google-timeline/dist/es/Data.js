@@ -44,7 +44,9 @@ var queryActivities = function queryActivities(stage, appID, name, createQuery, 
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        queryActivities: _activityMockup["default"]
+        getS3Object: {
+          content: _activityMockup["default"]
+        }
       }
     });
   } else {

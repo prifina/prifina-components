@@ -37,7 +37,7 @@ export const queryActivities = (
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        queryActivities: activityMockup,
+        getS3Object: { content: activityMockup },
       },
     });
   } else {
