@@ -41,6 +41,9 @@ export const queryActivities = (
       },
     });
   } else {
+    //SELECT * FROM s3object s  where EXTRACT(YEAR FROM TO_TIMESTAMP(s.p_datetime))=2021 LIMIT 5
+    //https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
+
     return createQuery({ query: s3Query, name: name, fields, filter, next });
   }
 };
