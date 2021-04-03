@@ -212,36 +212,52 @@ function _fn(fnName, fnCol, fnOpts) {
 
 function buildFilter(filter) {
   let s = "";
-  Object.keys(filter).forEach((k) => {
-    s += k;
-    Object.getOwnPropertySymbols(filter[k]).forEach((e, i) => {
-      console.log(e, Symbol.keyFor(e));
-      console.log(filter[k][e]);
-      if ([Op.and, Op.or, Op.not].indexOf(e) > -1) {
-        let logicalOP = e;
-        Object.getOwnPropertySymbols(filter[k][e]).forEach((ee, ii) => {
-          console.log(ee);
-          if (ii > 0) {
-            s += Symbol.keyFor(logicalOP) + k;
-          }
-          s = opCheck(s, ee, filter[k][e][ee]);
-        });
-      } else if (i > 0) {
-        //console.log("ERROR 1");
-        throw new Error("Logical opertor error");
-      } else {
-        s = opCheck(s, e, filter[k][e]);
-      }
-
-      //s += Symbol.keyFor(e) + filter[k][e];
+  const logicalOperators = Object.getOwnPropertySymbols(filter);
+  if (logicalOperators.length > 0) {
+    let logicalOP = logicalOperators[0];
+    Object.keys(filter[logicalOP]).forEach((k, ii) => {
+      Object.getOwnPropertySymbols(filter[logicalOP][k]).forEach((e, i) => {
+        //console.log("E= ", e, Symbol.keyFor(e), i, ii);
+        if (ii > 0) {
+          s += Symbol.keyFor(logicalOP) + k;
+        } else {
+          s += k;
+        }
+        s = opCheck(s, e, filter[logicalOP][k][e]);
+      });
     });
-    //console.log(Object.getOwnPropertySymbols(filter));
-    /*
+  } else {
+    Object.keys(filter).forEach((k) => {
+      s += k;
+      Object.getOwnPropertySymbols(filter[k]).forEach((e, i) => {
+        //console.log(e, Symbol.keyFor(e));
+        //console.log(filter[k][e]);
+        if ([Op.and, Op.or, Op.not].indexOf(e) > -1) {
+          let logicalOP = e;
+          Object.getOwnPropertySymbols(filter[k][e]).forEach((ee, ii) => {
+            //console.log(ee);
+            if (ii > 0) {
+              s += Symbol.keyFor(logicalOP) + k;
+            }
+            s = opCheck(s, ee, filter[k][e][ee]);
+          });
+        } else if (i > 0) {
+          //console.log("ERROR 1");
+          throw new Error("Logical opertor error");
+        } else {
+          s = opCheck(s, e, filter[k][e]);
+        }
+
+        //s += Symbol.keyFor(e) + filter[k][e];
+      });
+      //console.log(Object.getOwnPropertySymbols(filter));
+      /*
   Object.keys(filter[k]).forEach((o) => {
     console.log("OP ", o);
   });
   */
-  });
+    });
+  }
   return s;
 }
 
