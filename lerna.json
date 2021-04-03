@@ -9,6 +9,6 @@
     "**/package.json",
     "**/*.md",
     "**/perf/**",
-    "**/remoote-hooks/**"
+    "**/remote-hooks/**"
   ]
 }
