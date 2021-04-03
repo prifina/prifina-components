@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports._fn = _fn;
+exports.buildFilter = buildFilter;
 exports.Op = void 0;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -195,6 +196,43 @@ function _fn(fnName, fnCol, fnOpts) {
   if (fnName === "HOUR") {
     return "EXTRACT(hour from TO_TIMESTAMP(".concat(fnCol, "))");
   }
+}
+
+function buildFilter(filter) {
+  var s = "";
+  Object.keys(filter).forEach(function (k) {
+    s += k;
+    Object.getOwnPropertySymbols(filter[k]).forEach(function (e, i) {
+      console.log(e, Symbol.keyFor(e));
+      console.log(filter[k][e]);
+
+      if ([Op.and, Op.or, Op.not].indexOf(e) > -1) {
+        var logicalOP = e;
+        Object.getOwnPropertySymbols(filter[k][e]).forEach(function (ee, ii) {
+          console.log(ee);
+
+          if (ii > 0) {
+            s += Symbol.keyFor(logicalOP) + k;
+          }
+
+          s = opCheck(s, ee, filter[k][e][ee]);
+        });
+      } else if (i > 0) {
+        //console.log("ERROR 1");
+        throw new Error("Logical opertor error");
+      } else {
+        s = opCheck(s, e, filter[k][e]);
+      } //s += Symbol.keyFor(e) + filter[k][e];
+
+    }); //console.log(Object.getOwnPropertySymbols(filter));
+
+    /*
+    Object.keys(filter[k]).forEach((o) => {
+    console.log("OP ", o);
+    });
+    */
+  });
+  return s;
 }
 /*
   const filter = {

@@ -35,6 +35,12 @@ Object.defineProperty(exports, "_fn", {
     return _queryBuilder._fn;
   }
 });
+Object.defineProperty(exports, "buildFilter", {
+  enumerable: true,
+  get: function get() {
+    return _queryBuilder.buildFilter;
+  }
+});
 
 var _PrifinaProvider = _interopRequireWildcard(require("./PrifinaProvider"));
 
