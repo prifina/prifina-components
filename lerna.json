@@ -8,6 +8,7 @@
     "**/node_modules/**",
     "**/package.json",
     "**/*.md",
-    "**/perf/**"
+    "**/perf/**",
+    "packages/remoote-hooks/**"
   ]
 }
