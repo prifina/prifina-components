@@ -210,7 +210,7 @@ function _fn(fnName, fnCol, fnOpts) {
   }
 }
 
-export { Qp, _fn };
+export { Op, _fn };
 
 /*
   const filter = {

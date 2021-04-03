@@ -23,8 +23,22 @@ Object.defineProperty(exports, "usePrifina", {
     return _PrifinaProvider.usePrifina;
   }
 });
+Object.defineProperty(exports, "Op", {
+  enumerable: true,
+  get: function get() {
+    return _queryBuilder.Op;
+  }
+});
+Object.defineProperty(exports, "_fn", {
+  enumerable: true,
+  get: function get() {
+    return _queryBuilder._fn;
+  }
+});
 
 var _PrifinaProvider = _interopRequireWildcard(require("./PrifinaProvider"));
+
+var _queryBuilder = require("./queryBuilder");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
