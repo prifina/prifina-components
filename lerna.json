@@ -9,6 +9,6 @@
     "**/package.json",
     "**/*.md",
     "**/perf/**",
-    "packages/remoote-hooks/**"
+    "**/remoote-hooks/**"
   ]
 }
