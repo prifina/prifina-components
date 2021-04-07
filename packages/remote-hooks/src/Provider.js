@@ -429,12 +429,11 @@ mutation MyMutation {
     if (callbacks.current) {
       if (Object.keys(callbacks.current).length === 0) callbacks.current = {};
       if (callbacks.current.hasOwnProperty(appID)) {
-        const installed = callbacks.current[appID].length;
-        callbacks.current[appID][installed + 1] = fn;
+        callbacks.current[appID].push(fn);
       } else if (type === "WIDGET") {
         if (!callbacks.current.hasOwnProperty(appID))
           callbacks.current[appID] = [];
-        callbacks.current[appID][1] = fn;
+        callbacks.current[appID].push(fn);
       } else {
         callbacks.current[appID] = fn;
       }
