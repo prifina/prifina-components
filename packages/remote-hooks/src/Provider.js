@@ -329,23 +329,49 @@ type Query @aws_iam @aws_cognito_user_pools {
     }
   }, []);
 
-  const setSettings = useCallback((appID, uuid, settings = [{}]) => {
+  const setSettings = useCallback((appID, uuid, newSettings = {}) => {
     //console.log(providerContext.current.init.app);
-
+    /*
+    setSettings(currentAppId, prifinaID, {
+      type: "WIDGET",
+      index: settings.current.widget,
+      settings: newSettings,
+    });
+*/
     if (providerContext.current.init.stage === "dev") {
       localStorage.setItem(
         "PrifinaAppSettings-" + appID,
-        JSON.stringify(settings)
+        JSON.stringify(newSettings.settings)
       );
 
       return Promise.resolve(true);
     } else {
-      return CLIENT.current.prifina.graphql({
-        query: QLmutations.setSettings,
-        variables: { id: uuid, widget: { name: appID, settings: settings } },
-        authMode: "AWS_IAM",
-      });
+      if (newSettings.type === "WIDGET") {
+        return CLIENT.current.prifina.graphql({
+          query: QLmutations.setSettings,
+          variables: {
+            id: uuid,
+            widget: {
+              name: appID,
+              index: newSettings.index,
+              settings: newSettings.settings,
+            },
+          },
+          authMode: "AWS_IAM",
+        });
+      }
       /*
+
+
+updateInstalledWidgets(id: String!, widget: WidgetInput): PrifinaUser
+mutation MyMutation {
+  updateInstalledWidgets(id: "13625638c207ed2fcd5a7b7cfb2364a04661", widget: {index: 0, name: "helloWidget", 
+  settings: [{field: "msg", value: "Hello2"}]}) {
+    id
+    installedWidgets
+  }
+}
+
         await setSettings(appID, "f902cbca-8748-437d-a7bb-bd2dc9d25be5", [
           { field: "msg", value: "Hello" },
         ])
