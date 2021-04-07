@@ -432,6 +432,8 @@ mutation MyMutation {
         const installed = callbacks.current[appID].length;
         callbacks.current[appID][installed + 1] = fn;
       } else if (type === "WIDGET") {
+        if (!callbacks.current.hasOwnProperty(appID))
+          callbacks.current[appID] = [];
         callbacks.current[appID][1] = fn;
       } else {
         callbacks.current[appID] = fn;
