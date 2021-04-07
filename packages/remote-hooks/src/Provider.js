@@ -424,11 +424,18 @@ mutation MyMutation {
     return appLocalization;
   }, []);
 
-  const onUpdate = useCallback((appID, fn) => {
+  const onUpdate = useCallback((appID, fn, type = "WIDGET") => {
     //console.log("UPDATE SET ", appID);
     if (callbacks.current) {
       if (Object.keys(callbacks.current).length === 0) callbacks.current = {};
-      callbacks.current[appID] = fn;
+      if (callbacks.current.hasOwnProperty(appID)) {
+        const installed = callbacks.current[appID].length;
+        callbacks.current[appID][installed + 1] = fn;
+      } else if (type === "WIDGET") {
+        callbacks.current[appID][1] = fn;
+      } else {
+        callbacks.current[appID] = fn;
+      }
       //console.log("UPDATE SET ", callbacks.current);
     }
   }, []);
