@@ -47,7 +47,7 @@ const s3Status = await S3Storage.put(
         console.log(s3Stat
 */
 
-  const file = fileHandler[0];
+  const file = fileHandler.files[0];
   let metaData = { "alt-name": file.name };
   metaData.type = file.type || "";
   metaData.created = new Date().toISOString();
