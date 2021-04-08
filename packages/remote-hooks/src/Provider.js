@@ -183,6 +183,7 @@ type Query @aws_iam @aws_cognito_user_pools {
             };
           }
           if (q.startsWith("S3")) {
+            console.log("MODULE REGISTER ", moduleName, q);
             fn[q] = ({ fileName, fileHandler, progress, opts }) => {
               console.log("INIT ", providerContext.current.init);
               const stage = providerContext.current.init.stage;

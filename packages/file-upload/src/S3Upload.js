@@ -1,5 +1,5 @@
 export const getInfo = () => {
-  return ["S3Upload"];
+  return ["S3UploadSimple"];
 };
 
 export const getModuleName = () => {

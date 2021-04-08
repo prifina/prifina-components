@@ -22,6 +22,18 @@ export const fileUpload = () => {
   return (
     <div>
       <div>Hello, {currentUser.name}</div>
+      <button
+        onClick={async (e) => {
+          console.log("API ", API);
+          console.log(
+            "API ",
+            API[appID].S3FileUpload.S3UploadSimple({ fileName: "xxxx" })
+          );
+          //API[appID].S3Upload.S3UploadSimple({ fileName: "xxxx" });
+        }}
+      >
+        API
+      </button>
     </div>
   );
 };
