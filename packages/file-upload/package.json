@@ -1,7 +1,7 @@
 {
-  "name": "@prifina/google-timeline",
-  "version": "0.0.10",
-  "description": "Prifina Google timeline Hook",
+  "name": "@prifina/file-upload",
+  "version": "0.0.0",
+  "description": "Prifina File Upload Hook",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
   "main": "dist/esm/index.js",
@@ -38,6 +38,5 @@
   "peerDependencies": {
     "react": ">=16.8.6",
     "react-dom": ">=16.8.6"
-  },
-  "gitHead": "b2f7241e027dbb18999090f8cf8ceaa5a366a47f"
+  }
 }

@@ -150,7 +150,9 @@ type Query @aws_iam @aws_cognito_user_pools {
     CLIENT.current["user"] = client[0];
     CLIENT.current["prifina"] = client[1];
   }, []);
-
+  const S3FileUpload = useCallback((opts) => {
+    console.log("OPTS ", opts);
+  }, []);
   const registerHooks = useCallback((appID, modules) => {
     if (modules.length > 0) {
       API.current[appID] = {};
@@ -177,6 +179,24 @@ type Query @aws_iam @aws_cognito_user_pools {
                 fields,
                 filter,
                 next
+              );
+            };
+          }
+          if (q.startsWith("S3")) {
+            fn[q] = ({ fileName, fileHandler, progress, opts }) => {
+              console.log("INIT ", providerContext.current.init);
+              const stage = providerContext.current.init.stage;
+              //const executionID = short.generate();
+
+              return module[q](
+                stage,
+                appID,
+                moduleName + "/" + q,
+                S3FileUpload,
+                fileName,
+                fileHandler,
+                progress,
+                opts
               );
             };
           }
