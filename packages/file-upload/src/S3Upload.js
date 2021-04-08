@@ -33,21 +33,46 @@ export const S3UploadSimple = (
   }
   const ext=file.name.split('.').pop();
   console.log('META',metaData);
+const s3Status = await S3Storage.put(
+          s3Key,
+          JSON.stringify(state.schemaJson),
+          {
+            level: "public",
+            contentType: "application/json",
+            cacheControl: "",
+            expires: parseInt(Date.now() / 1000),
+            metadata: { created: new Date().toISOString() },
+          }
+        );
+        console.log(s3Stat
 */
 
+  const file = fileHandler[0];
+  let metaData = { "alt-name": file.name };
+  metaData.type = file.type || "";
+  metaData.created = new Date().toISOString();
+  metaData.lastModified = file.lastModified
+    ? new Date(file.lastModified).toISOString()
+    : "";
+
+  const ext = file.name.split(".").pop();
+  //const keyName=Short.generate();
+  const keyName = "TESTING";
+
   if (stage === "dev") {
+    const total = 3;
     return new Promise(function (resolve, reject) {
       let secs = 0;
       const timer = setInterval(() => {
         console.log("OK ", secs);
         if (typeof progress === "function") {
           //const currentProgress=100*(progress.loaded/progress.total);
-          progress({ loaded: secs, total: 3 });
+          progress({ loaded: secs, total: total });
         }
         secs++;
         //resolve({ data: "OK" });
         //clearInterval(timer);
-        if (secs > 3) {
+        if (secs > total) {
           clearInterval(timer);
           resolve({ data: "OK" });
         }
@@ -59,35 +84,12 @@ export const S3UploadSimple = (
     */
     });
   } else {
-    return S3FileUpload({ fileHandler, progress, options });
+    return S3FileUpload({
+      file,
+      fileName: keyName + "." + ext,
+      meta: metaData,
+      progress,
+      options,
+    });
   }
 };
-/*
-const subscriptionTimer = setInterval(() => {
-  const rInt = Math.floor(Math.random() * Math.floor(10));
-  //console.log("RANDOM ", rInt);
-  if (!(rInt % 3)) {
-    console.log("RANDOM ", rInt);
-    //console.log("MOCKUPS ", mockups.current[appID]);
-    //console.log("MOCKUP KEYS ", Object.keys(mockups.current[appID]));
-    if (
-      mockups.current[appID] &&
-      Object.keys(mockups.current[appID]).length > 0
-    ) {
-      Object.keys(mockups.current[appID]).map((mockup) => {
-        const data = mockups.current[appID][mockup];
-        if (Array.isArray(data)) {
-          const r = Math.floor(Math.random() * Math.floor(data.length));
-          callbacks.current[appID](data[r]);
-        } else {
-          callbacks.current[appID](data);
-        }
-      });
-    } else {
-      if (Object.keys(mockups.current).length === 0) {
-        clearInterval(subscriptionTimer);
-      }
-    }
-  }
-}, interval);
-*/
