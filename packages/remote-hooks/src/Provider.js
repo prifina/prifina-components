@@ -153,6 +153,13 @@ type Query @aws_iam @aws_cognito_user_pools {
   }, []);
   const S3FileUpload = useCallback((opts) => {
     console.log("OPTS ", opts);
+    console.log('S3 ',CLIENT.current);
+    const s3Status = await CLIENT.current.s3.put(opts.fileName,opts.file,{level:"public",
+  contentType:opts.meta.type,metadata:opts.meta,
+progressCallback:progress=>{
+  opts.progress(progress);
+}});
+  console.log(s3Status);
     /*
     Storage.put('uploads/'+keyName+'.'+ext, file, {
       metadata: metaData,
@@ -163,6 +170,20 @@ type Query @aws_iam @aws_cognito_user_pools {
         .then (result => console.log(result,file))
         .catch(err => console.log(err));
   }
+
+  const s3Status = await S3Storage.put(
+          s3Key,
+          JSON.stringify(state.schemaJson),
+          {
+            level: "public",
+            contentType: "application/json",
+            cacheControl: "",
+            expires: parseInt(Date.now() / 1000),
+            metadata: { created: new Date().toISOString() },
+          }
+        );
+        console.log(s3Status);
+
 */
   }, []);
   const registerHooks = useCallback((appID, modules) => {
