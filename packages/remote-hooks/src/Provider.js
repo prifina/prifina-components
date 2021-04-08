@@ -192,8 +192,8 @@ type Query @aws_iam @aws_cognito_user_pools {
         }
 */
         CLIENT.current.user
-          .query({
-            query: gql(QLmutations.uploadS3File),
+          .mutate({
+            matation: gql(QLmutations.uploadS3File),
             variables: {
               input: fileItem,
             },
