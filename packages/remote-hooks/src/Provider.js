@@ -191,6 +191,8 @@ type Query @aws_iam @aws_cognito_user_pools {
           options: AWSJSON
         }
 */
+        console.log(QLmutations.uploadS3File);
+        console.log(gql(QLmutations.uploadS3File));
         CLIENT.current.user
           .mutate({
             matation: gql(QLmutations.uploadS3File),
