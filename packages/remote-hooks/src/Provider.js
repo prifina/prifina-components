@@ -149,6 +149,7 @@ type Query @aws_iam @aws_cognito_user_pools {
   const registerClient = useCallback((client) => {
     CLIENT.current["user"] = client[0];
     CLIENT.current["prifina"] = client[1];
+    CLIENT.current["s3"] = client[2];
   }, []);
   const S3FileUpload = useCallback((opts) => {
     console.log("OPTS ", opts);
