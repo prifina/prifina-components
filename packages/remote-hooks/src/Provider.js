@@ -151,15 +151,28 @@ type Query @aws_iam @aws_cognito_user_pools {
     CLIENT.current["prifina"] = client[1];
     CLIENT.current["s3"] = client[2];
   }, []);
+
   const S3FileUpload = useCallback((opts) => {
     console.log("OPTS ", opts);
-    console.log('S3 ',CLIENT.current);
-    const s3Status = await CLIENT.current.s3.put(opts.fileName,opts.file,{level:"public",
-  contentType:opts.meta.type,metadata:opts.meta,
-progressCallback:progress=>{
-  opts.progress(progress);
-}});
-  console.log(s3Status);
+    console.log("S3 ", CLIENT.current);
+    return CLIENT.current.s3
+      .put(opts.fileName, opts.file, {
+        level: "public",
+        contentType: opts.meta.type,
+        metadata: opts.meta,
+        progressCallback: (progress) => {
+          opts.progress(progress);
+        },
+      })
+      .then((res) => {
+        console.log("S3 STATUS ", res);
+        return res;
+      })
+      .catch((err) => {
+        console.log("S3 ERR ", err);
+        return err;
+      });
+
     /*
     Storage.put('uploads/'+keyName+'.'+ext, file, {
       metadata: metaData,
