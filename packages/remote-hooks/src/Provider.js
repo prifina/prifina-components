@@ -155,6 +155,19 @@ type Query @aws_iam @aws_cognito_user_pools {
   const S3FileUpload = useCallback((opts) => {
     console.log("OPTS ", opts);
     console.log("S3 ", CLIENT.current);
+
+    let fileItem = {
+      owner: currentUser.uuid,
+      objectKey: opts.fileName,
+      fileName: opts.file.name,
+      fileType: opts.file.type,
+      lastModified: opts.meta["lastModified"],
+      size: opts.file.size,
+    };
+    if (typeof opts.options !== "undefined") {
+      fileItem.options = JSON.stringify(opts.options);
+    }
+
     return CLIENT.current.s3
       .put(opts.fileName, opts.file, {
         level: "public",
@@ -166,7 +179,33 @@ type Query @aws_iam @aws_cognito_user_pools {
       })
       .then((res) => {
         console.log("S3 STATUS ", res);
-        return res;
+        //return res;
+        /*
+        input S3FileInput {
+          owner: String!
+          objectKey: String!
+          fileName: String!
+          fileType: String
+          lastModified: String
+          size: Int
+          options: AWSJSON
+        }
+*/
+        CLIENT.current.user
+          .query({
+            query: gql(QLmutations.uploadS3File),
+            variables: {
+              input: fileItem,
+            },
+          })
+          .then((res) => {
+            console.log("DDB STATUS ", res);
+            return res;
+          })
+          .catch((err) => {
+            console.log("DDB ERR ", err);
+            return err;
+          });
       })
       .catch((err) => {
         console.log("S3 ERR ", err);

@@ -12,8 +12,12 @@ export const createMessage = (stage, appID, uuid, variables) => {
   }
 };
 
-export const setSettings = `mutation MyMutation($id:String!,$widget: WidgetInput) {
+export const setSettings = `mutation SetSettings($id:String!,$widget: WidgetInput) {
   updateInstalledWidgets(id: $id, widget: $widget) {
     id
   }
 }`;
+
+export const uploadS3File=`mutation uploadFile($input: S3FileInput) {
+  uploadS3File(input: $input)
+}
