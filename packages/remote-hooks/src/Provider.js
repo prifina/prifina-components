@@ -194,7 +194,6 @@ type Query @aws_iam @aws_cognito_user_pools {
                 appID,
                 moduleName + "/" + q,
                 S3FileUpload,
-                fileName,
                 fileHandler,
                 progress,
                 opts

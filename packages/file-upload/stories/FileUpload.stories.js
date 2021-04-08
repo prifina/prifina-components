@@ -22,12 +22,20 @@ export const fileUpload = () => {
   return (
     <div>
       <div>Hello, {currentUser.name}</div>
+      <input type="file" id="fileHandler" />
       <button
         onClick={async (e) => {
+          const file = document.getElementById("fileHandler");
+          console.log("FILE ", file.files);
           console.log("API ", API);
           console.log(
             "API ",
-            API[appID].S3FileUpload.S3UploadSimple({ fileName: "xxxx" })
+            await API[appID].S3FileUpload.S3UploadSimple({
+              fileHandler: file,
+              progress: (progress) => {
+                console.log(progress);
+              },
+            })
           );
           //API[appID].S3Upload.S3UploadSimple({ fileName: "xxxx" });
         }}
