@@ -1,3 +1,5 @@
+import Short from "short-uuid";
+
 export const getInfo = () => {
   return ["S3UploadSimple"];
 };
@@ -56,8 +58,8 @@ const s3Status = await S3Storage.put(
     : "";
 
   const ext = file.name.split(".").pop();
-  //const keyName=Short.generate();
-  const keyName = "TESTING";
+  const keyName = Short.generate();
+  //const keyName = "TESTING";
 
   if (stage === "dev") {
     const total = 3;

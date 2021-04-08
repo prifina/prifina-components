@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.S3UploadSimple = exports.getModuleName = exports.getInfo = void 0;
 
+var _shortUuid = _interopRequireDefault(require("short-uuid"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var getInfo = function getInfo() {
@@ -57,9 +61,10 @@ var S3UploadSimple = function S3UploadSimple(stage, appID, name, S3FileUpload, f
   metaData.type = file.type || "";
   metaData.created = new Date().toISOString();
   metaData.lastModified = file.lastModified ? new Date(file.lastModified).toISOString() : "";
-  var ext = file.name.split(".").pop(); //const keyName=Short.generate();
+  var ext = file.name.split(".").pop();
 
-  var keyName = "TESTING";
+  var keyName = _shortUuid["default"].generate(); //const keyName = "TESTING";
+
 
   if (stage === "dev") {
     var total = 3;
