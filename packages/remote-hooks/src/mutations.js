@@ -18,6 +18,6 @@ export const setSettings = `mutation SetSettings($id:String!,$widget: WidgetInpu
   }
 }`;
 
-export const uploadS3File=`mutation uploadFile($input: S3FileInput) {
+export const uploadS3File = `mutation uploadFile($input: S3FileInput) {
   uploadS3File(input: $input)
-}
+}`;
