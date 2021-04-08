@@ -153,6 +153,17 @@ type Query @aws_iam @aws_cognito_user_pools {
   }, []);
   const S3FileUpload = useCallback((opts) => {
     console.log("OPTS ", opts);
+    /*
+    Storage.put('uploads/'+keyName+'.'+ext, file, {
+      metadata: metaData,
+      progressCallback: progress => {
+        this.CustomFunc(progress);
+      }
+    })
+        .then (result => console.log(result,file))
+        .catch(err => console.log(err));
+  }
+*/
   }, []);
   const registerHooks = useCallback((appID, modules) => {
     if (modules.length > 0) {
