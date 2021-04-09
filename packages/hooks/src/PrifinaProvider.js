@@ -6,7 +6,7 @@ import { RemoteComponent } from "./RemoteComponent";
 
 export const PrifinaContext = createContext({});
 
-const PrifinaContextProvider = ({ stage = "dev", children }) => {
+const PrifinaContextProvider = ({ stage = "dev", children, ...props }) => {
   return (
     <RemoteComponent
       url={
@@ -14,6 +14,7 @@ const PrifinaContextProvider = ({ stage = "dev", children }) => {
       }
       Context={PrifinaContext}
       stage={stage}
+      {...props}
     >
       {children}
     </RemoteComponent>
