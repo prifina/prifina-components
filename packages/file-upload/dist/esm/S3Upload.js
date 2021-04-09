@@ -101,6 +101,7 @@ var S3UploadSimple = function S3UploadSimple(stage, appID, name, S3FileUpload, f
     return S3FileUpload({
       file: file,
       fileName: keyName + "." + ext,
+      appID: appID,
       meta: metaData,
       progress: progress,
       options: options
