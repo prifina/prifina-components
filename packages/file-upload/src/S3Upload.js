@@ -89,6 +89,7 @@ const s3Status = await S3Storage.put(
     return S3FileUpload({
       file,
       fileName: keyName + "." + ext,
+      appID: appID,
       meta: metaData,
       progress,
       options,

@@ -158,6 +158,7 @@ type Query @aws_iam @aws_cognito_user_pools {
 
     let fileItem = {
       owner: currentUser.uuid,
+      appID: opts.appID,
       objectKey: opts.fileName,
       fileName: opts.file.name,
       fileType: opts.file.type,
