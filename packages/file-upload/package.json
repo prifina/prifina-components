@@ -1,6 +1,6 @@
 {
   "name": "@prifina/file-upload",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Prifina File Upload Hook",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
