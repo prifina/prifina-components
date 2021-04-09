@@ -175,7 +175,10 @@ type Query @aws_iam @aws_cognito_user_pools {
     if (typeof opts.options !== "undefined") {
       fileItem.options = JSON.stringify(opts.options);
     }
-
+    if (providerContext.current.init.hasOwnProperty("role")) {
+      fileItem.role = providerContext.current.init.role;
+      opts.meta.role = providerContext.current.init.role;
+    }
     return CLIENT.current.s3
       .put(opts.fileName, opts.file, {
         level: "public",
