@@ -18,7 +18,7 @@ import gql from "graphql-tag";
 
 export const PrifinaContext = createContext({});
 
-export const Provider = ({ Context, children, ...props }) => {
+export const Provider = ({ Context, activeUser, children, ...props }) => {
   console.log("CTX ", Context);
   console.log("PROPS ", props);
 
@@ -32,10 +32,12 @@ export const Provider = ({ Context, children, ...props }) => {
   const API = useRef({});
   const CLIENT = useRef({});
 
-  const [currentUser, setCurrentUser] = useState({
-    name: "Tero",
-    uuid: "Testing-uuid",
-  });
+  const [currentUser, setCurrentUser] = useState(
+    activeUser || {
+      name: "Tero",
+      uuid: "Testing-uuid",
+    }
+  );
   const check = useCallback(() => {
     console.log("Prifina current", providerContext.current);
     //timerTest();
