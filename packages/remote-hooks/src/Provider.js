@@ -43,6 +43,12 @@ export const Provider = ({ Context, activeUser, children, ...props }) => {
     //timerTest();
     return { check: "OK" };
   }, []);
+  const activeRole = useCallback((role) => {
+    if (!providerContext.current.init.hasOwnProperty("role"))
+      providerContext.current.init.role = "";
+    providerContext.current.init.role = role;
+  }, []);
+
   /*
   Promise.resolve()
   .then(() => {
@@ -651,7 +657,7 @@ mutation MyMutation {
 
   providerContext.current = {
     check,
-
+    activeRole,
     setSettings,
     getSettings,
     getLocalization,
