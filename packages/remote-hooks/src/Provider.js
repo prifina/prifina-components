@@ -157,8 +157,7 @@ type Query @aws_iam @aws_cognito_user_pools {
     console.log("S3 ", CLIENT.current);
 
     let fileItem = {
-      owner: currentUser.uuid,
-      appID: opts.appID,
+      owner: currentUser.uuid + "#" + opts.appID,
       objectKey: opts.fileName,
       fileName: opts.file.name,
       fileType: opts.file.type,
