@@ -608,6 +608,7 @@ mutation MyMutation {
     providerContext.current.init.apps[appId] = {};
 
     let queryList = QLqueries.getInfo();
+    console.log("CORE ", queryList);
     let queries = {};
     queryList.forEach((q) => {
       //console.log(q);
@@ -616,6 +617,7 @@ mutation MyMutation {
       };
     });
     let mutationList = QLmutations.getInfo();
+    console.log("CORE ", mutationList);
     let mutations = {};
     mutationList.forEach((q) => {
       //console.log(q);
@@ -629,6 +631,7 @@ mutation MyMutation {
       };
     });
     let subscriptionList = QLsubscriptions.getInfo();
+    console.log("CORE ", subscriptionList);
     let subscriptions = {};
     subscriptionList.forEach((q) => {
       subscriptions[q] = (variables) => {
