@@ -22,7 +22,7 @@ export const uploadS3File = `mutation uploadFile($input: S3FileInput) {
   uploadS3File(input: $input)
 }`;
 
-export const createMessage = `mutation newMessage($input:MessageInput!) {
+export const createMessageMutation = `mutation newMessage($input:MessageInput!) {
   createMessage(input: $input) {
     messageId
     receiver

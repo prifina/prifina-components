@@ -13,7 +13,26 @@ export const addTest = (stage, appID, uuid, variables) => {
   }
 };
 
-export const addMessage = `subscription newMessage($receiver: String!) {
+export const addMessage = (stage, appID, uuid, variables) => {
+  console.log("GET TEST ", stage);
+  console.log("GET TEST ", appID);
+  console.log("GET TEST ", uuid);
+  console.log("GET TEST ", variables);
+
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        addMessage: {
+          messageId: "messageID",
+          body: "Test message",
+          sender: "Sender id",
+          created_at: new Date().getTime(),
+        },
+      },
+    });
+  }
+};
+export const addMessageSubscription = `subscription newMessage($receiver: String!) {
   addMessage(receiver: $receiver) {
     messageId
     body
