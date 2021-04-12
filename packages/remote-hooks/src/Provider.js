@@ -485,10 +485,10 @@ mutation MyMutation {
     //console.log("UPDATE SET ", appID);
 
     if (callbacks.current) {
-      if (providerContext.current.init.apps.hasOwnProperty(appId)) {
-        providerContext.current.init.apps[appId]++;
+      if (providerContext.current.init.apps.hasOwnProperty(appID)) {
+        providerContext.current.init.apps[appID]++;
       } else {
-        providerContext.current.init.apps[appId] = 0;
+        providerContext.current.init.apps[appID] = 0;
       }
       if (Object.keys(callbacks.current).length === 0) callbacks.current = {};
       if (callbacks.current.hasOwnProperty(appID)) {
