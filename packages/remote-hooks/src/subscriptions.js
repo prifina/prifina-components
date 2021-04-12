@@ -13,7 +13,14 @@ export const addTest = (stage, appID, uuid, variables) => {
   }
 };
 
-export const addMessage = (stage, appID, uuid, addSubscription, variables) => {
+export const addMessage = (
+  stage,
+  appID,
+  uuid,
+  addSubscription,
+  onUpdateID,
+  variables
+) => {
   console.log("GET TEST ", stage);
   console.log("GET TEST ", appID);
   console.log("GET TEST ", uuid);
@@ -38,6 +45,7 @@ export const addMessage = (stage, appID, uuid, addSubscription, variables) => {
       appID,
       "addMessage",
       addMessageSubscription,
+      onUpdateID,
       subscriptionFilter
     );
   }

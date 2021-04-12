@@ -14,7 +14,7 @@ import * as QLmutations from "./mutations";
 import * as DataModels from "./dataModels";
 import gql from "graphql-tag";
 
-//const short = require("short-uuid");
+const short = require("short-uuid");
 
 export const PrifinaContext = createContext({});
 
@@ -366,7 +366,7 @@ type Query @aws_iam @aws_cognito_user_pools {
     []
   );
 
-  const unSubscribe = useCallback((appID, subscription) => {
+  const unSubscribe = useCallback((appID, onUpdateID, subscription) => {
     if (providerContext.current.init.stage === "dev") {
       if (
         mockups.current[appID] &&
@@ -484,12 +484,12 @@ mutation MyMutation {
 
   const onUpdate = useCallback((appID, fn, type = "WIDGET") => {
     //console.log("UPDATE SET ", appID);
-
+    const updateID = short.generate();
     if (callbacks.current) {
       if (providerContext.current.init.apps.hasOwnProperty(appID)) {
-        providerContext.current.init.apps[appID]++;
+        providerContext.current.init.apps[appID].push(updateID);
       } else {
-        providerContext.current.init.apps[appID] = 0;
+        providerContext.current.init.apps[appID] = [updateID];
       }
       if (Object.keys(callbacks.current).length === 0) callbacks.current = {};
       if (callbacks.current.hasOwnProperty(appID)) {
@@ -502,6 +502,7 @@ mutation MyMutation {
         callbacks.current[appID] = fn;
       }
       //console.log("UPDATE SET ", callbacks.current);
+      return updateID;
     }
   }, []);
   const getCallbacks = useCallback(() => {
@@ -540,7 +541,13 @@ mutation MyMutation {
   }, [appSubscriptions]);
 */
 
-  const addSubscription = (appID, fnName, subscription, variables) => {
+  const addSubscription = (
+    appID,
+    fnName,
+    subscription,
+    onUpdateID,
+    variables
+  ) => {
     //setAppSubscriptions({ ...appSubscriptions, [appID]: { [fnName]: fnSub } });
     console.log("SUBS ", appID);
     console.log("SUBS ", fnName);
@@ -556,7 +563,9 @@ mutation MyMutation {
           next: (data) => {
             console.log("SUB DATA ", data);
             //callbacks.current[appID][0](data[r]);
-            //providerContext.current.init.apps[appID]  callback index...
+            const appIndex = providerContext.current.init.apps[appID];
+            console.log("APP INDEX", appIndex);
+            //  callback index...
           },
           error: (err) => {
             console.log("SUB ERROR ", err);
@@ -619,12 +628,13 @@ mutation MyMutation {
     console.log("CORE ", subscriptionList);
     let subscriptions = {};
     subscriptionList.forEach((q) => {
-      subscriptions[q] = (variables) => {
+      subscriptions[q] = (onUpdateID, variables) => {
         return QLsubscriptions[q](
           config.stage,
           config.appId,
           config.uuid,
           addSubscription,
+          onUpdateID,
           variables
         );
       };
