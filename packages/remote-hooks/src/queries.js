@@ -25,6 +25,12 @@ export const getAddressBook = (stage, appID, uuid, filter) => {
         getAddressBook: addressBook,
       },
     });
+  } else {
+    return Promise.resolve({
+      data: {
+        getAddressBook: addressBook,
+      },
+    });
   }
 };
 
