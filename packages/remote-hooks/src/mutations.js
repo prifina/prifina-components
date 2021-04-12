@@ -8,7 +8,17 @@ export const createMessage = (stage, appID, uuid, variables) => {
   console.log("CREATE TEST ", uuid);
   console.log("CREATE TEST ", variables);
   if (stage === "dev") {
-    return Promise.resolve({ data: { createMessage: {} } });
+    return Promise.resolve({
+      data: {
+        createMessage: {
+          messageId: "messageID",
+          body: "Test message",
+          sender: "Sender id",
+          receiver: "Receiver id",
+          created_at: new Date().getTime(),
+        },
+      },
+    });
   }
 };
 
