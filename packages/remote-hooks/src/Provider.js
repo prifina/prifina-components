@@ -347,9 +347,9 @@ type Query @aws_iam @aws_cognito_user_pools {
                 const data = mockups.current[appID][mockup];
                 if (Array.isArray(data)) {
                   const r = Math.floor(Math.random() * Math.floor(data.length));
-                  callbacks.current[appID](data[r]);
+                  callbacks.current[appID][0](data[r]);
                 } else {
-                  callbacks.current[appID](data);
+                  callbacks.current[appID][0](data);
                 }
               });
             } else {
