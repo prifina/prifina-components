@@ -380,9 +380,15 @@ type Query @aws_iam @aws_cognito_user_pools {
       }
     } else {
       console.log("UNSUBS ", appSubscriptions);
-      //QL subscriptio...
-      // register subscription to appSubscriptions.current[appID]
-      // subscription.unsubscribe()
+
+      const appIndex = providerContext.current.init.apps[appID];
+      let callBackIndex = 0;
+      if (appIndex.length > 1) {
+        callBackIndex = appIndex.findIndex((id) => {
+          return id === onUpdateID;
+        });
+      }
+      appSubscriptions.current[appID][callBackIndex].unsubscribe();
     }
     return true;
   }, []);
@@ -552,6 +558,7 @@ mutation MyMutation {
     console.log("SUBS ", appID);
     console.log("SUBS ", fnName);
     console.log("SUBS ", gql(subscription));
+    console.log("SUBS ", onUpdateID);
     console.log("SUBS ", variables);
     return new Promise(function (resolve, reject) {
       const subHandler = CLIENT.current.user
@@ -564,11 +571,24 @@ mutation MyMutation {
             console.log("SUB DATA ", data);
             //callbacks.current[appID][0](data[r]);
             const appIndex = providerContext.current.init.apps[appID];
-            console.log("APP INDEX", appIndex);
-            //  callback index...
+            let callBackIndex = 0;
+            if (appIndex.length > 1) {
+              callBackIndex = appIndex.findIndex((id) => {
+                return id === onUpdateID;
+              });
+            }
+            callbacks.current[appID][callBackIndex](data);
           },
           error: (err) => {
             console.log("SUB ERROR ", err);
+            const appIndex = providerContext.current.init.apps[appID];
+            let callBackIndex = 0;
+            if (appIndex.length > 1) {
+              callBackIndex = appIndex.findIndex((id) => {
+                return id === onUpdateID;
+              });
+            }
+            callbacks.current[appID][callBackIndex]({ error: err });
           },
         });
 
@@ -577,7 +597,7 @@ mutation MyMutation {
       } else {
         appSubscriptions.current[appID] = [subHandler];
       }
-      resolve("OK");
+      resolve(true);
     });
     //return Promise.resolve("OK")
     /*
