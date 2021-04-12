@@ -386,68 +386,6 @@ type Query @aws_iam @aws_cognito_user_pools {
     return true;
   }, []);
 
-  const subscriptions = useCallback((appID, subscription, variables = null) => {
-    console.log("QL ", typeof QLsubscriptions[subscription]);
-    if (typeof QLsubscriptions[subscription] !== "function") {
-      throw new Error("Invalid Subscription");
-    } else if (subscription === "getInfo") {
-      return QLsubscriptions.getInfo();
-    } else {
-      //console.log("CHECK 1 ", typeof callbacks.current[appID]);
-      if (typeof callbacks.current[appID] === "undefined") {
-        throw new Error("OnUpdate callback function is missing");
-      }
-      //console.log("CHECK 2 ", providerContext.current.init.stage);
-      if (providerContext.current.init.stage === "dev") {
-        //console.log("CHECK 3 ", typeof mockups.current[appID]);
-        if (typeof mockups.current[appID] === "undefined") {
-          throw new Error("Mockup Subscription data is missing");
-        }
-        return true;
-      } else {
-        //QL subscriptio...
-        // register subscription to appSubscriptions.current[appID]
-        // subscription.unsubscribe()
-        return true;
-      }
-      /*
-      return QLsubscription[subscription](
-        providerContext.current.init.stage,
-        appID,
-        currentUser.uuid,
-        variables
-      );
-      */
-    }
-  }, []);
-
-  const mutations = useCallback((appID, mutation, variables) => {
-    console.log("QL ", typeof QLmutations[mutation], mutation);
-    if (typeof QLmutations[mutation] !== "function") {
-      return Promise.reject("INVALID_MUTATION");
-    } else {
-      return QLmutations[mutation](
-        providerContext.current.init.stage,
-        appID,
-        currentUser.uuid,
-        variables
-      );
-    }
-  }, []);
-  const queries = useCallback((appID, query, filter = null) => {
-    console.log("QL ", typeof QLqueries[query]);
-    if (typeof QLqueries[query] !== "function") {
-      return Promise.reject("INVALID_QUERY");
-    } else {
-      return QLqueries[query](
-        providerContext.current.init.stage,
-        appID,
-        currentUser.uuid,
-        filter
-      );
-    }
-  }, []);
-
   const setSettings = useCallback((appID, uuid, newSettings = {}) => {
     //console.log(providerContext.current.init.app);
     /*
