@@ -551,9 +551,6 @@ mutation MyMutation {
             console.log("SUB ERROR ", err);
           },
         })
-        .then((res) => {
-          console.log("SUB RES ", res);
-        })
         .catch((error) => {
           console.log("SUB CATCH ERROR2 ", error);
         });
