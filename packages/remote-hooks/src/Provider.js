@@ -546,6 +546,7 @@ mutation MyMutation {
         .subscribe({
           next: (data) => {
             console.log("SUB DATA ", data);
+            //callbacks.current[appID][0](data[r]);
           },
           error: (err) => {
             console.log("SUB ERROR ", err);
@@ -575,7 +576,11 @@ mutation MyMutation {
       stage: providerContext.current.init.stage,
       uuid: currentUser.uuid,
     };
-    providerContext.current.init.apps[appId] = {};
+    if (providerContext.current.init.apps.hasOwnProperty(appId)) {
+      providerContext.current.init.apps[appId]++;
+    } else {
+      providerContext.current.init.apps[appId] = 0;
+    }
 
     let queryList = QLqueries.getInfo();
     console.log("CORE ", queryList);
