@@ -26,8 +26,8 @@ export const Provider = ({ Context, activeUser, children, ...props }) => {
 
   const callbacks = useRef({});
   const mockups = useRef({});
-  const [appSubscriptions, setAppSubscriptions] = useState({});
-  //const appSubscriptions = useRef({});
+  //const [appSubscriptions, setAppSubscriptions] = useState({});
+  const appSubscriptions = useRef({});
   //let appSubscriptions = {};
   const API = useRef({});
   const CLIENT = useRef({});
@@ -379,6 +379,7 @@ type Query @aws_iam @aws_cognito_user_pools {
         }
       }
     } else {
+      console.log("UNSUBS ", appSubscriptions);
       //QL subscriptio...
       // register subscription to appSubscriptions.current[appID]
       // subscription.unsubscribe()
@@ -508,6 +509,7 @@ mutation MyMutation {
     return callbacks.current;
   }, []);
 
+  /*
   useEffect(() => {
     //console.log("APP SUBS ", appSubscriptions);
     if (Object.keys(appSubscriptions).length > 0) {
@@ -536,6 +538,7 @@ mutation MyMutation {
       }
     }
   }, [appSubscriptions]);
+*/
 
   const addSubscription = (appID, fnName, subscription, variables) => {
     //setAppSubscriptions({ ...appSubscriptions, [appID]: { [fnName]: fnSub } });
@@ -553,12 +556,18 @@ mutation MyMutation {
           next: (data) => {
             console.log("SUB DATA ", data);
             //callbacks.current[appID][0](data[r]);
+            //providerContext.current.init.apps[appID]  callback index...
           },
           error: (err) => {
             console.log("SUB ERROR ", err);
           },
         });
 
+      if (appSubscriptions.current.hasOwnProperty(appID)) {
+        appSubscriptions.current[appID].push(subHandler);
+      } else {
+        appSubscriptions.current[appID] = [subHandler];
+      }
       resolve("OK");
     });
     //return Promise.resolve("OK")
