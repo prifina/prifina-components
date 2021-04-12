@@ -32,11 +32,10 @@ export const addMessage = (stage, appID, uuid, addSubscription, variables) => {
     });
   } else {
     let subscriptionFilter = { receiver: uuid, ...variables };
-    console.log("SUB FILTER");
+    console.log("SUB FILTER ", subscriptionFilter);
 
     return addSubscription(
       appID,
-      uuid,
       "addMessage",
       addMessageSubscription,
       subscriptionFilter
