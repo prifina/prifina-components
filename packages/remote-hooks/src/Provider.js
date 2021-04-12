@@ -550,9 +550,6 @@ mutation MyMutation {
           error: (err) => {
             console.log("SUB ERROR ", err);
           },
-        })
-        .catch((error) => {
-          console.log("SUB CATCH ERROR2 ", error);
         });
 
       resolve("OK");
