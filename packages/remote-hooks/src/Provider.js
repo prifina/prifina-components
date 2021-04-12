@@ -531,9 +531,12 @@ mutation MyMutation {
     }
   }, [appSubscriptions]);
 
-  const addSubscription = (appID, fnName, fnSub) => {
-    setAppSubscriptions({ ...appSubscriptions, [appID]: { [fnName]: fnSub } });
-
+  const addSubscription = (appID, fnName, subscription, variables) => {
+    //setAppSubscriptions({ ...appSubscriptions, [appID]: { [fnName]: fnSub } });
+    console.log("SUBS ", appID);
+    console.log("SUBS ", fnName);
+    console.log("SUBS ", gql(subscription));
+    console.log("SUBS ", variables);
     return true;
   };
 
@@ -577,18 +580,13 @@ mutation MyMutation {
           config.stage,
           config.appId,
           config.uuid,
+          addSubscription,
           variables
         );
       };
     });
     let prifinaHooks = {
       config: config,
-      appSubscriptions: {},
-      addSubscription: function (t) {
-        prifinaHooks.appSubscriptions[t] = "OK";
-        console.log("CALLBACKS ", callbacks);
-        appSubscriptions.current[t] = "SUB TEST";
-      },
       core: {
         queries: queries,
         mutations: mutations,

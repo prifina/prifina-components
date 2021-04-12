@@ -13,7 +13,7 @@ export const addTest = (stage, appID, uuid, variables) => {
   }
 };
 
-export const addMessage = (stage, appID, uuid, variables) => {
+export const addMessage = (stage, appID, uuid, addSubscription, variables) => {
   console.log("GET TEST ", stage);
   console.log("GET TEST ", appID);
   console.log("GET TEST ", uuid);
@@ -30,9 +30,16 @@ export const addMessage = (stage, appID, uuid, variables) => {
         },
       },
     });
+  } else {
+    return addSubscription(
+      appID,
+      "addMessage",
+      addMessageSubscription,
+      variables
+    );
   }
 };
-export const addMessageSubscription = `subscription newMessage($receiver: String!) {
+const addMessageSubscription = `subscription newMessage($receiver: String!) {
   addMessage(receiver: $receiver) {
     messageId
     body
