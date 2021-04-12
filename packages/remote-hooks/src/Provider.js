@@ -483,7 +483,13 @@ mutation MyMutation {
 
   const onUpdate = useCallback((appID, fn, type = "WIDGET") => {
     //console.log("UPDATE SET ", appID);
+
     if (callbacks.current) {
+      if (providerContext.current.init.apps.hasOwnProperty(appId)) {
+        providerContext.current.init.apps[appId]++;
+      } else {
+        providerContext.current.init.apps[appId] = 0;
+      }
       if (Object.keys(callbacks.current).length === 0) callbacks.current = {};
       if (callbacks.current.hasOwnProperty(appID)) {
         callbacks.current[appID].push(fn);
@@ -576,11 +582,6 @@ mutation MyMutation {
       stage: providerContext.current.init.stage,
       uuid: currentUser.uuid,
     };
-    if (providerContext.current.init.apps.hasOwnProperty(appId)) {
-      providerContext.current.init.apps[appId]++;
-    } else {
-      providerContext.current.init.apps[appId] = 0;
-    }
 
     let queryList = QLqueries.getInfo();
     console.log("CORE ", queryList);
