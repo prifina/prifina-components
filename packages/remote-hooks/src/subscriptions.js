@@ -1,5 +1,5 @@
 export const getInfo = () => {
-  return ["addTest"];
+  return ["addTest", "addMessage"];
 };
 
 export const addTest = (stage, appID, uuid, variables) => {
@@ -12,6 +12,15 @@ export const addTest = (stage, appID, uuid, variables) => {
     return Promise.resolve({ data: { getTest: "OK" } });
   }
 };
+
+export const addMessage = `subscription newMessage($receiver: String!) {
+  addMessage(receiver: $receiver) {
+    messageId
+    body
+    sender
+    created_at
+  }
+}`;
 
 /*
 
