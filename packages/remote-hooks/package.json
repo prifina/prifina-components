@@ -12,7 +12,8 @@
     "dist"
   ],
   "dependencies": {
-    "graphql-tag": "^2.11.0"
+    "graphql-tag": "^2.11.0",
+    "short-uuid": "^4.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.13",
@@ -48,8 +49,7 @@
     "webpack-assets-manifest": "^5.0.1",
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-cli": "^4.5.0",
-    "webpack-dev-server": "^3.11.2",
-    "short-uuid": "^4.1.0"
+    "webpack-dev-server": "^3.11.2"
 
   },
   "scripts": {
@@ -59,8 +59,8 @@
     "storybook": "start-storybook -p 9009 -s public"
   },
   "peerDependencies": {
-    "react": "^17.0.1",
-    "short-uuid": "^4.1.0"
+    "react": "^17.0.1"
+
   },
   "gitHead": "b2f7241e027dbb18999090f8cf8ceaa5a366a47f"
 }
