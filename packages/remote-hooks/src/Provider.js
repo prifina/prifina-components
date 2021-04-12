@@ -537,7 +537,42 @@ mutation MyMutation {
     console.log("SUBS ", fnName);
     console.log("SUBS ", gql(subscription));
     console.log("SUBS ", variables);
-    return true;
+    return new Promise(function (resolve, reject) {
+      const subHandler = CLIENT.current.user
+        .subscribe({
+          query: gql(subscription),
+          variables: variables,
+        })
+        .subscribe({
+          next: (data) => {
+            console.log("SUB DATA ", data);
+          },
+          error: (err) => {
+            console.log("SUB ERROR ", err);
+          },
+        })
+        .then((res) => {
+          console.log("SUB RES ", res);
+        })
+        .catch((error) => {
+          console.log("SUB CATCH ERROR2 ", error);
+        });
+
+      resolve("OK");
+    });
+    //return Promise.resolve("OK")
+    /*
+    (async () => {
+      subscription = client.subscribe({ query: gql(onCreateTodo) }).subscribe({
+        next: data => {
+          console.log(data.data.onCreateTodo);
+        },
+        error: error => {
+          console.warn(error);
+        }
+      });
+    })();
+*/
   };
 
   const Prifina = useCallback(({ appId, modules = {} }) => {

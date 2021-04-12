@@ -31,11 +31,15 @@ export const addMessage = (stage, appID, uuid, addSubscription, variables) => {
       },
     });
   } else {
+    let subscriptionFilter = { receiver: uuid, ...variables };
+    console.log("SUB FILTER");
+
     return addSubscription(
       appID,
+      uuid,
       "addMessage",
       addMessageSubscription,
-      variables
+      subscriptionFilter
     );
   }
 };
