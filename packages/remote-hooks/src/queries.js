@@ -1,7 +1,7 @@
 const addressBook = [
   { name: "Name 1", uuid: "xxxxx" },
   { name: "Name 2", uuid: "zzzzz" },
-  { name: "Name 3", uuid: "wwwww" },
+  { name: "Name 3", uuid: "0cc3bc47d8a60c8a0f6f35a9134c689e0a8c" },
 ];
 
 export const getInfo = () => {
