@@ -2,7 +2,13 @@ export const getInfo = () => {
   return ["createMessage"];
 };
 
-export const createMessage = (stage, appID, uuid, variables) => {
+export const createMessage = (
+  stage,
+  appID,
+  uuid,
+  userMutationQuery,
+  variables
+) => {
   console.log("CREATE MSG ", stage);
   console.log("CREATE MSG ", appID);
   console.log("CREATE MSG ", uuid);
@@ -19,6 +25,8 @@ export const createMessage = (stage, appID, uuid, variables) => {
         },
       },
     });
+  } else {
+    return userMutationQuery(createMessageMutation, variables);
   }
 };
 
