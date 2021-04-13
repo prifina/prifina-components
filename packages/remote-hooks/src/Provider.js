@@ -155,7 +155,7 @@ type Query @aws_iam @aws_cognito_user_pools {
   */
   };
   const userMutationQuery = (opts) => {
-    console.log("OPTS ", opts);
+    console.log("UserMutationQuery OPTS ", opts);
     /*
     (async () => {
       const result = await client.mutate({
