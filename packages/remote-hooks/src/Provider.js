@@ -154,6 +154,38 @@ type Query @aws_iam @aws_cognito_user_pools {
 
   */
   };
+  const userMutationQuery = (opts) => {
+    console.log("OPTS ", opts);
+    /*
+    (async () => {
+      const result = await client.mutate({
+        mutation: gql(createTodo),
+        variables: {
+          input: {
+            name: 'Use AppSync',
+            description: 'Realtime and Offline',
+          }
+        }
+      });
+      console.log(result.data.createTodo);
+    })();
+    */
+    return new Promise(function (resolve, reject) {
+      CLIENT.current.user
+        .mutate({
+          mutation: gql(opts.mutation),
+          variables: opts.variables,
+        })
+        .then((res) => {
+          console.log("RES ", res);
+          resolve(res);
+        })
+        .catch((error) => {
+          console.log("QUERY ERROR ", error);
+          reject(error);
+        });
+    });
+  };
   const registerClient = useCallback((client) => {
     CLIENT.current["user"] = client[0];
     CLIENT.current["prifina"] = client[1];
@@ -640,6 +672,7 @@ mutation MyMutation {
           config.stage,
           config.appId,
           config.uuid,
+          userMutationQuery,
           variables
         );
       };
