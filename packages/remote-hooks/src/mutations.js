@@ -26,7 +26,7 @@ export const createMessage = (
       },
     });
   } else {
-    return userMutationQuery(createMessageMutation, variables);
+    return userMutationQuery(createMessageMutation, { input: variables });
   }
 };
 
