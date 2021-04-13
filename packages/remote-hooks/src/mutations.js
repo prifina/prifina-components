@@ -26,7 +26,10 @@ export const createMessage = (
       },
     });
   } else {
-    return userMutationQuery(createMessageMutation, { input: variables });
+    return userMutationQuery({
+      mutation: createMessageMutation,
+      variables: { input: variables },
+    });
   }
 };
 
