@@ -40,6 +40,7 @@ export const Provider = ({ Context, activeUser, children, ...props }) => {
   );
   const check = useCallback(() => {
     console.log("Prifina current", providerContext.current);
+    console.log("Prifina subscriptions", appSubscriptions.current);
     //timerTest();
     return { check: "OK" };
   }, []);

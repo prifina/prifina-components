@@ -1,8 +1,11 @@
-const addressBook = [
-  { name: "Name 1", uuid: "13625638c207ed2fcd5a7b7cfb2364a04661" },
-  { name: "Name 2", uuid: "zzzzz" },
-  { name: "Name 3", uuid: "0cc3bc47d8a60c8a0f6f35a9134c689e0a8c" },
-];
+const addressBook = {
+  addressBook: [
+    { name: "Name 1", uuid: "13625638c207ed2fcd5a7b7cfb2364a04661" },
+    { name: "Name 2", uuid: "zzzzz" },
+    { name: "Name 3", uuid: "0cc3bc47d8a60c8a0f6f35a9134c689e0a8c" },
+  ],
+  id: "user id",
+};
 
 export const getInfo = () => {
   return ["getTest", "getAddressBook"];
@@ -22,7 +25,7 @@ export const getAddressBook = (stage, appID, uuid, userQuery, filter) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getAddressBook: addressBook,
+        getUserAddressBook: addressBook,
       },
     });
   } else {
