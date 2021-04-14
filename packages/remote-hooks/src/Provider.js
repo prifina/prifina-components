@@ -154,6 +154,25 @@ type Query @aws_iam @aws_cognito_user_pools {
 
   */
   };
+  const userQuery = (opts) => {
+    console.log("UserQuery OPTS ", opts);
+
+    return new Promise(function (resolve, reject) {
+      CLIENT.current.user
+        .query({
+          query: gql(opts.query),
+          variables: opts.variables,
+        })
+        .then((res) => {
+          console.log("RES ", res);
+          resolve(res);
+        })
+        .catch((error) => {
+          console.log("QUERY ERROR ", error);
+          reject(error);
+        });
+    });
+  };
   const userMutationQuery = (opts) => {
     console.log("UserMutationQuery OPTS ", opts);
     /*
@@ -659,7 +678,13 @@ mutation MyMutation {
     queryList.forEach((q) => {
       //console.log(q);
       queries[q] = (filter) => {
-        return QLqueries[q](config.stage, config.appId, config.uuid, filter);
+        return QLqueries[q](
+          config.stage,
+          config.appId,
+          config.uuid,
+          userQuery,
+          filter
+        );
       };
     });
     let mutationList = QLmutations.getInfo();

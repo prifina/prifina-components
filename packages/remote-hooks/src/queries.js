@@ -18,7 +18,7 @@ export const getTest = (stage, appID, uuid, filter) => {
   }
 };
 
-export const getAddressBook = (stage, appID, uuid, filter) => {
+export const getAddressBook = (stage, appID, uuid, userQuery, filter) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -26,10 +26,11 @@ export const getAddressBook = (stage, appID, uuid, filter) => {
       },
     });
   } else {
-    return Promise.resolve({
-      data: {
-        getAddressBook: addressBook,
-      },
+    console.log("QUERY FILTER ", filter);
+
+    return userQuery({
+      query: getAddressBookQuery,
+      variables: { id: uuid },
     });
   }
 };
@@ -43,6 +44,13 @@ export const getSettings = `query MyQuery($id:String!,$widget:String) {
   getInstalledWidgets(id: $id, widget: $widget) {
     id
     installedWidgets
+  }
+}`;
+
+const getAddressBookQuery = `query addressBook($id: String!) {
+  getUserAddressBook(id: $id) {
+    id
+    addressBook
   }
 }`;
 
