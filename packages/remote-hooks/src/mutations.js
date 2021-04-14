@@ -1,5 +1,5 @@
 export const getInfo = () => {
-  return ["createMessage"];
+  return ["createMessage", "updateStatus"];
 };
 
 export const createMessage = (
@@ -33,6 +33,31 @@ export const createMessage = (
   }
 };
 
+export const updateMessageStatus = (
+  stage,
+  appID,
+  uuid,
+  userMutationQuery,
+  variables
+) => {
+  console.log("UPDATE STATUS ", stage);
+  console.log("UPDATE STATUS ", appID);
+  console.log("UPDATE STATUS ", uuid);
+  console.log("UPDATE STATUS ", variables);
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        updateMessageStatus: true,
+      },
+    });
+  } else {
+    return userMutationQuery({
+      mutation: updateMessageStatusMutation,
+      variables,
+    });
+  }
+};
+
 export const setSettings = `mutation SetSettings($id:String!,$widget: WidgetInput) {
   updateInstalledWidgets(id: $id, widget: $widget) {
     id
@@ -43,7 +68,7 @@ export const uploadS3File = `mutation uploadFile($input: S3FileInput) {
   uploadS3File(input: $input)
 }`;
 
-export const createMessageMutation = `mutation newMessage($input:MessageInput!) {
+const createMessageMutation = `mutation newMessage($input:MessageInput!) {
   createMessage(input: $input) {
     messageId
     receiver
@@ -52,4 +77,8 @@ export const createMessageMutation = `mutation newMessage($input:MessageInput!) 
     created_at
     body
   }
+}`;
+
+const updateMessageStatusMutation = `mutation changeStatus($sender:String!,$messageId:String!,$createdAt:AWSTimestamp!,$status:Int!) {
+  updateMessageStatus(created_at: $createdAt, messageId: $messageId, sender: $sender, status: $status)
 }`;
