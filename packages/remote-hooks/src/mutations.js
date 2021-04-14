@@ -1,5 +1,5 @@
 export const getInfo = () => {
-  return ["createMessage", "updateStatus"];
+  return ["createMessage", "updateMessageStatus"];
 };
 
 export const createMessage = (
