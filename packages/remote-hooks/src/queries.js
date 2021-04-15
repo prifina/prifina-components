@@ -8,7 +8,7 @@ const addressBook = {
 };
 
 export const getInfo = () => {
-  return ["getTest", "getAddressBook"];
+  return ["getTest", "getAddressBook", "getUnreadMessages"];
 };
 
 export const getTest = (stage, appID, uuid, filter) => {
@@ -37,7 +37,32 @@ export const getAddressBook = (stage, appID, uuid, userQuery, filter) => {
     });
   }
 };
+export const getUnreadMessages = (stage, appID, uuid, userQuery, filter) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        listUnreadMessages: {
+          items: [
+            {
+              messageId: "messageID",
+              body: "Test message",
+              sender: "Sender id",
+              receiver: uuid,
+              created_at: new Date().getTime(),
+            },
+          ],
+        },
+      },
+    });
+  } else {
+    console.log("QUERY FILTER ", filter);
 
+    return userQuery({
+      query: getUnreadMessagesQuery,
+      variables: { receiver: uuid },
+    });
+  }
+};
 export const checkUsername = `query checkUsername($userName: String!) {
   checkUsername(userName: $userName)
 }
@@ -54,6 +79,21 @@ const getAddressBookQuery = `query addressBook($id: String!) {
   getUserAddressBook(id: $id) {
     id
     addressBook
+  }
+}`;
+
+const getUnreadMessagesQuery = `query listMessages($receiver:String!) {
+  listUnreadMessages(receiver: $receiver) {
+    items {
+      body
+      created_at
+      receiver
+      messageId
+      role
+      sender
+      status
+    }
+    nextToken
   }
 }`;
 

@@ -18,7 +18,13 @@ const short = require("short-uuid");
 
 export const PrifinaContext = createContext({});
 
-export const Provider = ({ Context, activeUser, children, ...props }) => {
+export const Provider = ({
+  Context,
+  activeUser,
+  activeApp,
+  children,
+  ...props
+}) => {
   console.log("CTX ", Context);
   console.log("PROPS ", props);
 
@@ -198,6 +204,9 @@ type Query @aws_iam @aws_cognito_user_pools {
         })
         .then((res) => {
           console.log("RES ", res);
+          // res.data.createMessage.... send notification, if receiver is not using displayApp
+          //providerContext.current.init.users[currentUser.uuid] = activeApp;
+          console.log("ACTUVE APP CHECK ", providerContext.current.init);
           resolve(res);
         })
         .catch((error) => {
@@ -549,6 +558,11 @@ mutation MyMutation {
       } else {
         providerContext.current.init.apps[appID] = [updateID];
       }
+      if (providerContext.current.init.users.hasOwnProperty(currentUser.uuid)) {
+        providerContext.current.init.users[currentUser.uuid] = "";
+      }
+      providerContext.current.init.users[currentUser.uuid] = activeApp;
+
       if (Object.keys(callbacks.current).length === 0) callbacks.current = {};
       if (callbacks.current.hasOwnProperty(appID)) {
         callbacks.current[appID].push(fn);
@@ -630,6 +644,7 @@ mutation MyMutation {
               });
             }
             callbacks.current[appID][callBackIndex](data);
+            //data.data.addMessage...
           },
           error: (err) => {
             console.log("SUB ERROR ", err);
@@ -755,7 +770,7 @@ mutation MyMutation {
 
   if (typeof providerContext.current.init === "undefined") {
     console.log("DEV STAGE INIT FOR STORYBOOK");
-    providerContext.current.init = { stage: props.stage, apps: {} };
+    providerContext.current.init = { stage: props.stage, apps: {}, users: {} };
   }
   console.log("Prifina ", providerContext);
   if (!children) {
