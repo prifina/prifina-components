@@ -22,6 +22,7 @@ export const Provider = ({
   Context,
   activeUser,
   activeApp,
+  remoteUser,
   children,
   ...props
 }) => {
@@ -206,7 +207,12 @@ type Query @aws_iam @aws_cognito_user_pools {
           console.log("RES ", res);
           // res.data.createMessage.... send notification, if receiver is not using displayApp
           //providerContext.current.init.users[currentUser.uuid] = activeApp;
-          console.log("ACTUVE APP CHECK ", providerContext.current.init);
+          //console.log("ACTUVE APP CHECK ", providerContext.current.init);
+          // createMessage on receiver endpoint
+          // send notification on receiver endpoint...
+          if (res.data.hasOwnProperty("createMessage")) {
+            remoteUser(res.data);
+          }
           resolve(res);
         })
         .catch((error) => {
