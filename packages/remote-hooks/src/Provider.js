@@ -26,7 +26,7 @@ export const Provider = ({
   ...props
 }) => {
   console.log("CTX ", Context);
-  console.log("PROPS ", props);
+  console.log("PROPS ", props, activeUser, activeApp);
 
   const providerContext = useRef(null);
 
