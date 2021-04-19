@@ -211,9 +211,13 @@ type Query @aws_iam @aws_cognito_user_pools {
           // createMessage on receiver endpoint
           // send notification on receiver endpoint...
           if (res.data.hasOwnProperty("createMessage")) {
-            remoteUser(res.data);
+            remoteUser(res.data).then((notify) => {
+              console.log("NOTIFY ", notify);
+              resolve(res);
+            });
+          } else {
+            resolve(res);
           }
-          resolve(res);
         })
         .catch((error) => {
           console.log("QUERY ERROR ", error);
