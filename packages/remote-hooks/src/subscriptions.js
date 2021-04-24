@@ -1,5 +1,5 @@
 export const getInfo = () => {
-  return ["addTest", "addMessage"];
+  return ["addTest", "addMessage", "addWaiting"];
 };
 
 export const addTest = (stage, appID, uuid, variables) => {
@@ -50,12 +50,58 @@ export const addMessage = (
     );
   }
 };
+
+export const addWaiting = (
+  stage,
+  appID,
+  uuid,
+  addSubscription,
+  onUpdateID,
+  variables
+) => {
+  console.log("GET TEST ", stage);
+  console.log("GET TEST ", appID);
+  console.log("GET TEST ", uuid);
+  console.log("GET TEST ", variables);
+
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        Waiting: {
+          createdAt: new Date().getTime(),
+          endpoint: "https://endpoint.xxx",
+          name: "Unknown",
+        },
+      },
+    });
+  } else {
+    let subscriptionFilter = { receiver: uuid, ...variables };
+    console.log("SUB FILTER ", subscriptionFilter);
+
+    return addSubscription(
+      appID,
+      "addWaiting",
+      addWaitingSubscription,
+      onUpdateID,
+      subscriptionFilter
+    );
+  }
+};
+
 const addMessageSubscription = `subscription newMessage($receiver: String!) {
   addMessage(receiver: $receiver) {
     messageId
     body
     sender
     created_at
+  }
+}`;
+
+const addWaitingSubscription = `subscription addWaiting($key:String!) {
+  Waiting(key: $key) {
+    createdAt
+    endpoint
+    name
   }
 }`;
 

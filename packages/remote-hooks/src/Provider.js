@@ -656,7 +656,11 @@ mutation MyMutation {
     console.log("SUBS ", onUpdateID);
     console.log("SUBS ", variables);
     return new Promise(function (resolve, reject) {
-      const subHandler = CLIENT.current.user
+      let subsClient = CLIENT.current.user;
+      if (fnName === "addWaiting") {
+        subsClient = CLIENT.current.prifina;
+      }
+      const subHandler = subsClient
         .subscribe({
           query: gql(subscription),
           variables: variables,
