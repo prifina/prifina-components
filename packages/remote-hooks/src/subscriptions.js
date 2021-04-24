@@ -59,6 +59,17 @@ const addMessageSubscription = `subscription newMessage($receiver: String!) {
   }
 }`;
 
+const addMessagingSubscription = `subscription newMessaging($receiver: String!, $key: String!) {
+  Messaging(key: $key, receiver: $receiver) {
+    body
+    createdAt
+    id
+    key
+    receiver
+    sender
+  }
+}`;
+
 /*
 
  const sendMessage = async (msg, username) => {

@@ -8,7 +8,7 @@ const addressBook = {
 };
 
 export const getInfo = () => {
-  return ["getTest", "getAddressBook", "getUnreadMessages"];
+  return ["getTest", "getAddressBook", "getUnreadMessages", "getWaitingList"];
 };
 
 export const getTest = (stage, appID, uuid, filter) => {
@@ -33,7 +33,7 @@ export const getAddressBook = (stage, appID, uuid, userQuery, filter) => {
 
     return userQuery({
       query: getAddressBookQuery,
-      variables: { id: uuid },
+      filter: { id: uuid },
     });
   }
 };
@@ -59,10 +59,36 @@ export const getUnreadMessages = (stage, appID, uuid, userQuery, filter) => {
 
     return userQuery({
       query: getUnreadMessagesQuery,
-      variables: { receiver: uuid },
+      filter: { receiver: uuid },
     });
   }
 };
+
+export const getWaitingList = (stage, appID, uuid, prifinaQuery, filter) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        listWaiting: {
+          items: [
+            {
+              createdAt: new Date().getTime(),
+              endpoint: "https://endpoint.xxx",
+              name: "Unknown",
+            },
+          ],
+        },
+      },
+    });
+  } else {
+    console.log("QUERY FILTER ", filter);
+
+    return prifinaQuery({
+      query: listWaitingQuery,
+      filter: filter,
+    });
+  }
+};
+
 export const checkUsername = `query checkUsername($userName: String!) {
   checkUsername(userName: $userName)
 }
@@ -92,6 +118,18 @@ const getUnreadMessagesQuery = `query listMessages($receiver:String!) {
       role
       sender
       status
+    }
+    nextToken
+  }
+}`;
+
+const listWaitingQuery = `query waitingList($filter:TableWaitingFilterInput,$sortDirection:String,$limit:Int,$nextToken:String) {
+  listWaiting(filter: $filter, limit: $limit, nextToken: $nextToken,sortDirection:$sortDirection) {
+    items {
+      createdAt
+      endpoint
+      name
+     
     }
     nextToken
   }

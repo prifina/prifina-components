@@ -162,6 +162,25 @@ type Query @aws_iam @aws_cognito_user_pools {
 
   */
   };
+  const prifinaQuery = (opts) => {
+    console.log("PrifinaQuery OPTS ", opts);
+
+    return new Promise(function (resolve, reject) {
+      CLIENT.current.prifina
+        .query({
+          query: gql(opts.query),
+          filter: opts.filter,
+        })
+        .then((res) => {
+          console.log("RES ", res);
+          resolve(res);
+        })
+        .catch((error) => {
+          console.log("QUERY ERROR ", error);
+          reject(error);
+        });
+    });
+  };
   const userQuery = (opts) => {
     console.log("UserQuery OPTS ", opts);
 
@@ -169,7 +188,7 @@ type Query @aws_iam @aws_cognito_user_pools {
       CLIENT.current.user
         .query({
           query: gql(opts.query),
-          variables: opts.variables,
+          filter: opts.filter,
         })
         .then((res) => {
           console.log("RES ", res);
@@ -704,13 +723,23 @@ mutation MyMutation {
     queryList.forEach((q) => {
       //console.log(q);
       queries[q] = (filter) => {
-        return QLqueries[q](
-          config.stage,
-          config.appId,
-          config.uuid,
-          userQuery,
-          filter
-        );
+        if (q === "getWaitingList") {
+          return QLqueries[q](
+            config.stage,
+            config.appId,
+            config.uuid,
+            prifinaQuery,
+            filter
+          );
+        } else {
+          return QLqueries[q](
+            config.stage,
+            config.appId,
+            config.uuid,
+            userQuery,
+            filter
+          );
+        }
       };
     });
     let mutationList = QLmutations.getInfo();

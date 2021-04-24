@@ -82,3 +82,14 @@ const createMessageMutation = `mutation newMessage($input:MessageInput!) {
 const updateMessageStatusMutation = `mutation changeStatus($sender:String!,$messageId:String!,$createdAt:AWSTimestamp!,$status:Int!) {
   updateMessageStatus(created_at: $createdAt, messageId: $messageId, sender: $sender, status: $status)
 }`;
+
+const newMessagingMutation = `mutation messaging($input:MessagingInput!) {
+  messaging(input: $input) {
+    body
+    createdAt
+    id
+    key
+    receiver
+    sender
+  }
+}`;
