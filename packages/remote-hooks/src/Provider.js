@@ -23,6 +23,7 @@ export const Provider = ({
   activeUser,
   activeApp,
   remoteUser,
+  remoteClient,
   children,
   ...props
 }) => {
@@ -200,6 +201,28 @@ type Query @aws_iam @aws_cognito_user_pools {
         });
     });
   };
+
+  const prifinaMutation = (opts) => {
+    console.log("UserMutationQuery OPTS ", opts);
+
+    return new Promise(function (resolve, reject) {
+      CLIENT.current.prifina
+        .mutate({
+          mutation: gql(opts.mutation),
+          variables: opts.variables,
+        })
+        .then((res) => {
+          console.log("RES ", res);
+
+          resolve(res);
+        })
+        .catch((error) => {
+          console.log("QUERY ERROR ", error);
+          reject(error);
+        });
+    });
+  };
+
   const userMutationQuery = (opts) => {
     console.log("UserMutationQuery OPTS ", opts);
     /*
@@ -244,10 +267,15 @@ type Query @aws_iam @aws_cognito_user_pools {
         });
     });
   };
+
   const registerClient = useCallback((client) => {
     CLIENT.current["user"] = client[0];
     CLIENT.current["prifina"] = client[1];
     CLIENT.current["s3"] = client[2];
+  }, []);
+
+  const registerRemoteClient = useCallback((endpoint, region) => {
+    CLIENT.current["remote"] = remoteClient(endpoint, region);
   }, []);
 
   const S3FileUpload = useCallback((opts) => {
@@ -660,6 +688,9 @@ mutation MyMutation {
       if (fnName === "addWaiting") {
         subsClient = CLIENT.current.prifina;
       }
+      if (fnName === "addMessaging") {
+        subsClient = CLIENT.current.remoteClient;
+      }
       const subHandler = subsClient
         .subscribe({
           query: gql(subscription),
@@ -752,13 +783,23 @@ mutation MyMutation {
     mutationList.forEach((q) => {
       //console.log(q);
       mutations[q] = (variables) => {
-        return QLmutations[q](
-          config.stage,
-          config.appId,
-          config.uuid,
-          userMutationQuery,
-          variables
-        );
+        if (q === "addWaiting") {
+          return QLmutations[q](
+            config.stage,
+            config.appId,
+            config.uuid,
+            prifinaMutation,
+            variables
+          );
+        } else {
+          return QLmutations[q](
+            config.stage,
+            config.appId,
+            config.uuid,
+            userMutationQuery,
+            variables
+          );
+        }
       };
     });
     let subscriptionList = QLsubscriptions.getInfo();
@@ -802,6 +843,7 @@ mutation MyMutation {
     Prifina,
     registerHooks,
     registerClient,
+    registerRemoteClient,
     API: API.current,
     /*
     connector,

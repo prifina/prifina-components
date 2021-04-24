@@ -1,5 +1,5 @@
 export const getInfo = () => {
-  return ["addTest", "addMessage", "addWaiting"];
+  return ["addTest", "addMessage", "addWaiting", "addMessaging"];
 };
 
 export const addTest = (stage, appID, uuid, variables) => {
@@ -70,6 +70,7 @@ export const addWaiting = (
         Waiting: {
           createdAt: new Date().getTime(),
           endpoint: "https://endpoint.xxx",
+          region: "us-east-1",
           name: "Unknown",
         },
       },
@@ -82,6 +83,42 @@ export const addWaiting = (
       appID,
       "addWaiting",
       addWaitingSubscription,
+      onUpdateID,
+      subscriptionFilter
+    );
+  }
+};
+
+export const addMessaging = (
+  stage,
+  appID,
+  uuid,
+  addSubscription,
+  onUpdateID,
+  variables
+) => {
+  console.log("GET TEST ", stage);
+  console.log("GET TEST ", appID);
+  console.log("GET TEST ", uuid);
+  console.log("GET TEST ", variables);
+
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        Messaging: {
+          createdAt: new Date().getTime(),
+          body: JSON.stringify(JSON.stringify({ test: "OK" })),
+        },
+      },
+    });
+  } else {
+    let subscriptionFilter = { receiver: uuid, ...variables };
+    console.log("SUB FILTER ", subscriptionFilter);
+
+    return addSubscription(
+      appID,
+      "addMessaging",
+      addMessagingSubscription,
       onUpdateID,
       subscriptionFilter
     );
@@ -101,6 +138,7 @@ const addWaitingSubscription = `subscription addWaiting($key:String!) {
   Waiting(key: $key) {
     createdAt
     endpoint
+    region
     name
   }
 }`;
@@ -109,10 +147,6 @@ const addMessagingSubscription = `subscription newMessaging($receiver: String!, 
   Messaging(key: $key, receiver: $receiver) {
     body
     createdAt
-    id
-    key
-    receiver
-    sender
   }
 }`;
 

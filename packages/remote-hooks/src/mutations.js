@@ -1,5 +1,10 @@
 export const getInfo = () => {
-  return ["createMessage", "updateMessageStatus"];
+  return [
+    "createMessage",
+    "updateMessageStatus",
+    "createMessaging",
+    "addWaiting",
+  ];
 };
 
 export const createMessage = (
@@ -58,6 +63,63 @@ export const updateMessageStatus = (
   }
 };
 
+export const createMessaging = (
+  stage,
+  appID,
+  uuid,
+  userMutationQuery,
+  variables
+) => {
+  console.log("CREATE MSG ", stage);
+  console.log("CREATE MSG ", appID);
+  console.log("CREATE MSG ", uuid);
+  console.log("CREATE MSG ", variables);
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        messaging: {
+          id: "messageID",
+          body: "Test message",
+          sender: "Sender id",
+          receiver: "Receiver id",
+          createdAt: new Date().getTime(),
+        },
+      },
+    });
+  } else {
+    return userMutationQuery({
+      mutation: newMessagingMutation,
+      variables: { input: variables },
+    });
+  }
+};
+
+export const addWaiting = (stage, appID, uuid, prifinaMutation, variables) => {
+  console.log("CREATE MSG ", stage);
+  console.log("CREATE MSG ", appID);
+  console.log("CREATE MSG ", uuid);
+  console.log("CREATE MSG ", variables);
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        waiting: {
+          createdAt: new Date().getTime(),
+          endpoint: "https://endpoint.xxx",
+          region: "us-east-1",
+          name: "Unknown",
+          senderKey: "sender#key",
+          key: "key",
+        },
+      },
+    });
+  } else {
+    return prifinaMutation({
+      mutation: addWaitingMutation,
+      variables: { input: variables },
+    });
+  }
+};
+
 export const setSettings = `mutation SetSettings($id:String!,$widget: WidgetInput) {
   updateInstalledWidgets(id: $id, widget: $widget) {
     id
@@ -91,5 +153,16 @@ const newMessagingMutation = `mutation messaging($input:MessagingInput!) {
     key
     receiver
     sender
+  }
+}`;
+
+const addWaitingMutation = `mutation newWaiting(!input: WaitingInput) {
+  waiting(input: $input) {
+    createdAt
+    endpoint
+    region
+    name
+    senderKey
+    key
   }
 }`;
