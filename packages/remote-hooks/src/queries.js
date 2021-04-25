@@ -137,6 +137,7 @@ const listWaitingQuery = `query waitingList($filter:TableWaitingFilterInput,$sor
       endpoint
       name
       region
+      senderKey
      
     }
     nextToken
