@@ -51,6 +51,8 @@ export const Provider = ({
   const check = useCallback(() => {
     console.log("Prifina current", providerContext.current);
     console.log("Prifina subscriptions", appSubscriptions.current);
+    console.log("Prifina API", API.current);
+    console.log("Prifina CLIENT", CLIENT.current);
     //timerTest();
     return { check: "OK" };
   }, []);
