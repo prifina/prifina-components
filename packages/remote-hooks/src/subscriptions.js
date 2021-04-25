@@ -152,8 +152,6 @@ const addMessagingSubscription = `subscription newMessaging($receiver: String!, 
     sender
     receiver
     key
-    endpoint
-    region
   }
 }`;
 
