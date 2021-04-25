@@ -188,7 +188,7 @@ type Query @aws_iam @aws_cognito_user_pools {
       CLIENT.current.prifina
         .graphql({
           query: opts.query,
-          variables: {  opts.filter },
+          variables: opts.filter,
           authMode: "AWS_IAM",
         })
         .then((res) => {
