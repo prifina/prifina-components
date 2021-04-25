@@ -743,37 +743,88 @@ mutation MyMutation {
       if (fnName === "addMessaging") {
         subsClient = CLIENT.current.remoteClient;
       }
-      const subHandler = subsClient
-        .subscribe({
-          query: gql(subscription),
-          variables: variables,
+      let subHandler = undefined;
+      if (fnName === "addWaiting") {
+        /*
+        const subscription = API.graphql(
+          graphqlOperation(subscriptions.onCreateTodo)
+      ).subscribe({
+          next: ({ provider, value }) => console.log({ provider, value }),
+          error: error => console.warn(error)
+      });
+       CLIENT.current.prifina
+        .graphql({
+          query: opts.mutation,
+          variables: opts.variables,
+          authMode: "AWS_IAM",
         })
-        .subscribe({
-          next: (data) => {
-            console.log("SUB DATA ", data);
-            //callbacks.current[appID][0](data[r]);
-            const appIndex = providerContext.current.init.apps[appID];
-            let callBackIndex = 0;
-            if (appIndex.length > 1) {
-              callBackIndex = appIndex.findIndex((id) => {
-                return id === onUpdateID;
-              });
-            }
-            callbacks.current[appID][callBackIndex](data);
-            //data.data.addMessage...
-          },
-          error: (err) => {
-            console.log("SUB ERROR ", err);
-            const appIndex = providerContext.current.init.apps[appID];
-            let callBackIndex = 0;
-            if (appIndex.length > 1) {
-              callBackIndex = appIndex.findIndex((id) => {
-                return id === onUpdateID;
-              });
-            }
-            callbacks.current[appID][callBackIndex]({ error: err });
-          },
-        });
+      */
+
+        subHandler = subsClient
+          .graphql({
+            query: subscription,
+            variables: variables,
+            authMode: "AWS_IAM",
+          })
+          .subscribe({
+            next: (data) => {
+              console.log("SUB DATA ", data);
+              //callbacks.current[appID][0](data[r]);
+              const appIndex = providerContext.current.init.apps[appID];
+              let callBackIndex = 0;
+              if (appIndex.length > 1) {
+                callBackIndex = appIndex.findIndex((id) => {
+                  return id === onUpdateID;
+                });
+              }
+              callbacks.current[appID][callBackIndex](data);
+              //data.data.addMessage...
+            },
+            error: (err) => {
+              console.log("SUB ERROR ", err);
+              const appIndex = providerContext.current.init.apps[appID];
+              let callBackIndex = 0;
+              if (appIndex.length > 1) {
+                callBackIndex = appIndex.findIndex((id) => {
+                  return id === onUpdateID;
+                });
+              }
+              callbacks.current[appID][callBackIndex]({ error: err });
+            },
+          });
+      } else {
+        subHandler = subsClient
+          .subscribe({
+            query: gql(subscription),
+            variables: variables,
+          })
+          .subscribe({
+            next: (data) => {
+              console.log("SUB DATA ", data);
+              //callbacks.current[appID][0](data[r]);
+              const appIndex = providerContext.current.init.apps[appID];
+              let callBackIndex = 0;
+              if (appIndex.length > 1) {
+                callBackIndex = appIndex.findIndex((id) => {
+                  return id === onUpdateID;
+                });
+              }
+              callbacks.current[appID][callBackIndex](data);
+              //data.data.addMessage...
+            },
+            error: (err) => {
+              console.log("SUB ERROR ", err);
+              const appIndex = providerContext.current.init.apps[appID];
+              let callBackIndex = 0;
+              if (appIndex.length > 1) {
+                callBackIndex = appIndex.findIndex((id) => {
+                  return id === onUpdateID;
+                });
+              }
+              callbacks.current[appID][callBackIndex]({ error: err });
+            },
+          });
+      }
 
       if (appSubscriptions.current.hasOwnProperty(appID)) {
         appSubscriptions.current[appID].push(subHandler);

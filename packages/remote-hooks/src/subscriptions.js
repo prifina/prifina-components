@@ -76,7 +76,8 @@ export const addWaiting = (
       },
     });
   } else {
-    let subscriptionFilter = { receiver: uuid, ...variables };
+    //let subscriptionFilter = { receiver: uuid, ...variables };
+    let subscriptionFilter = { ...variables };
     console.log("SUB FILTER ", subscriptionFilter);
 
     return addSubscription(
