@@ -740,8 +740,9 @@ mutation MyMutation {
       if (fnName === "addWaiting") {
         subsClient = CLIENT.current.prifina;
       }
-      if (fnName === "addMessaging") {
-        subsClient = CLIENT.current.client;
+
+      if (fnName === "addRemoteMessaging") {
+        subsClient = CLIENT.current.remote;
       }
       let subHandler = undefined;
       if (fnName === "addWaiting") {
