@@ -185,16 +185,20 @@ type Query @aws_iam @aws_cognito_user_pools {
 */
 
     return new Promise(function (resolve, reject) {
-      CLIENT.current.prifina.graphql({query:opts.query,variables:{filter:opts.filter},
-        authMode: "AWS_IAM"
-      }) .then((res) => {
-        console.log("RES ", res);
-        resolve(res);
-      })
-      .catch((error) => {
-        console.log("QUERY ERROR ", error);
-        reject(error);
-      });
+      CLIENT.current.prifina
+        .graphql({
+          query: opts.query,
+          variables: { filter: opts.filter },
+          authMode: "AWS_IAM",
+        })
+        .then((res) => {
+          console.log("RES ", res);
+          resolve(res);
+        })
+        .catch((error) => {
+          console.log("QUERY ERROR ", error);
+          reject(error);
+        });
       /*
       CLIENT.current.prifina
         .query({
@@ -209,8 +213,9 @@ type Query @aws_iam @aws_cognito_user_pools {
           console.log("QUERY ERROR ", error);
           reject(error);
         });
-    });
+    
     */
+    });
   };
 
   const userQuery = (opts) => {
