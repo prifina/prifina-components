@@ -188,7 +188,7 @@ type Query @aws_iam @aws_cognito_user_pools {
       CLIENT.current.prifina
         .graphql({
           query: opts.query,
-          variables: { filter: opts.filter },
+          variables: {  opts.filter },
           authMode: "AWS_IAM",
         })
         .then((res) => {
@@ -225,7 +225,7 @@ type Query @aws_iam @aws_cognito_user_pools {
       CLIENT.current.user
         .query({
           query: gql(opts.query),
-          filter: opts.filter,
+          variables: opts.filter,
         })
         .then((res) => {
           console.log("RES ", res);

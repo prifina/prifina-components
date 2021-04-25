@@ -85,7 +85,7 @@ export const getWaitingList = (stage, appID, uuid, prifinaQuery, filter) => {
 
     return prifinaQuery({
       query: listWaitingQuery,
-      filter: filter,
+      filter: { filter: filter },
     });
   }
 };
