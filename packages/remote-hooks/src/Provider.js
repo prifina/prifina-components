@@ -44,6 +44,8 @@ export const Provider = ({
     activeUser || {
       name: "Tero",
       uuid: "Testing-uuid",
+      endpoint: "https://endpoint.xxx",
+      region: "us-east-1",
     }
   );
   const check = useCallback(() => {
@@ -163,6 +165,7 @@ type Query @aws_iam @aws_cognito_user_pools {
 
   */
   };
+
   const prifinaQuery = (opts) => {
     console.log("PrifinaQuery OPTS ", opts);
 
@@ -182,6 +185,7 @@ type Query @aws_iam @aws_cognito_user_pools {
         });
     });
   };
+
   const userQuery = (opts) => {
     console.log("UserQuery OPTS ", opts);
 

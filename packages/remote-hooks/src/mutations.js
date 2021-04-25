@@ -113,9 +113,22 @@ export const addWaiting = (stage, appID, uuid, prifinaMutation, variables) => {
       },
     });
   } else {
+    //await prifina.core.mutations.addWaiting({endpoint: "", name: "", senderKey: ""});
+    /*
+input WaitingInput {
+	sender: String!
+	key: String!
+	endpoint: String!
+	region: String!
+	name: String
+}
+*/
+
+    let mutationVariables = { sender: uuid, ...variables };
+
     return prifinaMutation({
       mutation: addWaitingMutation,
-      variables: { input: variables },
+      variables: { input: mutationVariables },
     });
   }
 };

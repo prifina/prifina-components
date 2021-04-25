@@ -74,6 +74,7 @@ export const getWaitingList = (stage, appID, uuid, prifinaQuery, filter) => {
               createdAt: new Date().getTime(),
               endpoint: "https://endpoint.xxx",
               name: "Unknown",
+              region: "us-east-1",
             },
           ],
         },
