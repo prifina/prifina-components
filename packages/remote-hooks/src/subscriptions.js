@@ -148,6 +148,7 @@ const addMessagingSubscription = `subscription newMessaging($receiver: String!, 
   Messaging(key: $key, receiver: $receiver) {
     body
     createdAt
+    id
   }
 }`;
 

@@ -87,6 +87,8 @@ export const createMessaging = (
       },
     });
   } else {
+    let mutationVariables = { sender: uuid, ...variables };
+
     return userMutationQuery({
       mutation: newMessagingMutation,
       variables: { input: variables },
