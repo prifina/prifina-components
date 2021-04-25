@@ -64,7 +64,13 @@ export const getUnreadMessages = (stage, appID, uuid, userQuery, filter) => {
   }
 };
 
-export const getWaitingList = (stage, appID, uuid, prifinaQuery, filter) => {
+export const getWaitingList = (
+  stage,
+  appID,
+  uuid,
+  prifinaQuery,
+  filter = {}
+) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
