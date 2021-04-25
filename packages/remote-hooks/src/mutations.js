@@ -212,6 +212,8 @@ const newMessagingMutation = `mutation messaging($input:MessagingInput!) {
     key
     receiver
     sender
+    endpoint
+    region
   }
 }`;
 
