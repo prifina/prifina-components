@@ -871,23 +871,13 @@ mutation MyMutation {
     mutationList.forEach((q) => {
       //console.log(q);
       mutations[q] = (variables) => {
-        if (q === "addWaiting") {
-          return QLmutations[q](
-            config.stage,
-            config.appId,
-            config.uuid,
-            prifinaMutation,
-            variables
-          );
-        } else {
-          return QLmutations[q](
-            config.stage,
-            config.appId,
-            config.uuid,
-            userMutationQuery,
-            variables
-          );
-        }
+        return QLmutations[q](
+          config.stage,
+          config.appId,
+          config.uuid,
+          userMutationQuery,
+          variables
+        );
       };
     });
     let subscriptionList = QLsubscriptions.getInfo();
