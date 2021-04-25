@@ -151,6 +151,7 @@ const addMessagingSubscription = `subscription newMessaging($receiver: String!, 
     id
     sender
     receiver
+    key
   }
 }`;
 
