@@ -169,7 +169,7 @@ const newMessagingMutation = `mutation messaging($input:MessagingInput!) {
   }
 }`;
 
-const addWaitingMutation = `mutation newWaiting(!input: WaitingInput) {
+const addWaitingMutation = `mutation newWaiting($input: WaitingInput) {
   waiting(input: $input) {
     createdAt
     endpoint

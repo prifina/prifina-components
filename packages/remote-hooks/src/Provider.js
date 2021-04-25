@@ -239,7 +239,7 @@ type Query @aws_iam @aws_cognito_user_pools {
   };
 
   const prifinaMutation = (opts) => {
-    console.log("UserMutationQuery OPTS ", opts);
+    console.log("PrifinaMutation OPTS ", opts);
 
     return new Promise(function (resolve, reject) {
       CLIENT.current.prifina
