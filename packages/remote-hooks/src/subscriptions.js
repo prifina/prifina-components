@@ -149,6 +149,8 @@ const addMessagingSubscription = `subscription newMessaging($receiver: String!, 
     body
     createdAt
     id
+    sender
+    receiver
   }
 }`;
 

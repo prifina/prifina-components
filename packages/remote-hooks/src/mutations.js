@@ -3,6 +3,7 @@ export const getInfo = () => {
     "createMessage",
     "updateMessageStatus",
     "createMessaging",
+    "createRemoteMessaging",
     "addWaiting",
   ];
 };
@@ -32,6 +33,7 @@ export const createMessage = (
     });
   } else {
     return userMutationQuery({
+      mutationName: "createMessage",
       mutation: createMessageMutation,
       variables: { input: variables },
     });
@@ -57,6 +59,7 @@ export const updateMessageStatus = (
     });
   } else {
     return userMutationQuery({
+      mutationName: "updateMessageStatus",
       mutation: updateMessageStatusMutation,
       variables,
     });
@@ -90,13 +93,53 @@ export const createMessaging = (
     let mutationVariables = { sender: uuid, ...variables };
 
     return userMutationQuery({
+      mutationName: "createMessaging",
       mutation: newMessagingMutation,
-      variables: { input: variables },
+      variables: { input: mutationVariables },
+    });
+  }
+};
+export const createRemoteMessaging = (
+  stage,
+  appID,
+  uuid,
+  userMutationQuery,
+  variables
+) => {
+  console.log("CREATE MSG ", stage);
+  console.log("CREATE MSG ", appID);
+  console.log("CREATE MSG ", uuid);
+  console.log("CREATE MSG ", variables);
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        messaging: {
+          id: "messageID",
+          body: "Test message",
+          sender: "Sender id",
+          receiver: "Receiver id",
+          createdAt: new Date().getTime(),
+        },
+      },
+    });
+  } else {
+    let mutationVariables = { sender: uuid, ...variables };
+
+    return userMutationQuery({
+      mutationName: "createRemoteMessaging",
+      mutation: newMessagingMutation,
+      variables: { input: mutationVariables },
     });
   }
 };
 
-export const addWaiting = (stage, appID, uuid, prifinaMutation, variables) => {
+export const addWaiting = (
+  stage,
+  appID,
+  uuid,
+  userMutationQuery,
+  variables
+) => {
   console.log("CREATE MSG ", stage);
   console.log("CREATE MSG ", appID);
   console.log("CREATE MSG ", uuid);
@@ -128,7 +171,8 @@ input WaitingInput {
 
     let mutationVariables = { sender: uuid, ...variables };
 
-    return prifinaMutation({
+    return userMutationQuery({
+      mutationName: "addWaiting",
       mutation: addWaitingMutation,
       variables: { input: mutationVariables },
     });

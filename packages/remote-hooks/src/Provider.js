@@ -238,43 +238,6 @@ type Query @aws_iam @aws_cognito_user_pools {
     });
   };
 
-  const prifinaMutation = (opts) => {
-    console.log("PrifinaMutation OPTS ", opts);
-
-    return new Promise(function (resolve, reject) {
-      CLIENT.current.prifina
-        .graphql({
-          query: opts.mutation,
-          variables: opts.variables,
-          authMode: "AWS_IAM",
-        })
-        .then((res) => {
-          console.log("RES ", res);
-          resolve(res);
-        })
-        .catch((error) => {
-          console.log("QUERY ERROR ", error);
-          reject(error);
-        });
-      /*
-      CLIENT.current.prifina
-        .mutate({
-          mutation: gql(opts.mutation),
-          variables: opts.variables,
-        })
-        .then((res) => {
-          console.log("RES ", res);
-
-          resolve(res);
-        })
-        .catch((error) => {
-          console.log("QUERY ERROR ", error);
-          reject(error);
-        });
-        */
-    });
-  };
-
   const userMutationQuery = (opts) => {
     console.log("UserMutationQuery OPTS ", opts);
     /*
@@ -292,31 +255,52 @@ type Query @aws_iam @aws_cognito_user_pools {
     })();
     */
     return new Promise(function (resolve, reject) {
-      CLIENT.current.user
-        .mutate({
-          mutation: gql(opts.mutation),
-          variables: opts.variables,
-        })
-        .then((res) => {
-          console.log("RES ", res);
-          // res.data.createMessage.... send notification, if receiver is not using displayApp
-          //providerContext.current.init.users[currentUser.uuid] = activeApp;
-          //console.log("ACTUVE APP CHECK ", providerContext.current.init);
-          // createMessage on receiver endpoint
-          // send notification on receiver endpoint...
-          if (res.data.hasOwnProperty("createMessage")) {
-            remoteUser(res.data).then((notify) => {
-              console.log("NOTIFY ", notify);
-              resolve(res);
-            });
-          } else {
+      let apiClient = CLIENT.current.user;
+      if (opts.mutationName === "addWaiting") {
+        apiClient = CLIENT.current.prifina;
+      }
+      if (opts.mutationName === "addWaiting") {
+        apiClient
+          .graphql({
+            query: opts.mutation,
+            variables: opts.variables,
+            authMode: "AWS_IAM",
+          })
+          .then((res) => {
+            console.log("RES ", res);
             resolve(res);
-          }
-        })
-        .catch((error) => {
-          console.log("QUERY ERROR ", error);
-          reject(error);
-        });
+          })
+          .catch((error) => {
+            console.log("QUERY ERROR ", error);
+            reject(error);
+          });
+      } else {
+        apiClient
+          .mutate({
+            mutation: gql(opts.mutation),
+            variables: opts.variables,
+          })
+          .then((res) => {
+            console.log("RES ", res);
+            // res.data.createMessage.... send notification, if receiver is not using displayApp
+            //providerContext.current.init.users[currentUser.uuid] = activeApp;
+            //console.log("ACTUVE APP CHECK ", providerContext.current.init);
+            // createMessage on receiver endpoint
+            // send notification on receiver endpoint...
+            if (res.data.hasOwnProperty("createMessage")) {
+              remoteUser(res.data).then((notify) => {
+                console.log("NOTIFY ", notify);
+                resolve(res);
+              });
+            } else {
+              resolve(res);
+            }
+          })
+          .catch((error) => {
+            console.log("QUERY ERROR ", error);
+            reject(error);
+          });
+      }
     });
   };
 
