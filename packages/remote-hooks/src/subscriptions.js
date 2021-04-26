@@ -21,10 +21,10 @@ export const addMessage = (
   onUpdateID,
   variables
 ) => {
-  console.log("GET TEST ", stage);
-  console.log("GET TEST ", appID);
-  console.log("GET TEST ", uuid);
-  console.log("GET TEST ", variables);
+  console.log("ADD MESSAGE SUB", stage);
+  console.log("ADD MESSAGE SUB ", appID);
+  console.log("ADD MESSAGE SUB ", uuid);
+  console.log("ADD MESSAGE SUB ", variables);
 
   if (stage === "dev") {
     return Promise.resolve({
@@ -59,10 +59,10 @@ export const addWaiting = (
   onUpdateID,
   variables
 ) => {
-  console.log("GET TEST ", stage);
-  console.log("GET TEST ", appID);
-  console.log("GET TEST ", uuid);
-  console.log("GET TEST ", variables);
+  console.log("ADD WAITING SUB ", stage);
+  console.log("ADD WAITING SUB ", appID);
+  console.log("ADD WAITING SUB ", uuid);
+  console.log("ADD WAITING SUB ", variables);
 
   if (stage === "dev") {
     return Promise.resolve({
@@ -98,10 +98,10 @@ export const addMessaging = (
   onUpdateID,
   variables
 ) => {
-  console.log("GET TEST ", stage);
-  console.log("GET TEST ", appID);
-  console.log("GET TEST ", uuid);
-  console.log("GET TEST ", variables);
+  console.log("ADD MESSAGING SUB ", stage);
+  console.log("ADD MESSAGING SUB ", appID);
+  console.log("ADD MESSAGING SUB ", uuid);
+  console.log("ADD MESSAGING SUB ", variables);
 
   if (stage === "dev") {
     return Promise.resolve({

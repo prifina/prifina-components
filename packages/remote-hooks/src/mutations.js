@@ -106,10 +106,10 @@ export const createRemoteMessaging = (
   userMutationQuery,
   variables
 ) => {
-  console.log("CREATE MSG ", stage);
-  console.log("CREATE MSG ", appID);
-  console.log("CREATE MSG ", uuid);
-  console.log("CREATE MSG ", variables);
+  console.log("CREATE RMSG ", stage);
+  console.log("CREATE RMSG ", appID);
+  console.log("CREATE RMSG ", uuid);
+  console.log("CREATE RMSG ", variables);
   if (stage === "dev") {
     return Promise.resolve({
       data: {
