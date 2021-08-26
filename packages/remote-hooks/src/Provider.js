@@ -570,7 +570,7 @@ type Query @aws_iam @aws_cognito_user_pools {
           variables: {
             id: uuid,
             widget: {
-              name: appID,
+              id: appID,
               index: newSettings.index,
               settings: newSettings.settings,
             },
