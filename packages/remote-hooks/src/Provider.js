@@ -190,7 +190,7 @@ type Query @aws_iam @aws_cognito_user_pools {
         .graphql({
           query: opts.query,
           variables: opts.filter,
-          authMode: "AWS_IAM",
+          authMode: "AMAZON_COGNITO_USER_POOLS",
         })
         .then((res) => {
           console.log("RES ", res);
@@ -257,15 +257,17 @@ type Query @aws_iam @aws_cognito_user_pools {
     */
     return new Promise(function (resolve, reject) {
       let apiClient = CLIENT.current.user;
+      let authMode = "AWS_IAM";
       if (opts.mutationName === "addWaiting") {
         apiClient = CLIENT.current.prifina;
+        authMode = "AMAZON_COGNITO_USER_POOLS";
       }
       if (opts.mutationName === "addWaiting") {
         apiClient
           .graphql({
             query: opts.mutation,
             variables: opts.variables,
-            authMode: "AWS_IAM",
+            authMode: authMode,
           })
           .then((res) => {
             console.log("RES ", res);
@@ -576,7 +578,7 @@ type Query @aws_iam @aws_cognito_user_pools {
               settings: newSettings.settings,
             },
           },
-          authMode: "AWS_IAM",
+          authMode: "AMAZON_COGNITO_USER_POOLS",
         });
       }
       /*
@@ -613,7 +615,7 @@ mutation MyMutation {
       return CLIENT.current.prifina.graphql({
         query: QLqueries.getSettings,
         variables: { id: uuid, widget: appID },
-        authMode: "AWS_IAM",
+        authMode: "AMAZON_COGNITO_USER_POOLS",
       });
     }
   }, []);
