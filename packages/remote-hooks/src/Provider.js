@@ -106,16 +106,17 @@ export const Provider = ({
     return new Promise(function (resolve, reject) {
       //const S3Bucket = "athena-test-prifina";
       //const S3Key = "google-timeline-data/csv-data/activities/activities.csv";
-      const S3Bucket = datamodel.bucket;
-      const S3Key = datamodel.key;
+      //const S3Bucket = datamodel.bucket;
+      //const S3Key = datamodel.key;
 
       CLIENT.current.user
         .query({
           query: gql(opts.query),
           variables: {
             input: {
-              bucket: S3Bucket,
-              key: S3Key,
+              //bucket: S3Bucket,
+              //key: S3Key,
+              datamodel: datamodel,
               fields: opts.fields,
               filter: opts.filter,
               next: opts.next,
