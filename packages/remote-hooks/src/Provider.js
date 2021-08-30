@@ -116,7 +116,7 @@ export const Provider = ({
             input: {
               //bucket: S3Bucket,
               //key: S3Key,
-              datamodel: datamodel,
+              datamodel: opts.name,
               fields: opts.fields,
               filter: opts.filter,
               next: opts.next,
