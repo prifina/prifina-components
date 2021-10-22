@@ -1,0 +1,208 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HearRateData = void 0;
+var HearRateData = [{
+  p_timestamp: "1633824000000",
+  p_datetime: "2021-10-10T00:00:00.000Z",
+  p_value: "46"
+},, {
+  p_timestamp: "1633824060000",
+  p_datetime: "2021-10-10T00:01:00.000Z",
+  p_value: "45"
+},, {
+  p_timestamp: "1633824120000",
+  p_datetime: "2021-10-10T00:02:00.000Z",
+  p_value: "46"
+},, {
+  p_timestamp: "1633824180000",
+  p_datetime: "2021-10-10T00:03:00.000Z",
+  p_value: "43"
+},, {
+  p_timestamp: "1633824240000",
+  p_datetime: "2021-10-10T00:04:00.000Z",
+  p_value: "48"
+},, {
+  p_timestamp: "1633824300000",
+  p_datetime: "2021-10-10T00:05:00.000Z",
+  p_value: "45"
+},, {
+  p_timestamp: "1633824360000",
+  p_datetime: "2021-10-10T00:06:00.000Z",
+  p_value: "44"
+},, {
+  p_timestamp: "1633824420000",
+  p_datetime: "2021-10-10T00:07:00.000Z",
+  p_value: "46"
+},, {
+  p_timestamp: "1633824480000",
+  p_datetime: "2021-10-10T00:08:00.000Z",
+  p_value: "44"
+},, {
+  p_timestamp: "1633824540000",
+  p_datetime: "2021-10-10T00:09:00.000Z",
+  p_value: "44"
+},, {
+  p_timestamp: "1633824600000",
+  p_datetime: "2021-10-10T00:10:00.000Z",
+  p_value: "44"
+},, {
+  p_timestamp: "1633824660000",
+  p_datetime: "2021-10-10T00:11:00.000Z",
+  p_value: "44"
+},, {
+  p_timestamp: "1633824720000",
+  p_datetime: "2021-10-10T00:12:00.000Z",
+  p_value: "44"
+},, {
+  p_timestamp: "1633824780000",
+  p_datetime: "2021-10-10T00:13:00.000Z",
+  p_value: "44"
+},, {
+  p_timestamp: "1633824840000",
+  p_datetime: "2021-10-10T00:14:00.000Z",
+  p_value: "44"
+},, {
+  p_timestamp: "1633824900000",
+  p_datetime: "2021-10-10T00:15:00.000Z",
+  p_value: "44"
+},, {
+  p_timestamp: "1633824960000",
+  p_datetime: "2021-10-10T00:16:00.000Z",
+  p_value: "46"
+},, {
+  p_timestamp: "1633825020000",
+  p_datetime: "2021-10-10T00:17:00.000Z",
+  p_value: "45"
+},, {
+  p_timestamp: "1633825080000",
+  p_datetime: "2021-10-10T00:18:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633825140000",
+  p_datetime: "2021-10-10T00:19:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633825200000",
+  p_datetime: "2021-10-10T00:20:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633825260000",
+  p_datetime: "2021-10-10T00:21:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633825320000",
+  p_datetime: "2021-10-10T00:22:00.000Z",
+  p_value: "48"
+}, {
+  p_timestamp: "1633825380000",
+  p_datetime: "2021-10-10T00:23:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633825440000",
+  p_datetime: "2021-10-10T00:24:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633825500000",
+  p_datetime: "2021-10-10T00:25:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633825560000",
+  p_datetime: "2021-10-10T00:26:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633825620000",
+  p_datetime: "2021-10-10T00:27:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633825680000",
+  p_datetime: "2021-10-10T00:28:00.000Z",
+  p_value: "46"
+}, {
+  p_timestamp: "1633825740000",
+  p_datetime: "2021-10-10T00:29:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633825800000",
+  p_datetime: "2021-10-10T00:30:00.000Z",
+  p_value: "46"
+}, {
+  p_timestamp: "1633825860000",
+  p_datetime: "2021-10-10T00:31:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633825920000",
+  p_datetime: "2021-10-10T00:32:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633825980000",
+  p_datetime: "2021-10-10T00:33:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633826040000",
+  p_datetime: "2021-10-10T00:34:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633826100000",
+  p_datetime: "2021-10-10T00:35:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633826160000",
+  p_datetime: "2021-10-10T00:36:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633826220000",
+  p_datetime: "2021-10-10T00:37:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633826280000",
+  p_datetime: "2021-10-10T00:38:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633826340000",
+  p_datetime: "2021-10-10T00:39:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633826400000",
+  p_datetime: "2021-10-10T00:40:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633826460000",
+  p_datetime: "2021-10-10T00:41:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633826520000",
+  p_datetime: "2021-10-10T00:42:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633826580000",
+  p_datetime: "2021-10-10T00:43:00.000Z",
+  p_value: "44"
+}, {
+  p_timestamp: "1633826640000",
+  p_datetime: "2021-10-10T00:44:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633826700000",
+  p_datetime: "2021-10-10T00:45:00.000Z",
+  p_value: "45"
+}, {
+  p_timestamp: "1633826760000",
+  p_datetime: "2021-10-10T00:46:00.000Z",
+  p_value: "48"
+}, {
+  p_timestamp: "1633826820000",
+  p_datetime: "2021-10-10T00:47:00.000Z",
+  p_value: "53"
+}, {
+  p_timestamp: "1633826880000",
+  p_datetime: "2021-10-10T00:48:00.000Z",
+  p_value: "51"
+}, {
+  p_timestamp: "1633826940000",
+  p_datetime: "2021-10-10T00:49:00.000Z",
+  p_value: "49"
+}];
+exports.HearRateData = HearRateData;

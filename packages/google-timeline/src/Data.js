@@ -1,7 +1,7 @@
 import activityMockup from "./activityMockup";
 
-const s3Query = `query s3Object($input:S3ObjectInput!) {
-  getS3Object(input:$input) {
+const dataQuery = `query dataObject($input:DataObjectInput!) {
+  getDataObject(input:$input) {
     result
   }
 }`;
@@ -37,13 +37,13 @@ export const queryActivities = (
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getS3Object: { content: activityMockup },
+        getDataObject: { content: activityMockup },
       },
     });
   } else {
     //SELECT * FROM s3object s  where EXTRACT(YEAR FROM TO_TIMESTAMP(s.p_datetime))=2021 LIMIT 5
     //https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
 
-    return createQuery({ query: s3Query, name: name, fields, filter, next });
+    return createQuery({ query: dataQuery, name: name, fields, filter, next });
   }
 };

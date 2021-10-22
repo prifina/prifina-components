@@ -9,7 +9,7 @@ var _activityMockup = _interopRequireDefault(require("./activityMockup"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var s3Query = "query s3Object($input:S3ObjectInput!) {\n  getS3Object(input:$input) {\n    result\n  }\n}";
+var dataQuery = "query dataObject($input:DataObjectInput!) {\n  getDataObject(input:$input) {\n    result\n  }\n}";
 
 var getInfo = function getInfo() {
   return ["queryActivities"];
@@ -44,14 +44,16 @@ var queryActivities = function queryActivities(stage, appID, name, createQuery, 
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getS3Object: {
+        getDataObject: {
           content: _activityMockup["default"]
         }
       }
     });
   } else {
+    //SELECT * FROM s3object s  where EXTRACT(YEAR FROM TO_TIMESTAMP(s.p_datetime))=2021 LIMIT 5
+    //https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
     return createQuery({
-      query: s3Query,
+      query: dataQuery,
       name: name,
       fields: fields,
       filter: filter,
