@@ -14,6 +14,8 @@ import * as QLmutations from "./mutations";
 import * as DataModels from "./dataModels";
 import gql from "graphql-tag";
 
+import { buildFilter } from "./queryBuilder";
+
 const short = require("short-uuid");
 
 export const PrifinaContext = createContext({});
@@ -119,7 +121,7 @@ export const Provider = ({
               dataconnector: opts.name,
               userId: currentUser.uuid,
               fields: opts.fields,
-              filter: opts.filter,
+              filter: buildFilter(opts.filter),
               next: opts.next,
             },
           },
