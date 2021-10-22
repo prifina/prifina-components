@@ -116,7 +116,7 @@ export const Provider = ({
             input: {
               //bucket: S3Bucket,
               //key: S3Key,
-              datamodel: opts.name,
+              dataconnector: opts.name,
               userId: currentUser.uuid,
               fields: opts.fields,
               filter: opts.filter,
@@ -126,9 +126,9 @@ export const Provider = ({
         })
         .then((res) => {
           console.log("RES ", res);
-          let s3Object = JSON.parse(res.data.getS3Object.result);
+          let s3Object = JSON.parse(res.data.getDataObject.result);
 
-          resolve({ data: { getS3Object: s3Object } });
+          resolve({ data: { getDataObject: s3Object } });
         })
         .catch((error) => {
           console.log("QUERY ERROR ", error);
