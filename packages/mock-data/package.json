@@ -1,15 +1,11 @@
 {
-  "name": "mock-data",
+  "name": "@prifina/mock-data",
   "version": "0.0.2",
   "description": "Mock data connector for unavailable data sources",
   "author": "hamza <hamzahalilovic.12@gmail.com>",
   "homepage": "https://github.com/hamzahalilovic/prifina-components#readme",
   "license": "MIT",
   "main": "dist/esm/index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
   "files": [
     "dist"
   ],

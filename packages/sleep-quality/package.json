@@ -1,5 +1,5 @@
 {
-  "name": "sleep-quality",
+  "name": "@prifina/sleep-quality",
   "version": "0.0.2",
   "description": "Data connector for sleep-quality widget",
   "author": "hamza <hamzahalilovic.12@gmail.com>",
@@ -8,10 +8,6 @@
   "main": "dist/esm/index.js",
   "publishConfig": {
     "access": "public"
-  },
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
   },
   "files": [
     "dist"
