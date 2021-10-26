@@ -13,6 +13,51 @@ export const addTest = (stage, appID, uuid, variables) => {
   }
 };
 
+const getAthenaResultsSubscription = `subscription AthenaResults($id: String!) {
+  athenaResults(id: $id) {
+    data
+    id
+  }
+}`;
+
+export const getAthenaResults = (
+  stage,
+  appID,
+  uuid,
+  addSubscription,
+  onUpdateID,
+  variables
+) => {
+  console.log("ATHENA RESULTS SUB", stage);
+  console.log("ATHENA RESULTS SUB ", appID);
+  console.log("ATHENA RESULTS SUB ", uuid);
+  console.log("ATHENA RESULTS SUB ", variables);
+
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        addMessage: {
+          messageId: "messageID",
+          body: "Test message",
+          sender: "Sender id",
+          created_at: new Date().getTime(),
+        },
+      },
+    });
+  } else {
+    let subscriptionFilter = { id: uuid, ...variables };
+    console.log("SUB FILTER ", subscriptionFilter);
+
+    return addSubscription(
+      appID,
+      "getAthenaResults",
+      getAthenaResultsSubscription,
+      onUpdateID,
+      subscriptionFilter
+    );
+  }
+};
+
 export const addMessage = (
   stage,
   appID,

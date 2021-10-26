@@ -90,9 +90,10 @@ export const Provider = ({
     }
     */
     const moduleParts = opts.name.split("/");
-    const datamodel = DataModels[moduleParts[0]][moduleParts[1]];
-    console.log(datamodel);
+
     if (opts.fields && opts.fields.length > 0) {
+      const datamodel = DataModels[moduleParts[0]][moduleParts[1]];
+      console.log(datamodel);
       // check fields matches datamodel + add prefix
       opts.fields.forEach((f, i) => {
         if (!f.startsWith("p_")) {

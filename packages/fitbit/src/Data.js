@@ -11,6 +11,14 @@ const dataQuery = `query dataObject($input:DataObjectInput!) {
     result
   }
 }`;
+/*
+const getAthenaResults = `subscription AthenaResults($id: String!) {
+  athenaResults(id: $id) {
+    data
+    id
+  }
+}`;
+*/
 
 export const getInfo = () => {
   return [
