@@ -1,29 +1,21 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.querySleepData = exports.queryHearRateData = exports.querySleepSummary = exports.queryHearRataSummary = exports.queryActivitySummary = exports.queryActivities = exports.getModuleName = exports.getInfo = void 0;
 
-var _ActivitiesData = _interopRequireDefault(require("./ActivitiesData"));
+var _ActivitiesData = require("./ActivitiesData");
 
-var _ActivitiesSummary = _interopRequireDefault(require("./ActivitiesSummary"));
+var _ActivitiesSummary = require("./ActivitiesSummary");
 
-var _HeartRateData = _interopRequireWildcard(require("./HeartRateData"));
+var _HeartRateData = require("./HeartRateData");
 
-var _HeartRateSummary = _interopRequireDefault(require("./HeartRateSummary"));
+var _HeartRateSummary = require("./HeartRateSummary");
 
-var _SleepData = _interopRequireDefault(require("./SleepData"));
+var _SleepData = require("./SleepData");
 
-var _SleepSummary = _interopRequireDefault(require("./SleepSummary"));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _SleepSummary = require("./SleepSummary");
 
 var dataQuery = "query dataObject($input:DataObjectInput!) {\n  getDataObject(input:$input) {\n    result\n  }\n}";
 
@@ -52,7 +44,7 @@ var queryActivities = function queryActivities(stage, appID, name, createQuery, 
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _ActivitiesData["default"]
+          content: _ActivitiesData.ActivitiesData
         }
       }
     });
@@ -76,7 +68,7 @@ var queryActivitySummary = function queryActivitySummary(stage, appID, name, cre
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _ActivitiesSummary["default"]
+          content: _ActivitiesSummary.ActivitiesSummary
         }
       }
     });
@@ -98,7 +90,7 @@ var queryHearRataSummary = function queryHearRataSummary(stage, appID, name, cre
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _HeartRateSummary["default"]
+          content: _HeartRateSummary.HeartRateSummary
         }
       }
     });
@@ -120,7 +112,7 @@ var querySleepSummary = function querySleepSummary(stage, appID, name, createQue
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _SleepSummary["default"]
+          content: _SleepSummary.SleepSummary
         }
       }
     });
@@ -164,7 +156,7 @@ var querySleepData = function querySleepData(stage, appID, name, createQuery, fi
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _SleepData["default"]
+          content: _SleepData.SleepData
         }
       }
     });

@@ -1,9 +1,10 @@
-import ActivitiesData from "./ActivitiesData";
-import ActivitiesSummary from "./ActivitiesSummary";
-import HeartRateData, { HearRateData } from "./HeartRateData";
-import HeartRateSummary from "./HeartRateSummary";
-import SleepData from "./SleepData";
-import SleepSummary from "./SleepSummary";
+import { ActivitiesData } from "./ActivitiesData";
+
+import { ActivitiesSummary } from "./ActivitiesSummary";
+import { HearRateData } from "./HeartRateData";
+import { HeartRateSummary } from "./HeartRateSummary";
+import { SleepData } from "./SleepData";
+import { SleepSummary } from "./SleepSummary";
 
 const dataQuery = `query dataObject($input:DataObjectInput!) {
   getDataObject(input:$input) {
