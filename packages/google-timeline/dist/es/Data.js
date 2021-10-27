@@ -57,7 +57,8 @@ var queryActivities = function queryActivities(stage, appID, name, createQuery, 
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };

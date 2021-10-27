@@ -64,7 +64,8 @@ var queryActivities = function queryActivities(stage, appID, name, createQuery, 
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };
@@ -86,7 +87,8 @@ var queryActivitySummary = function queryActivitySummary(stage, appID, name, cre
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };
@@ -108,7 +110,8 @@ var queryActivitySummaries = function queryActivitySummaries(stage, appID, name,
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };
@@ -130,7 +133,8 @@ var queryHearRataSummary = function queryHearRataSummary(stage, appID, name, cre
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };
@@ -152,7 +156,8 @@ var querySleepSummary = function querySleepSummary(stage, appID, name, createQue
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };
@@ -174,7 +179,8 @@ var queryHearRateData = function queryHearRateData(stage, appID, name, createQue
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };
@@ -196,7 +202,8 @@ var querySleepData = function querySleepData(stage, appID, name, createQuery, fi
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };

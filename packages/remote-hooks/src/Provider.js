@@ -124,6 +124,7 @@ export const Provider = ({
               fields: opts.fields,
               filter: buildFilter(opts.filter),
               next: opts.next,
+              appId: opts.appId,
             },
           },
         })
@@ -425,7 +426,7 @@ type Query @aws_iam @aws_cognito_user_pools {
         console.log("LIST ", functionList);
         functionList.forEach((q) => {
           if (q.startsWith("query")) {
-            fn[q] = ({ fields, filter, next }) => {
+            fn[q] = ({ fields, filter, next, appId }) => {
               console.log("INIT ", providerContext.current.init);
               const stage = providerContext.current.init.stage;
               //const executionID = short.generate();
