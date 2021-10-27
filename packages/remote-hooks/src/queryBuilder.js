@@ -239,7 +239,7 @@ function _fn(fnName, fnCol, fnOpts) {
   }
 }
 
-function buildFilter(filter) {
+function buildFilter(filter = {}) {
   let s = {};
   const logicalOperators = Object.getOwnPropertySymbols(filter);
   //console.log("LOG ", logicalOperators);
