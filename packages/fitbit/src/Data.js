@@ -28,6 +28,7 @@ export const getInfo = () => {
     "queryHearRataSummary",
     "querySleepData",
     "querySleepSummary",
+    "queryActivitySummaries",
   ];
 };
 
@@ -66,6 +67,26 @@ export const queryActivities = (
 };
 
 export const queryActivitySummary = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: ActivitiesSummary },
+      },
+    });
+  } else {
+    return createQuery({ query: dataQuery, name: name, fields, filter, next });
+  }
+};
+
+export const queryActivitySummaries = (
   stage,
   appID,
   name,
