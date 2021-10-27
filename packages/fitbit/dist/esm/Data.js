@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.querySleepData = exports.queryHearRateData = exports.querySleepSummary = exports.queryHearRataSummary = exports.queryActivitySummary = exports.queryActivities = exports.getModuleName = exports.getInfo = void 0;
+exports.querySleepData = exports.queryHearRateData = exports.querySleepSummary = exports.queryHearRataSummary = exports.queryActivitySummaries = exports.queryActivitySummary = exports.queryActivities = exports.getModuleName = exports.getInfo = void 0;
 
 var _ActivitiesData = require("./ActivitiesData");
 
@@ -18,9 +18,17 @@ var _SleepData = require("./SleepData");
 var _SleepSummary = require("./SleepSummary");
 
 var dataQuery = "query dataObject($input:DataObjectInput!) {\n  getDataObject(input:$input) {\n    result\n  }\n}";
+/*
+const getAthenaResults = `subscription AthenaResults($id: String!) {
+  athenaResults(id: $id) {
+    data
+    id
+  }
+}`;
+*/
 
 var getInfo = function getInfo() {
-  return ["queryActivities", "queryActivitySummary", "queryHearRateData", "queryHearRataSummary", "querySleepData", "querySleepSummary"];
+  return ["queryActivities", "queryActivitySummary", "queryHearRateData", "queryHearRataSummary", "querySleepData", "querySleepSummary", "queryActivitySummaries"];
 };
 
 exports.getInfo = getInfo;
@@ -84,6 +92,28 @@ var queryActivitySummary = function queryActivitySummary(stage, appID, name, cre
 };
 
 exports.queryActivitySummary = queryActivitySummary;
+
+var queryActivitySummaries = function queryActivitySummaries(stage, appID, name, createQuery, fields, filter, next) {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: {
+          content: _ActivitiesSummary.ActivitiesSummary
+        }
+      }
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next
+    });
+  }
+};
+
+exports.queryActivitySummaries = queryActivitySummaries;
 
 var queryHearRataSummary = function queryHearRataSummary(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
