@@ -15,7 +15,8 @@ var Data = {
   queryHearRataSummary: _Data.queryHearRataSummary,
   querySleepSummary: _Data.querySleepSummary,
   queryHearRateData: _Data.queryHearRateData,
-  querySleepData: _Data.querySleepData
+  querySleepData: _Data.querySleepData,
+  queryActivitySummaries: _Data.queryActivitySummaries
 };
 var _default = Data;
 exports["default"] = _default;

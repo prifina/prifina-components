@@ -7,6 +7,7 @@ import {
   querySleepSummary,
   queryHearRateData,
   querySleepData,
+  queryActivitySummaries,
 } from "./Data";
 const Data = {
   getModuleName,
@@ -17,5 +18,6 @@ const Data = {
   querySleepSummary,
   queryHearRateData,
   querySleepData,
+  queryActivitySummaries,
 };
 export default Data;
