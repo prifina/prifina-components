@@ -28,7 +28,12 @@ export const getInfo = () => {
     "queryHearRataSummary",
     "querySleepData",
     "querySleepSummary",
-    "queryActivitySummaries",
+    "queryActivitySummariesAsync",
+    "queryHearRataSummariesAsync",
+    "querySleepSummariesAsync",
+    "queryActivitiesAsync",
+    "queryHearRateDataAsync",
+    "querySleepDataAsync",
   ];
 };
 
@@ -52,6 +57,36 @@ export const queryActivities = (
   console.log("QUERY FIELDS", fields);
   console.log("QUERY FILTER", filter);
   console.log("QUERY NEXT", next);
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: ActivitiesData },
+      },
+    });
+  } else {
+    //SELECT * FROM s3object s  where EXTRACT(YEAR FROM TO_TIMESTAMP(s.p_datetime))=2021 LIMIT 5
+    //https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
+
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+    });
+  }
+};
+
+export const queryActivitiesAsync = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -100,7 +135,7 @@ export const queryActivitySummary = (
   }
 };
 
-export const queryActivitySummaries = (
+export const queryActivitySummariesAsync = (
   stage,
   appID,
   name,
@@ -154,7 +189,61 @@ export const queryHearRataSummary = (
   }
 };
 
+export const queryHearRataSummariesAsync = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: HeartRateSummary },
+      },
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+    });
+  }
+};
+
 export const querySleepSummary = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: SleepSummary },
+      },
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+    });
+  }
+};
+
+export const querySleepSummariesAsync = (
   stage,
   appID,
   name,
@@ -208,7 +297,61 @@ export const queryHearRateData = (
   }
 };
 
+export const queryHearRateDataAsync = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: HearRateData },
+      },
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+    });
+  }
+};
+
 export const querySleepData = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: SleepData },
+      },
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+    });
+  }
+};
+
+export const querySleepDataAsync = (
   stage,
   appID,
   name,
