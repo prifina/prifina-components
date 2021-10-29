@@ -7,7 +7,12 @@ import {
   querySleepSummary,
   queryHearRateData,
   querySleepData,
-  queryActivitySummaries,
+  queryActivitySummariesAsync,
+  queryHearRataSummariesAsync,
+  querySleepSummariesAsync,
+  queryActivitiesAsync,
+  queryHearRateDataAsync,
+  querySleepDataAsync,
 } from "./Data";
 const Data = {
   getModuleName,
@@ -18,6 +23,11 @@ const Data = {
   querySleepSummary,
   queryHearRateData,
   querySleepData,
-  queryActivitySummaries,
+  queryActivitySummariesAsync,
+  queryHearRataSummariesAsync,
+  querySleepSummariesAsync,
+  queryActivitiesAsync,
+  queryHearRateDataAsync,
+  querySleepDataAsync,
 };
 export default Data;

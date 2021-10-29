@@ -16,7 +16,12 @@ var Data = {
   querySleepSummary: _Data.querySleepSummary,
   queryHearRateData: _Data.queryHearRateData,
   querySleepData: _Data.querySleepData,
-  queryActivitySummaries: _Data.queryActivitySummaries
+  queryActivitySummariesAsync: _Data.queryActivitySummariesAsync,
+  queryHearRataSummariesAsync: _Data.queryHearRataSummariesAsync,
+  querySleepSummariesAsync: _Data.querySleepSummariesAsync,
+  queryActivitiesAsync: _Data.queryActivitiesAsync,
+  queryHearRateDataAsync: _Data.queryHearRateDataAsync,
+  querySleepDataAsync: _Data.querySleepDataAsync
 };
 var _default = Data;
 exports["default"] = _default;
