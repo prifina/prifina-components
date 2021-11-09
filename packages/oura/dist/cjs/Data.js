@@ -3,45 +3,48 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.queryNetflixData = exports.queryOuraHourly = exports.queryOuraDaily = exports.getModuleName = exports.getSubscriptions = exports.getInfo = void 0;
+exports.querySleepData = exports.querySleepDataAsync = exports.querySleepSummary = exports.querySleepSummariesAsync = exports.queryReadinessSummary = exports.queryReadinessSummariesAsync = exports.queryActivitySummary = exports.queryActivitySummariesAsync = exports.getModuleName = exports.getInfo = void 0;
 
-var _activityMockup = require("./activityMockup");
+var _sleepSummary = require("./sleepSummary");
 
-var s3Query = "query s3Object($input:S3ObjectInput!) {\n  getS3Object(input:$input) {\n    result\n  }\n}";
+var _activitySummary = require("./activitySummary");
+
+var _readinessSummary = require("./readinessSummary");
+
+/*
+import { ouraDaily } from "./activityMockup";
+import { ouraHourly } from "./activityMockup";
+import { netflixData } from "./activityMockup";
+*/
+var dataQuery = "query dataObject($input:DataObjectInput!) {\n  getDataObject(input:$input) {\n    result\n  }\n}";
+/*
+const s3Query = `query s3Object($input:S3ObjectInput!) {
+  getS3Object(input:$input) {
+    result
+  }
+}`;
+*/
 
 var getInfo = function getInfo() {
-  return ["queryOuraDaily", "queryOuraHourly", "queryNetflixData"];
+  //return ["queryOuraDaily", "queryOuraHourly", "queryNetflixData"];
+  return ["queryActivitySummary", "queryActivitySummariesAsync", "queryReadinessSummary", "queryReadinessSummariesAsync", "querySleepData", // longest sleep period
+  "querySleepDataAsync", "querySleepSummary", "querySleepSummariesAsync"];
 };
 
 exports.getInfo = getInfo;
 
-var getSubscriptions = function getSubscriptions() {
-  return [{
-    subscription: "queryOuraDaily",
-    mockup: _activityMockup.ouraDaily
-  }];
-};
-
-exports.getSubscriptions = getSubscriptions;
-
 var getModuleName = function getModuleName() {
-  return "OuraData";
+  return "oura";
 };
 
 exports.getModuleName = getModuleName;
 
-var queryOuraDaily = function queryOuraDaily(stage, appID, name, createQuery, fields, filter, next) {
-  console.log("QUERY STAGE", stage);
-  console.log("QUERY APP", appID);
-  console.log("QUERY FIELDS", fields);
-  console.log("QUERY FILTER", filter);
-  console.log("QUERY NEXT", next);
-
+var queryActivitySummariesAsync = function queryActivitySummariesAsync(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getS3Object: {
-          content: _activityMockup.ouraDaily
+        getDataObject: {
+          content: _activitySummary.ActivitySummary
         }
       }
     });
@@ -49,63 +52,257 @@ var queryOuraDaily = function queryOuraDaily(stage, appID, name, createQuery, fi
     //SELECT * FROM s3object s  where EXTRACT(YEAR FROM TO_TIMESTAMP(s.p_datetime))=2021 LIMIT 5
     //https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
     return createQuery({
-      query: s3Query,
+      query: dataQuery,
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };
 
-exports.queryOuraDaily = queryOuraDaily;
+exports.queryActivitySummariesAsync = queryActivitySummariesAsync;
 
-var queryOuraHourly = function queryOuraHourly(stage, appID, name, createQuery, fields, filter, next) {
+var queryActivitySummary = function queryActivitySummary(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getS3Object: {
-          content: _activityMockup.ouraHourly
+        getDataObject: {
+          content: _activitySummary.ActivitySummary
         }
       }
     });
   } else {
     return createQuery({
-      query: s3Query,
+      query: dataQuery,
       name: name,
       fields: fields,
       filter: filter,
-      next: next
+      next: next,
+      appId: appID
     });
   }
 };
 
-exports.queryOuraHourly = queryOuraHourly;
+exports.queryActivitySummary = queryActivitySummary;
 
-var queryNetflixData = function queryNetflixData(stage, appID, name, createQuery, fields, filter, next) {
+var queryReadinessSummariesAsync = function queryReadinessSummariesAsync(stage, appID, name, createQuery, fields, filter, next) {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: {
+          content: _readinessSummary.ReadinessSummary
+        }
+      }
+    });
+  } else {
+    //SELECT * FROM s3object s  where EXTRACT(YEAR FROM TO_TIMESTAMP(s.p_datetime))=2021 LIMIT 5
+    //https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID
+    });
+  }
+};
+
+exports.queryReadinessSummariesAsync = queryReadinessSummariesAsync;
+
+var queryReadinessSummary = function queryReadinessSummary(stage, appID, name, createQuery, fields, filter, next) {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: {
+          content: _readinessSummary.ReadinessSummary
+        }
+      }
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID
+    });
+  }
+};
+
+exports.queryReadinessSummary = queryReadinessSummary;
+
+var querySleepSummariesAsync = function querySleepSummariesAsync(stage, appID, name, createQuery, fields, filter, next) {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: {
+          content: _sleepSummary.SleepSummary
+        }
+      }
+    });
+  } else {
+    //SELECT * FROM s3object s  where EXTRACT(YEAR FROM TO_TIMESTAMP(s.p_datetime))=2021 LIMIT 5
+    //https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID
+    });
+  }
+};
+
+exports.querySleepSummariesAsync = querySleepSummariesAsync;
+
+var querySleepSummary = function querySleepSummary(stage, appID, name, createQuery, fields, filter, next) {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: {
+          content: _sleepSummary.SleepSummary
+        }
+      }
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID
+    });
+  }
+};
+
+exports.querySleepSummary = querySleepSummary;
+
+var querySleepDataAsync = function querySleepDataAsync(stage, appID, name, createQuery, fields, filter, next) {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: {
+          content: _sleepSummary.SleepSummary
+        }
+      }
+    });
+  } else {
+    //SELECT * FROM s3object s  where EXTRACT(YEAR FROM TO_TIMESTAMP(s.p_datetime))=2021 LIMIT 5
+    //https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID
+    });
+  }
+};
+
+exports.querySleepDataAsync = querySleepDataAsync;
+
+var querySleepData = function querySleepData(stage, appID, name, createQuery, fields, filter, next) {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: {
+          content: _sleepSummary.SleepSummary
+        }
+      }
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID
+    });
+  }
+};
+/*
+export const queryOuraDaily = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
   console.log("QUERY STAGE", stage);
   console.log("QUERY APP", appID);
   console.log("QUERY FIELDS", fields);
   console.log("QUERY FILTER", filter);
   console.log("QUERY NEXT", next);
-
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getS3Object: {
-          content: _activityMockup.netflixData
-        }
-      }
+        getS3Object: { content: ouraDaily },
+      },
     });
   } else {
-    return createQuery({
-      query: s3Query,
-      name: name,
-      fields: fields,
-      filter: filter,
-      next: next
-    });
+    //SELECT * FROM s3object s  where EXTRACT(YEAR FROM TO_TIMESTAMP(s.p_datetime))=2021 LIMIT 5
+    //https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
+
+    return createQuery({ query: s3Query, name: name, fields, filter, next });
   }
 };
 
-exports.queryNetflixData = queryNetflixData;
+export const queryOuraHourly = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getS3Object: { content: ouraHourly },
+      },
+    });
+  } else {
+    return createQuery({ query: s3Query, name: name, fields, filter, next });
+  }
+};
+
+export const queryNetflixData = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
+  console.log("QUERY STAGE", stage);
+  console.log("QUERY APP", appID);
+  console.log("QUERY FIELDS", fields);
+  console.log("QUERY FILTER", filter);
+  console.log("QUERY NEXT", next);
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getS3Object: { content: netflixData },
+      },
+    });
+  } else {
+    return createQuery({ query: s3Query, name: name, fields, filter, next });
+  }
+};
+
+*/
+
+
+exports.querySleepData = querySleepData;
