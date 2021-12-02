@@ -34,7 +34,7 @@ var getInfo = function getInfo() {
 exports.getInfo = getInfo;
 
 var getModuleName = function getModuleName() {
-  return "oura";
+  return "Oura";
 };
 
 exports.getModuleName = getModuleName;
