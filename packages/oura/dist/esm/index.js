@@ -10,10 +10,14 @@ var _Data = require("./Data");
 var Data = {
   getModuleName: _Data.getModuleName,
   getInfo: _Data.getInfo,
-  getSubscriptions: _Data.getSubscriptions,
-  queryOuraDaily: _Data.queryOuraDaily,
-  queryOuraHourly: _Data.queryOuraHourly,
-  queryNetflixData: _Data.queryNetflixData
+  queryActivitySummary: _Data.queryActivitySummary,
+  queryActivitySummariesAsync: _Data.queryActivitySummariesAsync,
+  queryReadinessSummary: _Data.queryReadinessSummary,
+  queryReadinessSummariesAsync: _Data.queryReadinessSummariesAsync,
+  querySleepData: _Data.querySleepData,
+  querySleepDataAsync: _Data.querySleepDataAsync,
+  querySleepSummary: _Data.querySleepSummary,
+  querySleepSummariesAsync: _Data.querySleepSummariesAsync
 };
 var _default = Data;
 exports["default"] = _default;

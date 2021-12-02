@@ -1,17 +1,26 @@
 import {
   getModuleName,
   getInfo,
-  getSubscriptions,
-  queryOuraDaily,
-  queryOuraHourly,
-  queryNetflixData,
+  queryActivitySummary,
+  queryActivitySummariesAsync,
+  queryReadinessSummary,
+  queryReadinessSummariesAsync,
+  querySleepData,
+  querySleepDataAsync,
+  querySleepSummary,
+  querySleepSummariesAsync,
 } from "./Data";
 const Data = {
   getModuleName,
   getInfo,
-  getSubscriptions,
-  queryOuraDaily,
-  queryOuraHourly,
-  queryNetflixData,
+  queryActivitySummary,
+  queryActivitySummariesAsync,
+  queryReadinessSummary,
+  queryReadinessSummariesAsync,
+
+  querySleepData,
+  querySleepDataAsync,
+  querySleepSummary,
+  querySleepSummariesAsync,
 };
 export default Data;
