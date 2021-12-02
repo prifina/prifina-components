@@ -36,7 +36,7 @@ export const getInfo = () => {
 };
 
 export const getModuleName = () => {
-  return "oura";
+  return "Oura";
 };
 
 export const queryActivitySummariesAsync = (
