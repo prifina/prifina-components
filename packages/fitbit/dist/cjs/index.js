@@ -12,16 +12,18 @@ var Data = {
   getInfo: _Data.getInfo,
   queryActivities: _Data.queryActivities,
   queryActivitySummary: _Data.queryActivitySummary,
-  queryHearRataSummary: _Data.queryHearRataSummary,
+  queryHeartRateSummary: _Data.queryHeartRateSummary,
   querySleepSummary: _Data.querySleepSummary,
-  queryHearRateData: _Data.queryHearRateData,
+  queryHeartRateData: _Data.queryHeartRateData,
   querySleepData: _Data.querySleepData,
   queryActivitySummariesAsync: _Data.queryActivitySummariesAsync,
-  queryHearRataSummariesAsync: _Data.queryHearRataSummariesAsync,
+  queryHeartRateSummariesAsync: _Data.queryHeartRateSummariesAsync,
   querySleepSummariesAsync: _Data.querySleepSummariesAsync,
   queryActivitiesAsync: _Data.queryActivitiesAsync,
-  queryHearRateDataAsync: _Data.queryHearRateDataAsync,
-  querySleepDataAsync: _Data.querySleepDataAsync
+  queryHeartRateDataAsync: _Data.queryHeartRateDataAsync,
+  querySleepDataAsync: _Data.querySleepDataAsync,
+  querySleepQualityAsync: _Data.querySleepQualityAsync,
+  querySleepQuality: _Data.querySleepQuality
 };
 var _default = Data;
 exports["default"] = _default;

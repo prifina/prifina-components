@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.querySleepDataAsync = exports.querySleepData = exports.queryHearRateDataAsync = exports.queryHearRateData = exports.querySleepSummariesAsync = exports.querySleepSummary = exports.queryHearRataSummariesAsync = exports.queryHearRataSummary = exports.queryActivitySummariesAsync = exports.queryActivitySummary = exports.queryActivitiesAsync = exports.queryActivities = exports.getModuleName = exports.getInfo = void 0;
+exports.querySleepQualityAsync = exports.querySleepQuality = exports.querySleepDataAsync = exports.querySleepData = exports.queryHeartRateDataAsync = exports.queryHeartRateData = exports.querySleepSummariesAsync = exports.querySleepSummary = exports.queryHeartRateSummariesAsync = exports.queryHeartRateSummary = exports.queryActivitySummariesAsync = exports.queryActivitySummary = exports.queryActivitiesAsync = exports.queryActivities = exports.getModuleName = exports.getInfo = void 0;
 
 var _ActivitiesData = require("./ActivitiesData");
 
@@ -28,7 +28,7 @@ const getAthenaResults = `subscription AthenaResults($id: String!) {
 */
 
 var getInfo = function getInfo() {
-  return ["queryActivities", "queryActivitySummary", "queryHearRateData", "queryHearRataSummary", "querySleepData", "querySleepSummary", "queryActivitySummariesAsync", "queryHearRataSummariesAsync", "querySleepSummariesAsync", "queryActivitiesAsync", "queryHearRateDataAsync", "querySleepDataAsync"];
+  return ["queryActivities", "queryActivitySummary", "queryHeartRateData", "queryHeartRateSummary", "querySleepData", "querySleepSummary", "querySleepQuality", "queryActivitySummariesAsync", "queryHeartRateSummariesAsync", "querySleepSummariesAsync", "queryActivitiesAsync", "queryHeartRateDataAsync", "querySleepDataAsync", "querySleepQualityAsync"];
 };
 
 exports.getInfo = getInfo;
@@ -143,7 +143,7 @@ var queryActivitySummariesAsync = function queryActivitySummariesAsync(stage, ap
 
 exports.queryActivitySummariesAsync = queryActivitySummariesAsync;
 
-var queryHearRataSummary = function queryHearRataSummary(stage, appID, name, createQuery, fields, filter, next) {
+var queryHeartRateSummary = function queryHeartRateSummary(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -164,9 +164,9 @@ var queryHearRataSummary = function queryHearRataSummary(stage, appID, name, cre
   }
 };
 
-exports.queryHearRataSummary = queryHearRataSummary;
+exports.queryHeartRateSummary = queryHeartRateSummary;
 
-var queryHearRataSummariesAsync = function queryHearRataSummariesAsync(stage, appID, name, createQuery, fields, filter, next) {
+var queryHeartRateSummariesAsync = function queryHeartRateSummariesAsync(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -187,7 +187,7 @@ var queryHearRataSummariesAsync = function queryHearRataSummariesAsync(stage, ap
   }
 };
 
-exports.queryHearRataSummariesAsync = queryHearRataSummariesAsync;
+exports.queryHeartRateSummariesAsync = queryHeartRateSummariesAsync;
 
 var querySleepSummary = function querySleepSummary(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
@@ -235,12 +235,12 @@ var querySleepSummariesAsync = function querySleepSummariesAsync(stage, appID, n
 
 exports.querySleepSummariesAsync = querySleepSummariesAsync;
 
-var queryHearRateData = function queryHearRateData(stage, appID, name, createQuery, fields, filter, next) {
+var queryHeartRateData = function queryHeartRateData(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _HeartRateData.HearRateData
+          content: _HeartRateData.HeartRateData
         }
       }
     });
@@ -256,14 +256,14 @@ var queryHearRateData = function queryHearRateData(stage, appID, name, createQue
   }
 };
 
-exports.queryHearRateData = queryHearRateData;
+exports.queryHeartRateData = queryHeartRateData;
 
-var queryHearRateDataAsync = function queryHearRateDataAsync(stage, appID, name, createQuery, fields, filter, next) {
+var queryHeartRateDataAsync = function queryHeartRateDataAsync(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _HeartRateData.HearRateData
+          content: _HeartRateData.HeartRateData
         }
       }
     });
@@ -279,7 +279,7 @@ var queryHearRateDataAsync = function queryHearRateDataAsync(stage, appID, name,
   }
 };
 
-exports.queryHearRateDataAsync = queryHearRateDataAsync;
+exports.queryHeartRateDataAsync = queryHeartRateDataAsync;
 
 var querySleepData = function querySleepData(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
@@ -326,3 +326,49 @@ var querySleepDataAsync = function querySleepDataAsync(stage, appID, name, creat
 };
 
 exports.querySleepDataAsync = querySleepDataAsync;
+
+var querySleepQuality = function querySleepQuality(stage, appID, name, createQuery, fields, filter, next) {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: {
+          content: _SleepData.SleepData
+        }
+      }
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID
+    });
+  }
+};
+
+exports.querySleepQuality = querySleepQuality;
+
+var querySleepQualityAsync = function querySleepQualityAsync(stage, appID, name, createQuery, fields, filter, next) {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: {
+          content: _SleepData.SleepData
+        }
+      }
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID
+    });
+  }
+};
+
+exports.querySleepQualityAsync = querySleepQualityAsync;

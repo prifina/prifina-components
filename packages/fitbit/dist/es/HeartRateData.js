@@ -3,8 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.HearRateData = void 0;
-var HearRateData = [{
+exports.HeartRateData = void 0;
+var HeartRateData = [{
   p_timestamp: "1633824000000",
   p_datetime: "2021-10-10T00:00:00.000Z",
   p_value: "46"
@@ -205,4 +205,4 @@ var HearRateData = [{
   p_datetime: "2021-10-10T00:49:00.000Z",
   p_value: "49"
 }];
-exports.HearRateData = HearRateData;
+exports.HeartRateData = HeartRateData;

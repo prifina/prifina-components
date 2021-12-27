@@ -1,26 +1,17 @@
 import {
   getModuleName,
   getInfo,
-  queryActivitySummary,
-  queryActivitySummariesAsync,
-  queryReadinessSummary,
-  queryReadinessSummariesAsync,
-  querySleepData,
-  querySleepDataAsync,
-  querySleepSummary,
-  querySleepSummariesAsync,
+  queryDailiesDataAsync,
+  queryEpochssDataAsync,
+  querySleepsDataAsync,
+  queryPulseoxDataAsync,
 } from "./Data";
 const Data = {
   getModuleName,
   getInfo,
-  queryActivitySummary,
-  queryActivitySummariesAsync,
-  queryReadinessSummary,
-  queryReadinessSummariesAsync,
-
-  querySleepData,
-  querySleepDataAsync,
-  querySleepSummary,
-  querySleepSummariesAsync,
+  queryDailiesDataAsync,
+  queryEpochssDataAsync,
+  querySleepsDataAsync,
+  queryPulseoxDataAsync,
 };
 export default Data;
