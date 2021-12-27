@@ -1,7 +1,7 @@
 import { ActivitiesData } from "./ActivitiesData";
 
 import { ActivitiesSummary } from "./ActivitiesSummary";
-import { HearRateData } from "./HeartRateData";
+import { HeartRateData } from "./HeartRateData";
 import { HeartRateSummary } from "./HeartRateSummary";
 import { SleepData } from "./SleepData";
 import { SleepSummary } from "./SleepSummary";
@@ -24,16 +24,18 @@ export const getInfo = () => {
   return [
     "queryActivities",
     "queryActivitySummary",
-    "queryHearRateData",
-    "queryHearRataSummary",
+    "queryHeartRateData",
+    "queryHeartRateSummary",
     "querySleepData",
     "querySleepSummary",
+    "querySleepQuality",
     "queryActivitySummariesAsync",
-    "queryHearRataSummariesAsync",
+    "queryHeartRateSummariesAsync",
     "querySleepSummariesAsync",
     "queryActivitiesAsync",
-    "queryHearRateDataAsync",
+    "queryHeartRateDataAsync",
     "querySleepDataAsync",
+    "querySleepQualityAsync",
   ];
 };
 
@@ -162,7 +164,7 @@ export const queryActivitySummariesAsync = (
   }
 };
 
-export const queryHearRataSummary = (
+export const queryHeartRateSummary = (
   stage,
   appID,
   name,
@@ -189,7 +191,7 @@ export const queryHearRataSummary = (
   }
 };
 
-export const queryHearRataSummariesAsync = (
+export const queryHeartRateSummariesAsync = (
   stage,
   appID,
   name,
@@ -270,7 +272,7 @@ export const querySleepSummariesAsync = (
   }
 };
 
-export const queryHearRateData = (
+export const queryHeartRateData = (
   stage,
   appID,
   name,
@@ -282,7 +284,7 @@ export const queryHearRateData = (
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: HearRateData },
+        getDataObject: { content: HeartRateData },
       },
     });
   } else {
@@ -297,7 +299,7 @@ export const queryHearRateData = (
   }
 };
 
-export const queryHearRateDataAsync = (
+export const queryHeartRateDataAsync = (
   stage,
   appID,
   name,
@@ -309,7 +311,7 @@ export const queryHearRateDataAsync = (
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: HearRateData },
+        getDataObject: { content: HeartRateData },
       },
     });
   } else {
@@ -352,6 +354,60 @@ export const querySleepData = (
 };
 
 export const querySleepDataAsync = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: SleepData },
+      },
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+    });
+  }
+};
+
+export const querySleepQuality = (
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next
+) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: SleepData },
+      },
+    });
+  } else {
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+    });
+  }
+};
+
+export const querySleepQualityAsync = (
   stage,
   appID,
   name,

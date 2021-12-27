@@ -1,4 +1,4 @@
-export const HearRateData = [
+export const HeartRateData = [
   {
     p_timestamp: "1633824000000",
     p_datetime: "2021-10-10T00:00:00.000Z",
