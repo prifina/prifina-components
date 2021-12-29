@@ -9,24 +9,33 @@ const dataQuery = `query dataObject($input:DataObjectInput!) {
 export const getInfo = () => {
   return ["queryActivities"];
 };
+export const getFields = (query) => {
+  let fields = [];
+  switch (query) {
+    case "queryActivities":
+      fields = Object.keys(activityMockup[0]);
+      break;
 
-export const getSubscriptions = () => {
-  return [{ subscription: "queryActivities", mockup: activityMockup }];
+    default:
+      fields = [];
+  }
+  return fields;
 };
 
 export const getModuleName = () => {
   return "GoogleTimeline";
 };
 
-export const queryActivities = (
+export const queryActivities = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   console.log("QUERY STAGE", stage);
   console.log("QUERY APP", appID);
   //console.log("QUERY UUID", uuid);
@@ -51,6 +60,7 @@ export const queryActivities = (
       filter,
       next,
       appId: appID,
+      fieldsList: fieldsList,
     });
   }
 };

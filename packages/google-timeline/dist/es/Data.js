@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.queryActivities = exports.getModuleName = exports.getSubscriptions = exports.getInfo = void 0;
+exports.queryActivities = exports.getModuleName = exports.getFields = exports.getInfo = void 0;
 
 var _activityMockup = _interopRequireDefault(require("./activityMockup"));
 
@@ -17,14 +17,22 @@ var getInfo = function getInfo() {
 
 exports.getInfo = getInfo;
 
-var getSubscriptions = function getSubscriptions() {
-  return [{
-    subscription: "queryActivities",
-    mockup: _activityMockup["default"]
-  }];
+var getFields = function getFields(query) {
+  var fields = [];
+
+  switch (query) {
+    case "queryActivities":
+      fields = Object.keys(_activityMockup["default"][0]);
+      break;
+
+    default:
+      fields = [];
+  }
+
+  return fields;
 };
 
-exports.getSubscriptions = getSubscriptions;
+exports.getFields = getFields;
 
 var getModuleName = function getModuleName() {
   return "GoogleTimeline";
@@ -32,7 +40,15 @@ var getModuleName = function getModuleName() {
 
 exports.getModuleName = getModuleName;
 
-var queryActivities = function queryActivities(stage, appID, name, createQuery, fields, filter, next) {
+var queryActivities = function queryActivities(_ref) {
+  var stage = _ref.stage,
+      appID = _ref.appID,
+      name = _ref.name,
+      createQuery = _ref.createQuery,
+      fields = _ref.fields,
+      filter = _ref.filter,
+      next = _ref.next,
+      fieldsList = _ref.fieldsList;
   console.log("QUERY STAGE", stage);
   console.log("QUERY APP", appID); //console.log("QUERY UUID", uuid);
   //console.log("QUERY EX", executionID);
@@ -58,7 +74,8 @@ var queryActivities = function queryActivities(stage, appID, name, createQuery, 
       fields: fields,
       filter: filter,
       next: next,
-      appId: appID
+      appId: appID,
+      fieldsList: fieldsList
     });
   }
 };
