@@ -90,7 +90,7 @@ export const Provider = ({
     }
     */
     const moduleParts = opts.name.split("/");
-
+    /*
     if (opts.fields && opts.fields.length > 0) {
       const datamodel = DataModels[moduleParts[0]][moduleParts[1]];
       console.log(datamodel);
@@ -105,6 +105,7 @@ export const Provider = ({
         }
       });
     }
+    */
 
     return new Promise(function (resolve, reject) {
       //const S3Bucket = "athena-test-prifina";
@@ -422,14 +423,19 @@ type Query @aws_iam @aws_cognito_user_pools {
       modules.forEach((module, mi) => {
         const moduleName = module.getModuleName();
         const functionList = module.getInfo();
+
         let fn = {};
         //const subscriptionList = module.getSubscriptions() || [];
         console.log("LIST ", functionList);
         functionList.forEach((q) => {
           if (q.startsWith("query")) {
-            fn[q] = ({ fields, filter, next, appId }) => {
+            fn[q] = ({ fields, filter, next }) => {
               console.log("INIT ", providerContext.current.init);
               const stage = providerContext.current.init.stage;
+              let fieldsList = [];
+              if (typeof module.getFields !== "undefined") {
+                fieldsList = module.getFields(q);
+              }
               //const executionID = short.generate();
 
               return module[q](
@@ -437,7 +443,7 @@ type Query @aws_iam @aws_cognito_user_pools {
                 appID,
                 moduleName + "/" + q,
                 createQuery,
-
+                fieldsList,
                 fields,
                 filter,
                 next
