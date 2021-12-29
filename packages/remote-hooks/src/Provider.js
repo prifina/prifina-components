@@ -92,7 +92,7 @@ export const Provider = ({
     const moduleParts = opts.name.split("/");
     let queryFields = [];
     if (opts.fields && opts.fieldsList) {
-      queryFields = fields.split(",");
+      queryFields = opts.fields.split(",");
       if (
         !queryFields.some((k) => {
           if (fieldsList.indexOf(k) === -1) {
