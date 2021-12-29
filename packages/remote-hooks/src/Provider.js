@@ -97,10 +97,10 @@ export const Provider = ({
       queryFields.some((k) => {
         console.log("K=>", k);
         console.log("F=>", opts.fieldsList.indexOf(k));
-        return true;
+        return false;
       });
 
-      if (!queryFields.some((k) => opts.fieldsList.indexOf(k) > -1)) {
+      if (queryFields.some((k) => opts.fieldsList.indexOf(k) === -1)) {
         throw new Error("INVALID_FIELD (" + k + ")");
       }
     }
