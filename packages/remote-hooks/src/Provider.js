@@ -95,7 +95,7 @@ export const Provider = ({
       queryFields = opts.fields.split(",");
       if (
         !queryFields.some((k) => {
-          if (fieldsList.indexOf(k) === -1) {
+          if (opts.fieldsList.indexOf(k) === -1) {
             return false;
           } else {
             return true;
