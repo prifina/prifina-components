@@ -93,16 +93,8 @@ export const Provider = ({
     let queryFields = [];
     if (opts.fields && opts.fieldsList) {
       queryFields = opts.fields.split(",");
-      if (
-        !queryFields.some((k) => {
-          if (opts.fieldsList.indexOf(k) === -1) {
-            return false;
-          } else {
-            return true;
-          }
-        })
-      ) {
-        throw new Error("INVALID_FIELD (" + f + ")");
+      if (!queryFields.some((k) => opts.fieldsList.indexOf(k) > -1)) {
+        throw new Error("INVALID_FIELD (" + k + ")");
       }
     }
     /*
