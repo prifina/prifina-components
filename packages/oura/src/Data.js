@@ -38,6 +38,29 @@ export const getInfo = () => {
 export const getModuleName = () => {
   return "Oura";
 };
+export const getFields = (query) => {
+  let fields = [];
+  switch (query) {
+    case "queryActivitySummary":
+    case "queryActivitySummariesAsync":
+      fields = Object.keys(ActivitySummary);
+      break;
+    case "queryReadinessSummary":
+    case "queryReadinessSummariesAsync":
+      fields = Object.keys(ReadinessSummary);
+      break;
+
+    case "querySleepData":
+    case "querySleepDataAsync":
+    case "querySleepSummary":
+    case "querySleepSummariesAsync":
+      fields = Object.keys(SleepSummary);
+      break;
+    default:
+      fields = [];
+  }
+  return fields;
+};
 
 export const queryActivitySummariesAsync = (
   stage,

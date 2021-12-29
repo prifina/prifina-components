@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.querySleepData = exports.querySleepDataAsync = exports.querySleepSummary = exports.querySleepSummariesAsync = exports.queryReadinessSummary = exports.queryReadinessSummariesAsync = exports.queryActivitySummary = exports.queryActivitySummariesAsync = exports.getModuleName = exports.getInfo = void 0;
+exports.querySleepData = exports.querySleepDataAsync = exports.querySleepSummary = exports.querySleepSummariesAsync = exports.queryReadinessSummary = exports.queryReadinessSummariesAsync = exports.queryActivitySummary = exports.queryActivitySummariesAsync = exports.getFields = exports.getModuleName = exports.getInfo = void 0;
 
 var _sleepSummary = require("./sleepSummary");
 
@@ -38,6 +38,36 @@ var getModuleName = function getModuleName() {
 };
 
 exports.getModuleName = getModuleName;
+
+var getFields = function getFields(query) {
+  var fields = [];
+
+  switch (query) {
+    case "queryActivitySummary":
+    case "queryActivitySummariesAsync":
+      fields = Object.keys(_activitySummary.ActivitySummary);
+      break;
+
+    case "queryReadinessSummary":
+    case "queryReadinessSummariesAsync":
+      fields = Object.keys(_readinessSummary.ReadinessSummary);
+      break;
+
+    case "querySleepData":
+    case "querySleepDataAsync":
+    case "querySleepSummary":
+    case "querySleepSummariesAsync":
+      fields = Object.keys(_sleepSummary.SleepSummary);
+      break;
+
+    default:
+      fields = [];
+  }
+
+  return fields;
+};
+
+exports.getFields = getFields;
 
 var queryActivitySummariesAsync = function queryActivitySummariesAsync(stage, appID, name, createQuery, fields, filter, next) {
   if (stage === "dev") {
