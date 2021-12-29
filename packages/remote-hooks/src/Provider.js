@@ -99,9 +99,14 @@ export const Provider = ({
         console.log("F=>", opts.fieldsList.indexOf(k));
         return false;
       });
-
-      if (queryFields.some((k) => opts.fieldsList.indexOf(k) === -1)) {
-        throw new Error("INVALID_FIELD (" + k + ")");
+      let invField = "";
+      if (
+        queryFields.some((k) => {
+          invField = k;
+          return opts.fieldsList.indexOf(k) === -1;
+        })
+      ) {
+        throw new Error("INVALID_FIELD (" + invField + ")");
       }
     }
     /*
