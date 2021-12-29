@@ -69,7 +69,8 @@ export const queryActivitySummariesAsync = (
   createQuery,
   fields,
   filter,
-  next
+  next,
+  fieldsList
 ) => {
   if (stage === "dev") {
     return Promise.resolve({
@@ -88,6 +89,7 @@ export const queryActivitySummariesAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList: fieldsList,
     });
   }
 };
@@ -99,7 +101,8 @@ export const queryActivitySummary = (
   createQuery,
   fields,
   filter,
-  next
+  next,
+  fieldsList
 ) => {
   if (stage === "dev") {
     return Promise.resolve({
@@ -115,6 +118,7 @@ export const queryActivitySummary = (
       filter,
       next,
       appId: appID,
+      fieldsList: fieldsList,
     });
   }
 };
@@ -126,7 +130,8 @@ export const queryReadinessSummariesAsync = (
   createQuery,
   fields,
   filter,
-  next
+  next,
+  fieldsList
 ) => {
   if (stage === "dev") {
     return Promise.resolve({
@@ -145,6 +150,7 @@ export const queryReadinessSummariesAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList: fieldsList,
     });
   }
 };
@@ -156,7 +162,8 @@ export const queryReadinessSummary = (
   createQuery,
   fields,
   filter,
-  next
+  next,
+  fieldsList
 ) => {
   if (stage === "dev") {
     return Promise.resolve({
@@ -172,6 +179,7 @@ export const queryReadinessSummary = (
       filter,
       next,
       appId: appID,
+      fieldsList: fieldsList,
     });
   }
 };
@@ -183,7 +191,8 @@ export const querySleepSummariesAsync = (
   createQuery,
   fields,
   filter,
-  next
+  next,
+  fieldsList
 ) => {
   if (stage === "dev") {
     return Promise.resolve({
@@ -202,6 +211,7 @@ export const querySleepSummariesAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList: fieldsList,
     });
   }
 };
@@ -213,7 +223,8 @@ export const querySleepSummary = (
   createQuery,
   fields,
   filter,
-  next
+  next,
+  fieldsList
 ) => {
   if (stage === "dev") {
     return Promise.resolve({
@@ -229,6 +240,7 @@ export const querySleepSummary = (
       filter,
       next,
       appId: appID,
+      fieldsList: fieldsList,
     });
   }
 };
@@ -240,7 +252,8 @@ export const querySleepDataAsync = (
   createQuery,
   fields,
   filter,
-  next
+  next,
+  fieldsList
 ) => {
   if (stage === "dev") {
     return Promise.resolve({
@@ -259,6 +272,7 @@ export const querySleepDataAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList: fieldsList,
     });
   }
 };
@@ -270,7 +284,8 @@ export const querySleepData = (
   createQuery,
   fields,
   filter,
-  next
+  next,
+  fieldsList
 ) => {
   if (stage === "dev") {
     return Promise.resolve({
@@ -286,6 +301,7 @@ export const querySleepData = (
       filter,
       next,
       appId: appID,
+      fieldsList: fieldsList,
     });
   }
 };

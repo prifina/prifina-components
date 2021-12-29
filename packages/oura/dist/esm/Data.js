@@ -69,7 +69,7 @@ var getFields = function getFields(query) {
 
 exports.getFields = getFields;
 
-var queryActivitySummariesAsync = function queryActivitySummariesAsync(stage, appID, name, createQuery, fields, filter, next) {
+var queryActivitySummariesAsync = function queryActivitySummariesAsync(stage, appID, name, createQuery, fields, filter, next, fieldsList) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -87,14 +87,15 @@ var queryActivitySummariesAsync = function queryActivitySummariesAsync(stage, ap
       fields: fields,
       filter: filter,
       next: next,
-      appId: appID
+      appId: appID,
+      fieldsList: fieldsList
     });
   }
 };
 
 exports.queryActivitySummariesAsync = queryActivitySummariesAsync;
 
-var queryActivitySummary = function queryActivitySummary(stage, appID, name, createQuery, fields, filter, next) {
+var queryActivitySummary = function queryActivitySummary(stage, appID, name, createQuery, fields, filter, next, fieldsList) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -110,14 +111,15 @@ var queryActivitySummary = function queryActivitySummary(stage, appID, name, cre
       fields: fields,
       filter: filter,
       next: next,
-      appId: appID
+      appId: appID,
+      fieldsList: fieldsList
     });
   }
 };
 
 exports.queryActivitySummary = queryActivitySummary;
 
-var queryReadinessSummariesAsync = function queryReadinessSummariesAsync(stage, appID, name, createQuery, fields, filter, next) {
+var queryReadinessSummariesAsync = function queryReadinessSummariesAsync(stage, appID, name, createQuery, fields, filter, next, fieldsList) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -135,14 +137,15 @@ var queryReadinessSummariesAsync = function queryReadinessSummariesAsync(stage, 
       fields: fields,
       filter: filter,
       next: next,
-      appId: appID
+      appId: appID,
+      fieldsList: fieldsList
     });
   }
 };
 
 exports.queryReadinessSummariesAsync = queryReadinessSummariesAsync;
 
-var queryReadinessSummary = function queryReadinessSummary(stage, appID, name, createQuery, fields, filter, next) {
+var queryReadinessSummary = function queryReadinessSummary(stage, appID, name, createQuery, fields, filter, next, fieldsList) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -158,14 +161,15 @@ var queryReadinessSummary = function queryReadinessSummary(stage, appID, name, c
       fields: fields,
       filter: filter,
       next: next,
-      appId: appID
+      appId: appID,
+      fieldsList: fieldsList
     });
   }
 };
 
 exports.queryReadinessSummary = queryReadinessSummary;
 
-var querySleepSummariesAsync = function querySleepSummariesAsync(stage, appID, name, createQuery, fields, filter, next) {
+var querySleepSummariesAsync = function querySleepSummariesAsync(stage, appID, name, createQuery, fields, filter, next, fieldsList) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -183,14 +187,15 @@ var querySleepSummariesAsync = function querySleepSummariesAsync(stage, appID, n
       fields: fields,
       filter: filter,
       next: next,
-      appId: appID
+      appId: appID,
+      fieldsList: fieldsList
     });
   }
 };
 
 exports.querySleepSummariesAsync = querySleepSummariesAsync;
 
-var querySleepSummary = function querySleepSummary(stage, appID, name, createQuery, fields, filter, next) {
+var querySleepSummary = function querySleepSummary(stage, appID, name, createQuery, fields, filter, next, fieldsList) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -206,14 +211,15 @@ var querySleepSummary = function querySleepSummary(stage, appID, name, createQue
       fields: fields,
       filter: filter,
       next: next,
-      appId: appID
+      appId: appID,
+      fieldsList: fieldsList
     });
   }
 };
 
 exports.querySleepSummary = querySleepSummary;
 
-var querySleepDataAsync = function querySleepDataAsync(stage, appID, name, createQuery, fields, filter, next) {
+var querySleepDataAsync = function querySleepDataAsync(stage, appID, name, createQuery, fields, filter, next, fieldsList) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -231,14 +237,15 @@ var querySleepDataAsync = function querySleepDataAsync(stage, appID, name, creat
       fields: fields,
       filter: filter,
       next: next,
-      appId: appID
+      appId: appID,
+      fieldsList: fieldsList
     });
   }
 };
 
 exports.querySleepDataAsync = querySleepDataAsync;
 
-var querySleepData = function querySleepData(stage, appID, name, createQuery, fields, filter, next) {
+var querySleepData = function querySleepData(stage, appID, name, createQuery, fields, filter, next, fieldsList) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -254,7 +261,8 @@ var querySleepData = function querySleepData(stage, appID, name, createQuery, fi
       fields: fields,
       filter: filter,
       next: next,
-      appId: appID
+      appId: appID,
+      fieldsList: fieldsList
     });
   }
 };
