@@ -95,7 +95,16 @@ var queryActivitySummariesAsync = function queryActivitySummariesAsync(stage, ap
 
 exports.queryActivitySummariesAsync = queryActivitySummariesAsync;
 
-var queryActivitySummary = function queryActivitySummary(stage, appID, name, createQuery, fields, filter, next, fieldsList) {
+var queryActivitySummary = function queryActivitySummary(_ref) {
+  var stage = _ref.stage,
+      appID = _ref.appID,
+      name = _ref.name,
+      createQuery = _ref.createQuery,
+      fields = _ref.fields,
+      filter = _ref.filter,
+      next = _ref.next,
+      fieldsList = _ref.fieldsList;
+
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -105,6 +114,7 @@ var queryActivitySummary = function queryActivitySummary(stage, appID, name, cre
       }
     });
   } else {
+    console.log("ActivitySummary ", fieldsList);
     return createQuery({
       query: dataQuery,
       name: name,
