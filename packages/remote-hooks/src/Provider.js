@@ -90,6 +90,21 @@ export const Provider = ({
     }
     */
     const moduleParts = opts.name.split("/");
+    let queryFields = [];
+    if (opts.fields && opts.fieldsList) {
+      queryFields = fields.split(",");
+      if (
+        !queryFields.some((k) => {
+          if (fieldsList.indexOf(k) === -1) {
+            return false;
+          } else {
+            return true;
+          }
+        })
+      ) {
+        throw new Error("INVALID_FIELD (" + f + ")");
+      }
+    }
     /*
     if (opts.fields && opts.fields.length > 0) {
       const datamodel = DataModels[moduleParts[0]][moduleParts[1]];
@@ -122,7 +137,7 @@ export const Provider = ({
               //key: S3Key,
               dataconnector: opts.name,
               userId: currentUser.uuid,
-              fields: opts.fields,
+              fields: queryFields,
               filter: buildFilter(opts.filter),
               next: opts.next,
               appId: opts.appId,
