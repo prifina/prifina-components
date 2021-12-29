@@ -94,7 +94,7 @@ export const queryActivitySummariesAsync = (
   }
 };
 
-export const queryActivitySummary = (
+export const queryActivitySummary = ({
   stage,
   appID,
   name,
@@ -102,8 +102,8 @@ export const queryActivitySummary = (
   fields,
   filter,
   next,
-  fieldsList
-) => {
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -111,6 +111,7 @@ export const queryActivitySummary = (
       },
     });
   } else {
+    console.log("ActivitySummary ", fieldsList);
     return createQuery({
       query: dataQuery,
       name: name,

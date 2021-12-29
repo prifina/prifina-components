@@ -438,16 +438,16 @@ type Query @aws_iam @aws_cognito_user_pools {
               }
               //const executionID = short.generate();
 
-              return module[q](
-                stage,
-                appID,
-                moduleName + "/" + q,
-                createQuery,
+              return module[q]({
+                stage: stage,
+                appID: appID,
+                name: moduleName + "/" + q,
+                createQuery: createQuery,
                 fields,
                 filter,
                 next,
-                fieldsList
-              );
+                fieldsList: fieldsList,
+              });
             };
           }
           if (q.startsWith("S3")) {
