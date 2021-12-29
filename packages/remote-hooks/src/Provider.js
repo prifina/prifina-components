@@ -93,6 +93,13 @@ export const Provider = ({
     let queryFields = [];
     if (opts.fields && opts.fieldsList) {
       queryFields = opts.fields.split(",");
+      console.log(queryFields, opts.fieldsList);
+      queryFields.some((k) => {
+        console.log("K=>", k);
+        console.log("F=>", opts.fieldsList.indexOf(k));
+        return true;
+      });
+
       if (!queryFields.some((k) => opts.fieldsList.indexOf(k) > -1)) {
         throw new Error("INVALID_FIELD (" + k + ")");
       }
