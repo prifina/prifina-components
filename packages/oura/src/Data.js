@@ -62,7 +62,7 @@ export const getFields = (query) => {
   return fields;
 };
 
-export const queryActivitySummariesAsync = (
+export const queryActivitySummariesAsync = ({
   stage,
   appID,
   name,
@@ -70,8 +70,8 @@ export const queryActivitySummariesAsync = (
   fields,
   filter,
   next,
-  fieldsList
-) => {
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -111,7 +111,7 @@ export const queryActivitySummary = ({
       },
     });
   } else {
-    console.log("ActivitySummary ", fieldsList);
+    //console.log("ActivitySummary ", fieldsList);
     return createQuery({
       query: dataQuery,
       name: name,
@@ -124,7 +124,7 @@ export const queryActivitySummary = ({
   }
 };
 
-export const queryReadinessSummariesAsync = (
+export const queryReadinessSummariesAsync = ({
   stage,
   appID,
   name,
@@ -132,8 +132,8 @@ export const queryReadinessSummariesAsync = (
   fields,
   filter,
   next,
-  fieldsList
-) => {
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -156,7 +156,7 @@ export const queryReadinessSummariesAsync = (
   }
 };
 
-export const queryReadinessSummary = (
+export const queryReadinessSummary = ({
   stage,
   appID,
   name,
@@ -164,8 +164,8 @@ export const queryReadinessSummary = (
   fields,
   filter,
   next,
-  fieldsList
-) => {
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -185,7 +185,7 @@ export const queryReadinessSummary = (
   }
 };
 
-export const querySleepSummariesAsync = (
+export const querySleepSummariesAsync = ({
   stage,
   appID,
   name,
@@ -193,8 +193,8 @@ export const querySleepSummariesAsync = (
   fields,
   filter,
   next,
-  fieldsList
-) => {
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -217,7 +217,7 @@ export const querySleepSummariesAsync = (
   }
 };
 
-export const querySleepSummary = (
+export const querySleepSummary = ({
   stage,
   appID,
   name,
@@ -225,8 +225,8 @@ export const querySleepSummary = (
   fields,
   filter,
   next,
-  fieldsList
-) => {
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -246,7 +246,7 @@ export const querySleepSummary = (
   }
 };
 
-export const querySleepDataAsync = (
+export const querySleepDataAsync = ({
   stage,
   appID,
   name,
@@ -254,8 +254,8 @@ export const querySleepDataAsync = (
   fields,
   filter,
   next,
-  fieldsList
-) => {
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -278,7 +278,7 @@ export const querySleepDataAsync = (
   }
 };
 
-export const querySleepData = (
+export const querySleepData = ({
   stage,
   appID,
   name,
@@ -286,8 +286,8 @@ export const querySleepData = (
   fields,
   filter,
   next,
-  fieldsList
-) => {
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
