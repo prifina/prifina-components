@@ -443,10 +443,10 @@ type Query @aws_iam @aws_cognito_user_pools {
                 appID,
                 moduleName + "/" + q,
                 createQuery,
-                fieldsList,
                 fields,
                 filter,
-                next
+                next,
+                fieldsList
               );
             };
           }
