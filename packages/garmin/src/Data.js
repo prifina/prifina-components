@@ -9,7 +9,7 @@ const dataQuery = `query dataObject($input:DataObjectInput!) {
 export const getInfo = () => {
   return [
     "queryDailiesDataAsync",
-    "queryEpochssDataAsync",
+    "queryEpochsDataAsync",
     "querySleepsDataAsync",
     "queryPulseoxDataAsync",
   ];
@@ -20,15 +20,24 @@ export const getModuleName = () => {
 };
 export const getFields = (query) => {
   let fields = [];
-  /*
+
   switch (query) {
-    case "queryActivitySummary":
-      fields = Object.keys(ActivitySummary);
+    case "queryDailiesDataAsync":
+      fields = DailiesData[0].join(",");
+      break;
+    case "queryEpochsDataAsync":
+      fields = EpochsData[0].join(",");
+      break;
+    case "querySleepsDataAsync":
+      fields = SleepsData[0].join(",");
+      break;
+    case "queryPulseoxDataAsync":
+      fields = PulseoxData[0].join(",");
       break;
     default:
       fields = [];
   }
-  */
+
   return fields;
 };
 

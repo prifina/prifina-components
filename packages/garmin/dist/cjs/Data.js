@@ -10,7 +10,7 @@ var _Mockups = require("./Mockups");
 var dataQuery = "query dataObject($input:DataObjectInput!) {\n  getDataObject(input:$input) {\n    result\n  }\n}";
 
 var getInfo = function getInfo() {
-  return ["queryDailiesDataAsync", "queryEpochssDataAsync", "querySleepsDataAsync", "queryPulseoxDataAsync"];
+  return ["queryDailiesDataAsync", "queryEpochsDataAsync", "querySleepsDataAsync", "queryPulseoxDataAsync"];
 };
 
 exports.getInfo = getInfo;
@@ -23,15 +23,27 @@ exports.getModuleName = getModuleName;
 
 var getFields = function getFields(query) {
   var fields = [];
-  /*
+
   switch (query) {
-    case "queryActivitySummary":
-      fields = Object.keys(ActivitySummary);
+    case "queryDailiesDataAsync":
+      fields = _Mockups.DailiesData[0].join(",");
       break;
+
+    case "queryEpochsDataAsync":
+      fields = _Mockups.EpochsData[0].join(",");
+      break;
+
+    case "querySleepsDataAsync":
+      fields = _Mockups.SleepsData[0].join(",");
+      break;
+
+    case "queryPulseoxDataAsync":
+      fields = _Mockups.PulseoxData[0].join(",");
+      break;
+
     default:
       fields = [];
   }
-  */
 
   return fields;
 };

@@ -3,7 +3,7 @@ import {
   getInfo,
   getFields,
   queryDailiesDataAsync,
-  queryEpochssDataAsync,
+  queryEpochsDataAsync,
   querySleepsDataAsync,
   queryPulseoxDataAsync,
 } from "./Data";
@@ -12,7 +12,7 @@ const Data = {
   getInfo,
   getFields,
   queryDailiesDataAsync,
-  queryEpochssDataAsync,
+  queryEpochsDataAsync,
   querySleepsDataAsync,
   queryPulseoxDataAsync,
 };

@@ -57,16 +57,16 @@ var getFields = function getFields(query) {
       break;
 
     case "queryActivitySummariesAsync":
-      fields = Object.keys(_activitySummary.ActivitySummaryAsync[0]);
+      fields = _activitySummary.ActivitySummaryAsync[0].join(",");
       break;
 
     case "queryReadinessSummariesAsync":
-      fields = Object.keys(_readinessSummary.ReadinessSummaryAsync[0]);
+      fields = _readinessSummary.ReadinessSummaryAsync[0].join(",");
       break;
 
     case "querySleepDataAsync":
     case "querySleepSummariesAsync":
-      fields = Object.keys(_sleepSummary.SleepSummaryAsync[0]);
+      fields = _sleepSummary.SleepSummaryAsync[0].join(",");
       break;
 
     default:

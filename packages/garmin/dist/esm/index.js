@@ -12,7 +12,7 @@ var Data = {
   getInfo: _Data.getInfo,
   getFields: _Data.getFields,
   queryDailiesDataAsync: _Data.queryDailiesDataAsync,
-  queryEpochssDataAsync: _Data.queryEpochssDataAsync,
+  queryEpochsDataAsync: _Data.queryEpochsDataAsync,
   querySleepsDataAsync: _Data.querySleepsDataAsync,
   queryPulseoxDataAsync: _Data.queryPulseoxDataAsync
 };

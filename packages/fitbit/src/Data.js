@@ -63,31 +63,31 @@ export const getFields = (query) => {
       fields = HeartRateData[0].split(",");
       break;
     case "querySleepData":
-      fields = Object.keys(SleepData[0]);
+      fields = SleepData[0].join(",");
       break;
     case "querySleepQuality":
-      fields = Object.keys(SleepQuality[0]);
+      fields = SleepQuality[0].join(",");
       break;
     case "queryActivitiesAsync":
-      fields = Object.keys(ActivitiesDataAsync[0]);
+      fields = ActivitiesDataAsync[0].join(",");
       break;
     case "queryHeartRateDataAsync":
-      fields = Object.keys(HeartRateDataAsync[0]);
+      fields = HeartRateDataAsync[0].join(",");
       break;
     case "querySleepDataAsync":
-      fields = Object.keys(SleepDataAsync[0]);
+      fields = SleepDataAsync[0].join(",");
       break;
     case "querySleepQualityAsync":
-      fields = Object.keys(SleepQualityAsync[0]);
+      fields = SleepQualityAsync[0].join(",");
       break;
     case "queryActivitySummariesAsync":
-      fields = Object.keys(ActivitiesSummaryAsync[0]);
+      fields = ActivitiesSummaryAsync[0].join(",");
       break;
     case "queryHeartRateSummariesAsync":
-      fields = Object.keys(HeartRateSummaryAsync[0]);
+      fields = HeartRateSummaryAsync[0].join(",");
       break;
     case "querySleepSummariesAsync":
-      fields = Object.keys(SleepSummaryAsync[0]);
+      fields = SleepSummaryAsync[0].join(",");
       break;
     default:
       fields = [];

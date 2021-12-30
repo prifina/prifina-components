@@ -62,43 +62,43 @@ var getFields = function getFields(query) {
       break;
 
     case "queryHeartRateData":
-      fields = Object.keys(_HeartRateData.HeartRateData[0]);
+      fields = _HeartRateData.HeartRateData[0].split(",");
       break;
 
     case "querySleepData":
-      fields = Object.keys(_SleepData.SleepData[0]);
+      fields = _SleepData.SleepData[0].join(",");
       break;
 
     case "querySleepQuality":
-      fields = Object.keys(_SleepQuality.SleepQuality[0]);
+      fields = _SleepQuality.SleepQuality[0].join(",");
       break;
 
     case "queryActivitiesAsync":
-      fields = Object.keys(_ActivitiesData.ActivitiesDataAsync[0]);
+      fields = _ActivitiesData.ActivitiesDataAsync[0].join(",");
       break;
 
     case "queryHeartRateDataAsync":
-      fields = Object.keys(_HeartRateData.HeartRateDataAsync[0]);
+      fields = _HeartRateData.HeartRateDataAsync[0].join(",");
       break;
 
     case "querySleepDataAsync":
-      fields = Object.keys(_SleepData.SleepDataAsync[0]);
+      fields = _SleepData.SleepDataAsync[0].join(",");
       break;
 
     case "querySleepQualityAsync":
-      fields = Object.keys(_SleepQuality.SleepQualityAsync[0]);
+      fields = _SleepQuality.SleepQualityAsync[0].join(",");
       break;
 
     case "queryActivitySummariesAsync":
-      fields = Object.keys(_ActivitiesSummary.ActivitiesSummaryAsync[0]);
+      fields = _ActivitiesSummary.ActivitiesSummaryAsync[0].join(",");
       break;
 
     case "queryHeartRateSummariesAsync":
-      fields = Object.keys(_HeartRateSummary.HeartRateSummaryAsync[0]);
+      fields = _HeartRateSummary.HeartRateSummaryAsync[0].join(",");
       break;
 
     case "querySleepSummariesAsync":
-      fields = Object.keys(_SleepSummary.SleepSummaryAsync[0]);
+      fields = _SleepSummary.SleepSummaryAsync[0].join(",");
       break;
 
     default:

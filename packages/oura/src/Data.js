@@ -53,14 +53,14 @@ export const getFields = (query) => {
       fields = Object.keys(SleepSummary[0]);
       break;
     case "queryActivitySummariesAsync":
-      fields = Object.keys(ActivitySummaryAsync[0]);
+      fields = ActivitySummaryAsync[0].join(",");
       break;
     case "queryReadinessSummariesAsync":
-      fields = Object.keys(ReadinessSummaryAsync[0]);
+      fields = ReadinessSummaryAsync[0].join(",");
       break;
     case "querySleepDataAsync":
     case "querySleepSummariesAsync":
-      fields = Object.keys(SleepSummaryAsync[0]);
+      fields = SleepSummaryAsync[0].join(",");
       break;
 
     default:
