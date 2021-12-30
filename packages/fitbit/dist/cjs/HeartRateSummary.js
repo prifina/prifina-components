@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.HeartRateSummary = void 0;
+exports.HeartRateSummaryAsync = exports.HeartRateSummary = void 0;
 var HeartRateSummary = [{
   OUT_OF_ZONE: {
     cals: 1960,
@@ -23,3 +23,5 @@ var HeartRateSummary = [{
   }
 }];
 exports.HeartRateSummary = HeartRateSummary;
+var HeartRateSummaryAsync = ["out_of_zone,fat_burn,cardio,peak,user,day", "{cals=707, mins=1440},{cals=0, mins=0},{cals=0, mins=0},{cals=0, mins=0},id_6145b3af07fa22f66456e20eca49e98bfe35,2021-12-30", "{cals=2508, mins=1432},{cals=62, mins=8},{cals=0, mins=0},{cals=0, mins=0},id_6145b3af07fa22f66456e20eca49e98bfe35,2021-12-29"];
+exports.HeartRateSummaryAsync = HeartRateSummaryAsync;

@@ -44,20 +44,29 @@ var getFields = function getFields(query) {
 
   switch (query) {
     case "queryActivitySummary":
-    case "queryActivitySummariesAsync":
-      fields = Object.keys(_activitySummary.ActivitySummary);
+      fields = Object.keys(_activitySummary.ActivitySummary[0]);
       break;
 
     case "queryReadinessSummary":
-    case "queryReadinessSummariesAsync":
-      fields = Object.keys(_readinessSummary.ReadinessSummary);
+      fields = Object.keys(_readinessSummary.ReadinessSummary[0]);
       break;
 
     case "querySleepData":
-    case "querySleepDataAsync":
     case "querySleepSummary":
+      fields = Object.keys(_sleepSummary.SleepSummary[0]);
+      break;
+
+    case "queryActivitySummariesAsync":
+      fields = Object.keys(_activitySummary.ActivitySummaryAsync[0]);
+      break;
+
+    case "queryReadinessSummariesAsync":
+      fields = Object.keys(_readinessSummary.ReadinessSummaryAsync[0]);
+      break;
+
+    case "querySleepDataAsync":
     case "querySleepSummariesAsync":
-      fields = Object.keys(_sleepSummary.SleepSummary);
+      fields = Object.keys(_sleepSummary.SleepSummaryAsync[0]);
       break;
 
     default:

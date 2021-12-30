@@ -3,9 +3,9 @@ import { ouraDaily } from "./activityMockup";
 import { ouraHourly } from "./activityMockup";
 import { netflixData } from "./activityMockup";
 */
-import { SleepSummary } from "./sleepSummary";
-import { ActivitySummary } from "./activitySummary";
-import { ReadinessSummary } from "./readinessSummary";
+import { SleepSummary, SleepSummaryAsync } from "./sleepSummary";
+import { ActivitySummary, ActivitySummaryAsync } from "./activitySummary";
+import { ReadinessSummary, ReadinessSummaryAsync } from "./readinessSummary";
 
 const dataQuery = `query dataObject($input:DataObjectInput!) {
   getDataObject(input:$input) {
@@ -42,20 +42,27 @@ export const getFields = (query) => {
   let fields = [];
   switch (query) {
     case "queryActivitySummary":
-    case "queryActivitySummariesAsync":
-      fields = Object.keys(ActivitySummary);
+      fields = Object.keys(ActivitySummary[0]);
       break;
     case "queryReadinessSummary":
-    case "queryReadinessSummariesAsync":
-      fields = Object.keys(ReadinessSummary);
+      fields = Object.keys(ReadinessSummary[0]);
       break;
 
     case "querySleepData":
-    case "querySleepDataAsync":
     case "querySleepSummary":
-    case "querySleepSummariesAsync":
-      fields = Object.keys(SleepSummary);
+      fields = Object.keys(SleepSummary[0]);
       break;
+    case "queryActivitySummariesAsync":
+      fields = Object.keys(ActivitySummaryAsync[0]);
+      break;
+    case "queryReadinessSummariesAsync":
+      fields = Object.keys(ReadinessSummaryAsync[0]);
+      break;
+    case "querySleepDataAsync":
+    case "querySleepSummariesAsync":
+      fields = Object.keys(SleepSummaryAsync[0]);
+      break;
+
     default:
       fields = [];
   }

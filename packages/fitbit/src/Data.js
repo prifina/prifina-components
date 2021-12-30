@@ -1,10 +1,11 @@
-import { ActivitiesData } from "./ActivitiesData";
+import { ActivitiesData, ActivitiesDataAsync } from "./ActivitiesData";
 
-import { ActivitiesSummary } from "./ActivitiesSummary";
-import { HeartRateData } from "./HeartRateData";
-import { HeartRateSummary } from "./HeartRateSummary";
-import { SleepData } from "./SleepData";
-import { SleepSummary } from "./SleepSummary";
+import { ActivitiesSummary, ActivitiesSummaryAsync } from "./ActivitiesSummary";
+import { HeartRateData, HeartRateDataAsync } from "./HeartRateData";
+import { HeartRateSummary, HeartRateSummaryAsync } from "./HeartRateSummary";
+import { SleepData, SleepDataAsync } from "./SleepData";
+import { SleepSummary, SleepSummaryAsync } from "./SleepSummary";
+import { SleepQuality, SleepQualityAsync } from "./SleepQuality";
 
 const dataQuery = `query dataObject($input:DataObjectInput!) {
   getDataObject(input:$input) {
@@ -44,15 +45,54 @@ export const getModuleName = () => {
 };
 export const getFields = (query) => {
   let fields = [];
-  /*
+
   switch (query) {
     case "queryActivitySummary":
-      fields = Object.keys(ActivitySummary);
+      fields = Object.keys(ActivitiesSummary[0]);
+      break;
+    case "queryHeartRateSummary":
+      fields = Object.keys(HeartRateSummary[0]);
+      break;
+    case "querySleepSummary":
+      fields = Object.keys(SleepSummary[0]);
+      break;
+    case "queryActivities":
+      fields = Object.keys(ActivitiesData[0]);
+      break;
+    case "queryHeartRateData":
+      fields = Object.keys(HeartRateData[0]);
+      break;
+    case "querySleepData":
+      fields = Object.keys(SleepData[0]);
+      break;
+    case "querySleepQuality":
+      fields = Object.keys(SleepQuality[0]);
+      break;
+    case "queryActivitiesAsync":
+      fields = Object.keys(ActivitiesDataAsync[0]);
+      break;
+    case "queryHeartRateDataAsync":
+      fields = Object.keys(HeartRateDataAsync[0]);
+      break;
+    case "querySleepDataAsync":
+      fields = Object.keys(SleepDataAsync[0]);
+      break;
+    case "querySleepQualityAsync":
+      fields = Object.keys(SleepQualityAsync[0]);
+      break;
+    case "queryActivitySummariesAsync":
+      fields = Object.keys(ActivitiesSummaryAsync[0]);
+      break;
+    case "queryHeartRateSummariesAsync":
+      fields = Object.keys(HeartRateSummaryAsync[0]);
+      break;
+    case "querySleepSummariesAsync":
+      fields = Object.keys(SleepSummaryAsync[0]);
       break;
     default:
       fields = [];
   }
-  */
+
   return fields;
 };
 export const queryActivities = ({

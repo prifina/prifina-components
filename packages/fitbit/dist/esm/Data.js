@@ -17,6 +17,8 @@ var _SleepData = require("./SleepData");
 
 var _SleepSummary = require("./SleepSummary");
 
+var _SleepQuality = require("./SleepQuality");
+
 var dataQuery = "query dataObject($input:DataObjectInput!) {\n  getDataObject(input:$input) {\n    result\n  }\n}";
 /*
 const getAthenaResults = `subscription AthenaResults($id: String!) {
@@ -41,15 +43,67 @@ exports.getModuleName = getModuleName;
 
 var getFields = function getFields(query) {
   var fields = [];
-  /*
+
   switch (query) {
     case "queryActivitySummary":
-      fields = Object.keys(ActivitySummary);
+      fields = Object.keys(_ActivitiesSummary.ActivitiesSummary[0]);
       break;
+
+    case "queryHeartRateSummary":
+      fields = Object.keys(_HeartRateSummary.HeartRateSummary[0]);
+      break;
+
+    case "querySleepSummary":
+      fields = Object.keys(_SleepSummary.SleepSummary[0]);
+      break;
+
+    case "queryActivities":
+      fields = Object.keys(_ActivitiesData.ActivitiesData[0]);
+      break;
+
+    case "queryHeartRateData":
+      fields = Object.keys(_HeartRateData.HeartRateData[0]);
+      break;
+
+    case "querySleepData":
+      fields = Object.keys(_SleepData.SleepData[0]);
+      break;
+
+    case "querySleepQuality":
+      fields = Object.keys(_SleepQuality.SleepQuality[0]);
+      break;
+
+    case "queryActivitiesAsync":
+      fields = Object.keys(_ActivitiesData.ActivitiesDataAsync[0]);
+      break;
+
+    case "queryHeartRateDataAsync":
+      fields = Object.keys(_HeartRateData.HeartRateDataAsync[0]);
+      break;
+
+    case "querySleepDataAsync":
+      fields = Object.keys(_SleepData.SleepDataAsync[0]);
+      break;
+
+    case "querySleepQualityAsync":
+      fields = Object.keys(_SleepQuality.SleepQualityAsync[0]);
+      break;
+
+    case "queryActivitySummariesAsync":
+      fields = Object.keys(_ActivitiesSummary.ActivitiesSummaryAsync[0]);
+      break;
+
+    case "queryHeartRateSummariesAsync":
+      fields = Object.keys(_HeartRateSummary.HeartRateSummaryAsync[0]);
+      break;
+
+    case "querySleepSummariesAsync":
+      fields = Object.keys(_SleepSummary.SleepSummaryAsync[0]);
+      break;
+
     default:
       fields = [];
   }
-  */
 
   return fields;
 };
