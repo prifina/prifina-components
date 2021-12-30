@@ -26,21 +26,19 @@ var getFields = function getFields(query) {
 
   switch (query) {
     case "queryDailiesDataAsync":
-      console.log("FOUND....", _Mockups.DailiesData);
-      console.log("FOUND....", _Mockups.DailiesData.length);
-      fields = _Mockups.DailiesData[0].join(",");
+      fields = _Mockups.DailiesData[0].split(",");
       break;
 
     case "queryEpochsDataAsync":
-      fields = _Mockups.EpochsData[0].join(",");
+      fields = _Mockups.EpochsData[0].split(",");
       break;
 
     case "querySleepsDataAsync":
-      fields = _Mockups.SleepsData[0].join(",");
+      fields = _Mockups.SleepsData[0].split(",");
       break;
 
     case "queryPulseoxDataAsync":
-      fields = _Mockups.PulseoxData[0].join(",");
+      fields = _Mockups.PulseoxData[0].split(",");
       break;
 
     default:

@@ -63,31 +63,31 @@ export const getFields = (query) => {
       fields = HeartRateData[0].split(",");
       break;
     case "querySleepData":
-      fields = SleepData[0].join(",");
+      fields = SleepData[0].split(",");
       break;
     case "querySleepQuality":
-      fields = SleepQuality[0].join(",");
+      fields = SleepQuality[0].split(",");
       break;
     case "queryActivitiesAsync":
-      fields = ActivitiesDataAsync[0].join(",");
+      fields = ActivitiesDataAsync[0].split(",");
       break;
     case "queryHeartRateDataAsync":
-      fields = HeartRateDataAsync[0].join(",");
+      fields = HeartRateDataAsync[0].split(",");
       break;
     case "querySleepDataAsync":
-      fields = SleepDataAsync[0].join(",");
+      fields = SleepDataAsync[0].split(",");
       break;
     case "querySleepQualityAsync":
-      fields = SleepQualityAsync[0].join(",");
+      fields = SleepQualityAsync[0].split(",");
       break;
     case "queryActivitySummariesAsync":
-      fields = ActivitiesSummaryAsync[0].join(",");
+      fields = ActivitiesSummaryAsync[0].split(",");
       break;
     case "queryHeartRateSummariesAsync":
-      fields = HeartRateSummaryAsync[0].join(",");
+      fields = HeartRateSummaryAsync[0].split(",");
       break;
     case "querySleepSummariesAsync":
-      fields = SleepSummaryAsync[0].join(",");
+      fields = SleepSummaryAsync[0].split(",");
       break;
     default:
       fields = [];
