@@ -42,16 +42,29 @@ export const getInfo = () => {
 export const getModuleName = () => {
   return "Fitbit";
 };
-
-export const queryActivities = (
+export const getFields = (query) => {
+  let fields = [];
+  /*
+  switch (query) {
+    case "queryActivitySummary":
+      fields = Object.keys(ActivitySummary);
+      break;
+    default:
+      fields = [];
+  }
+  */
+  return fields;
+};
+export const queryActivities = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   console.log("QUERY STAGE", stage);
   console.log("QUERY APP", appID);
   //console.log("QUERY UUID", uuid);
@@ -76,19 +89,21 @@ export const queryActivities = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const queryActivitiesAsync = (
+export const queryActivitiesAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -106,19 +121,21 @@ export const queryActivitiesAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const queryActivitySummary = (
+export const queryActivitySummary = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -133,19 +150,21 @@ export const queryActivitySummary = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const queryActivitySummariesAsync = (
+export const queryActivitySummariesAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -160,19 +179,21 @@ export const queryActivitySummariesAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const queryHeartRateSummary = (
+export const queryHeartRateSummary = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -187,19 +208,21 @@ export const queryHeartRateSummary = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const queryHeartRateSummariesAsync = (
+export const queryHeartRateSummariesAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -214,19 +237,21 @@ export const queryHeartRateSummariesAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const querySleepSummary = (
+export const querySleepSummary = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -241,19 +266,21 @@ export const querySleepSummary = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const querySleepSummariesAsync = (
+export const querySleepSummariesAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -268,19 +295,21 @@ export const querySleepSummariesAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const queryHeartRateData = (
+export const queryHeartRateData = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -295,19 +324,21 @@ export const queryHeartRateData = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const queryHeartRateDataAsync = (
+export const queryHeartRateDataAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -322,19 +353,21 @@ export const queryHeartRateDataAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const querySleepData = (
+export const querySleepData = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -349,19 +382,21 @@ export const querySleepData = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const querySleepDataAsync = (
+export const querySleepDataAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -376,19 +411,21 @@ export const querySleepDataAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const querySleepQuality = (
+export const querySleepQuality = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -403,19 +440,21 @@ export const querySleepQuality = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const querySleepQualityAsync = (
+export const querySleepQualityAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -430,6 +469,7 @@ export const querySleepQualityAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };

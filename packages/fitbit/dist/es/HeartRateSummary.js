@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.HeartRateSummary = void 0;
-var HeartRateSummary = {
+var HeartRateSummary = [{
   OUT_OF_ZONE: {
     cals: 1960,
     mins: 1420
@@ -21,5 +21,5 @@ var HeartRateSummary = {
     cals: 0,
     mins: 0
   }
-};
+}];
 exports.HeartRateSummary = HeartRateSummary;

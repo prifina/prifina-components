@@ -1,6 +1,7 @@
 import {
   getModuleName,
   getInfo,
+  getFields,
   queryDailiesDataAsync,
   queryEpochssDataAsync,
   querySleepsDataAsync,
@@ -9,6 +10,7 @@ import {
 const Data = {
   getModuleName,
   getInfo,
+  getFields,
   queryDailiesDataAsync,
   queryEpochssDataAsync,
   querySleepsDataAsync,

@@ -10,6 +10,7 @@ var _Data = require("./Data");
 var Data = {
   getModuleName: _Data.getModuleName,
   getInfo: _Data.getInfo,
+  getFields: _Data.getFields,
   queryDailiesDataAsync: _Data.queryDailiesDataAsync,
   queryEpochssDataAsync: _Data.queryEpochssDataAsync,
   querySleepsDataAsync: _Data.querySleepsDataAsync,

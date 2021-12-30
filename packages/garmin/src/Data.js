@@ -18,16 +18,30 @@ export const getInfo = () => {
 export const getModuleName = () => {
   return "Garmin";
 };
+export const getFields = (query) => {
+  let fields = [];
+  /*
+  switch (query) {
+    case "queryActivitySummary":
+      fields = Object.keys(ActivitySummary);
+      break;
+    default:
+      fields = [];
+  }
+  */
+  return fields;
+};
 
-export const queryDailiesDataAsync = (
+export const queryDailiesDataAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -42,19 +56,21 @@ export const queryDailiesDataAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const queryEpochsDataAsync = (
+export const queryEpochsDataAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -69,19 +85,21 @@ export const queryEpochsDataAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const querySleepsDataAsync = (
+export const querySleepsDataAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -96,19 +114,21 @@ export const querySleepsDataAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };
 
-export const queryPulseoxDataAsync = (
+export const queryPulseoxDataAsync = ({
   stage,
   appID,
   name,
   createQuery,
   fields,
   filter,
-  next
-) => {
+  next,
+  fieldsList,
+}) => {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
@@ -123,6 +143,7 @@ export const queryPulseoxDataAsync = (
       filter,
       next,
       appId: appID,
+      fieldsList,
     });
   }
 };

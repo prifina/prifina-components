@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SleepSummary = void 0;
-var SleepSummary = {
+var SleepSummary = [{
   deep: {
     count: 4,
     minutes: 27,
@@ -34,5 +34,5 @@ var SleepSummary = {
   minutesAwake: 78,
   minutesToFallAsleep: 0,
   timeInBed: 460
-};
+}];
 exports.SleepSummary = SleepSummary;

@@ -1,6 +1,7 @@
 import {
   getModuleName,
   getInfo,
+  getFields,
   queryActivities,
   queryActivitySummary,
   queryHeartRateSummary,
@@ -19,6 +20,7 @@ import {
 const Data = {
   getModuleName,
   getInfo,
+  getFields,
   queryActivities,
   queryActivitySummary,
   queryHeartRateSummary,
