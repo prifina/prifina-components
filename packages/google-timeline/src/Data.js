@@ -11,8 +11,13 @@ export const getInfo = () => {
 };
 export const getFields = (query) => {
   let fields = [];
+  console.log("FIELDS...", query);
+  console.log("FIELDS...", activityMockup[0]);
+  console.log("FIELDS...", activityMockup[0].fields);
+
   switch (query) {
     case "queryActivities":
+      console.log("FIELDS...FOUND");
       fields = activityMockup[0].split(",");
       break;
 

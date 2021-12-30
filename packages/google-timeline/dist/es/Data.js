@@ -19,9 +19,13 @@ exports.getInfo = getInfo;
 
 var getFields = function getFields(query) {
   var fields = [];
+  console.log("FIELDS...", query);
+  console.log("FIELDS...", _activityMockup["default"][0]);
+  console.log("FIELDS...", _activityMockup["default"][0].fields);
 
   switch (query) {
     case "queryActivities":
+      console.log("FIELDS...FOUND");
       fields = _activityMockup["default"][0].split(",");
       break;
 
