@@ -26,10 +26,12 @@ var getFields = function getFields(query) {
 
   switch (query) {
     case "queryDailiesDataAsync":
+      console.log("FOUND....", _Mockups.DailiesData);
+      console.log("FOUND....", _Mockups.DailiesData.length);
       fields = _Mockups.DailiesData[0].join(",");
       break;
 
-    case "xqueryEpochsDataAsync":
+    case "queryEpochsDataAsync":
       fields = _Mockups.EpochsData[0].join(",");
       break;
 

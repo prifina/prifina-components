@@ -23,9 +23,12 @@ export const getFields = (query) => {
 
   switch (query) {
     case "queryDailiesDataAsync":
+      console.log("FOUND....", DailiesData);
+      console.log("FOUND....", DailiesData.length);
+
       fields = DailiesData[0].join(",");
       break;
-    case "xqueryEpochsDataAsync":
+    case "queryEpochsDataAsync":
       fields = EpochsData[0].join(",");
       break;
     case "querySleepsDataAsync":
