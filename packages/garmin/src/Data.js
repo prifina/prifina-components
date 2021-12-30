@@ -25,7 +25,7 @@ export const getFields = (query) => {
     case "queryDailiesDataAsync":
       fields = DailiesData[0].join(",");
       break;
-    case "queryEpochsDataAsync":
+    case "xqueryEpochsDataAsync":
       fields = EpochsData[0].join(",");
       break;
     case "querySleepsDataAsync":

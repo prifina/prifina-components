@@ -29,7 +29,7 @@ var getFields = function getFields(query) {
       fields = _Mockups.DailiesData[0].join(",");
       break;
 
-    case "queryEpochsDataAsync":
+    case "xqueryEpochsDataAsync":
       fields = _Mockups.EpochsData[0].join(",");
       break;
 
