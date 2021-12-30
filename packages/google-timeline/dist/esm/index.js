@@ -10,6 +10,7 @@ var _Data = require("./Data");
 var Data = {
   getModuleName: _Data.getModuleName,
   getInfo: _Data.getInfo,
+  getFields: _Data.getFields,
   getSubscriptions: _Data.getSubscriptions,
   queryActivities: _Data.queryActivities
 };
