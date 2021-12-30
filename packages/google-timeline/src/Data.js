@@ -13,7 +13,7 @@ export const getFields = (query) => {
   let fields = [];
   switch (query) {
     case "queryActivities":
-      fields = Object.keys(activityMockup[0]);
+      fields = activityMockup[0].split(",");
       break;
 
     default:

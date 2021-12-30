@@ -60,7 +60,7 @@ export const getFields = (query) => {
       fields = Object.keys(ActivitiesData[0]);
       break;
     case "queryHeartRateData":
-      fields = Object.keys(HeartRateData[0]);
+      fields = HeartRateData[0].split(",");
       break;
     case "querySleepData":
       fields = Object.keys(SleepData[0]);

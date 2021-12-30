@@ -22,7 +22,7 @@ var getFields = function getFields(query) {
 
   switch (query) {
     case "queryActivities":
-      fields = Object.keys(_activityMockup["default"][0]);
+      fields = _activityMockup["default"][0].split(",");
       break;
 
     default:
