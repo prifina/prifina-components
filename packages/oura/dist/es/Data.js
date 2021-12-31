@@ -92,7 +92,7 @@ var queryActivitySummariesAsync = function queryActivitySummariesAsync(_ref) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _activitySummary.ActivitySummary
+          content: _activitySummary.ActivitySummaryAsync
         }
       }
     });
@@ -161,7 +161,7 @@ var queryReadinessSummariesAsync = function queryReadinessSummariesAsync(_ref3) 
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _readinessSummary.ReadinessSummary
+          content: _readinessSummary.ReadinessSummaryAsync
         }
       }
     });
@@ -229,7 +229,7 @@ var querySleepSummariesAsync = function querySleepSummariesAsync(_ref5) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _sleepSummary.SleepSummary
+          content: _sleepSummary.SleepSummaryAsync
         }
       }
     });
@@ -297,7 +297,7 @@ var querySleepDataAsync = function querySleepDataAsync(_ref7) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _sleepSummary.SleepSummary
+          content: _sleepSummary.SleepSummaryAsync
         }
       }
     });

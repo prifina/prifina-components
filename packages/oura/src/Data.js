@@ -82,7 +82,7 @@ export const queryActivitySummariesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: ActivitySummary },
+        getDataObject: { content: ActivitySummaryAsync },
       },
     });
   } else {
@@ -144,7 +144,7 @@ export const queryReadinessSummariesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: ReadinessSummary },
+        getDataObject: { content: ReadinessSummaryAsync },
       },
     });
   } else {
@@ -205,7 +205,7 @@ export const querySleepSummariesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: SleepSummary },
+        getDataObject: { content: SleepSummaryAsync },
       },
     });
   } else {
@@ -266,7 +266,7 @@ export const querySleepDataAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: SleepSummary },
+        getDataObject: { content: SleepSummaryAsync },
       },
     });
   } else {
