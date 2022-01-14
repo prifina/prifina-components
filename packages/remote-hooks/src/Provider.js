@@ -439,7 +439,10 @@ type Query @aws_iam @aws_cognito_user_pools {
       modules.forEach((module, mi) => {
         const moduleName = module.getModuleName();
         const functionList = module.getInfo();
-
+        if (callbacks.current.hasOwnProperty("sandbox")) {
+          callbacks.current["sandbox"][0]({ registerHook: moduleName });
+          //callbacks.current[appID][callBackIndex]({ error: err });
+        }
         let fn = {};
         //const subscriptionList = module.getSubscriptions() || [];
         console.log("LIST ", functionList);
