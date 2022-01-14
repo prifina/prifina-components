@@ -89,6 +89,9 @@ export const Provider = ({
       options: S3OptionsInput
     }
     */
+    if (callbacks.current.hasOwnProperty("sandbox")) {
+      callbacks.current["sandbox"][0]({ query: opts });
+    }
     const moduleParts = opts.name.split("/");
     let queryFields = [];
     if (opts.fields && opts.fieldsList) {
@@ -102,6 +105,11 @@ export const Provider = ({
           return opts.fieldsList.indexOf(k) === -1;
         })
       ) {
+        if (callbacks.current.hasOwnProperty("sandbox")) {
+          callbacks.current["sandbox"][0]({
+            fieldsError: { fieldsList: fieldsList, invalidField: invField },
+          });
+        }
         //throw new Error("INVALID_FIELD (" + invField + ")");
         return Promise.reject("INVALID_FIELD (" + invField + ")");
       }
@@ -122,6 +130,17 @@ export const Provider = ({
       });
     }
     */
+
+    if (callbacks.current.hasOwnProperty("sandbox")) {
+      callbacks.current["sandbox"][0]({
+        queryRequest: {
+          appID: opts.appId,
+          fields: queryFields,
+          filter: buildFilter(opts.filter),
+          next: opts.next,
+        },
+      });
+    }
 
     return new Promise(function (resolve, reject) {
       //const S3Bucket = "athena-test-prifina";
@@ -149,10 +168,20 @@ export const Provider = ({
         .then((res) => {
           console.log("RES ", res);
           let s3Object = JSON.parse(res.data.getDataObject.result);
+          if (callbacks.current.hasOwnProperty("sandbox")) {
+            callbacks.current["sandbox"][0]({
+              queryResult: { data: { getDataObject: s3Object } },
+            });
+          }
 
           resolve({ data: { getDataObject: s3Object } });
         })
         .catch((error) => {
+          if (callbacks.current.hasOwnProperty("sandbox")) {
+            callbacks.current["sandbox"][0]({
+              queryError: JSON.stringify(error),
+            });
+          }
           console.log("QUERY ERROR ", error);
           reject(error);
         });
@@ -456,6 +485,11 @@ type Query @aws_iam @aws_cognito_user_pools {
                 fieldsList = module.getFields(q);
               }
               //const executionID = short.generate();
+              if (callbacks.current.hasOwnProperty("sandbox")) {
+                callbacks.current["sandbox"][0]({
+                  connector: moduleName + "/" + q,
+                });
+              }
 
               return module[q]({
                 stage: stage,
