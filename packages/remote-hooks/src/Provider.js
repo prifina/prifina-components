@@ -90,7 +90,7 @@ export const Provider = ({
     }
     */
     if (callbacks.current.hasOwnProperty("sandbox")) {
-      callbacks.current["sandbox"][0]({ query: opts });
+      callbacks.current["sandbox"][0]({ connectorFunction: opts });
     }
     const moduleParts = opts.name.split("/");
     let queryFields = [];
