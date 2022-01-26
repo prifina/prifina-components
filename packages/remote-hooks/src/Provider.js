@@ -77,6 +77,60 @@ export const Provider = ({
     console.log("I am always called even if the prior then's promise rejects");
   });
 */
+
+  function stringify(obj) {
+    if (typeof obj !== 'object' || obj === null || obj instanceof Array) {
+        console.log("WRONG OBJ TYPE ",typeof obj);
+        return value(obj);
+    }
+
+    const logicalOperators = Object.getOwnPropertySymbols(obj);
+    const objKeys = Object.keys(obj);
+    if (logicalOperators.length>0) {
+        return '{' + logicalOperators.map(function (k) {
+            
+                if (typeof k==="symbol") {
+                    return '"'+k.toString()+'":'+value(obj[k]);
+                } else {
+                    return null;
+                }    
+                   
+            }).filter(function (i) { return i; }) + '}';
+    }
+ 
+    if (objKeys.length>0) {
+         return '{' + objKeys.map(function (k) {
+        return (typeof obj[k] === 'function') ? null : '"' + k + '":' + value(obj[k]);
+    }).filter(function (i) { return i; }) + '}';
+    }
+
+    /*
+    return '{' + Object.keys(obj).map(function (k) {
+        return (typeof obj[k] === 'function') ? null : '"' + k + '":' + value(obj[k]);
+    }).filter(function (i) { return i; }) + '}';
+    */
+}
+
+function value(val) {
+     //console.log("VAL TYPE ",typeof val);
+    switch(typeof val) {
+        case 'string':
+            return '"' + val.replace(/\\/g, '\\\\').replace('"', '\\"') + '"';
+        case 'number': 
+        case 'boolean':
+            return '' + val;
+        case 'function':
+            return 'null';
+        case 'symbol':
+           return val.toString();    
+        case 'object':
+            if (val instanceof Date)  return '"' + val.toISOString() + '"';
+            if (val instanceof Array) return '[' + val.map(value).join(',') + ']';
+            if (val === null)         return 'null';
+                                      return stringify(val);
+    }
+}
+
   const createQuery = (opts) => {
     console.log("OPTS ", opts);
     /*
@@ -90,7 +144,14 @@ export const Provider = ({
     }
     */
     if (callbacks.current.hasOwnProperty("sandbox")) {
-      callbacks.current["sandbox"][0]({ connectorFunction: opts });
+       const filter=stringify(opts.filter);
+       let connectorFunction=Object.assign({},opts);
+        //delete payload.connectorFunction;
+        //payload[data.connectorFunction.name]=data.connectorFunction;
+        //payload[data.connectorFunction.name].filter=filter;
+        connectorFunction.filter=filter;
+
+      callbacks.current["sandbox"][0]({ [connectorFunction.name]: connectorFunction });
     }
     const moduleParts = opts.name.split("/");
     let queryFields = [];
