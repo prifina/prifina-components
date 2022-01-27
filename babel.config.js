@@ -8,7 +8,8 @@ module.exports = {
             "displayName": true
           }
         ],
-        "babel-plugin-react-docgen"
+        "babel-plugin-react-docgen",
+       
       ],
     presets: ['@babel/preset-env', '@babel/preset-react']
 };

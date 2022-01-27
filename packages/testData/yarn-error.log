@@ -1,0 +1,67 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn install
+
+PATH: 
+  /usr/local/opt/python/libexec/bin:/usr/local/bin:/Users/Tero/Library/Python/3.4/bin:/Users/Tero/Library/Android/sdk//tools:/Users/Tero/Library/Android/sdk//platform-tools:/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/opt/python/libexec/bin:/Users/Tero/Library/Python/3.4/bin:/Users/Tero/Library/Android/sdk//tools:/Users/Tero/Library/Android/sdk//platform-tools:/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  14.18.2
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/Tero/react-projects/local-development/prifina-development/prifina-components/packages/testData/package.json: Unexpected token } in JSON at position 247
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "@prifina/test-data",
+    "version": "0.0.0",
+    "description": "Testing Mockup Data modules",
+    "author": "tero <tero@prifina.com>",
+    "license": "MIT",
+    "main": "dist/esm/index.js",
+    "exports": {
+        ".": "./dist/esm/index.js",
+      },
+    "files": [
+      "dist"
+    ],
+    "publishConfig": {
+      "access": "public"
+    },
+    "scripts": {
+      "build": "yarn build:cjs && yarn build:es && yarn build:esm",
+      "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel ./src --out-dir ./dist/esm",
+      "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel ./src --out-dir ./dist/cjs",
+      "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel ./src --out-dir ./dist/es"
+    },
+    "devDependencies": {
+      "@babel/cli": "^7.11.5",
+      "@babel/core": "^7.9.0",
+      "@babel/preset-env": "^7.9.5",
+      "@babel/preset-react": "^7.9.4",
+      "babel-eslint": "^10.1.0",
+      "babel-jest": "^26.1.0",
+      "babel-loader": "^8.1.0",
+      "babel-plugin-react-docgen": "^4.2.1",
+      "cross-env": "^7.0.2",
+      "react": ">=16.8.6",
+      "react-dom": ">=16.8.6"
+    }
+   
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
