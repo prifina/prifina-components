@@ -26,9 +26,10 @@
     "babel-plugin-react-docgen": "^4.2.1",
     "cross-env": "^7.0.2",
     "react": ">=16.8.6",
-    "react-dom": ">=16.8.6"
+    "react-dom": ">=16.8.6",
+    "@prifina/oura-data": "^0.0.1"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@prifina/oura-data": "^0.0.1"
   }
 }

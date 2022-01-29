@@ -3,18 +3,18 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.default = void 0;
 
-var _submodule = require("./submodule.js");
+var _mockups = require("./mockups");
 
 //
-var Data = {
-  SleepSummary: _submodule.SleepSummary,
-  SleepSummaryAsync: _submodule.SleepSummaryAsync,
-  ActivitySummary: _submodule.ActivitySummary,
-  ActivitySummaryAsync: _submodule.ActivitySummaryAsync,
-  ReadinessSummary: _submodule.ReadinessSummary,
-  ReadinessSummaryAsync: _submodule.ReadinessSummaryAsync
+const Data = {
+  SleepSummary: _mockups.SleepSummary,
+  SleepSummaryAsync: _mockups.SleepSummaryAsync,
+  ActivitySummary: _mockups.ActivitySummary,
+  ActivitySummaryAsync: _mockups.ActivitySummaryAsync,
+  ReadinessSummary: _mockups.ReadinessSummary,
+  ReadinessSummaryAsync: _mockups.ReadinessSummaryAsync
 };
 var _default = Data;
-exports["default"] = _default;
+exports.default = _default;
