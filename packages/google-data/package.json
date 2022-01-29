@@ -1,6 +1,6 @@
 {
   "name": "@prifina/google-data",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Mockup Data for Google connector",
   "author": "tero <tero@prifina.com>",
   "license": "MIT",
@@ -9,16 +9,15 @@
   "exports": {
     ".": "./dist/esm/index.js",
     "./mockups": {
-      "import":"./dist/esm/mockups/index.js",
-      "require":"./dist/cjs/mockups/index.js"
+      "import": "./dist/esm/mockups/index.js",
+      "require": "./dist/cjs/mockups/index.js"
     },
     "./mockups/*": {
-      "import":"./dist/esm/mockups/*.js",
-      "require":"./dist/cjs/mockups/*.js"
+      "import": "./dist/esm/mockups/*.js",
+      "require": "./dist/cjs/mockups/*.js"
     },
     "./package.json": "./package.json"
   },
-
   "files": [
     "dist",
     "src"
