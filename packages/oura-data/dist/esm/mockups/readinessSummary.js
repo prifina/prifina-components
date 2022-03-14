@@ -19,5 +19,5 @@ const ReadinessSummary = [{
   rest_mode_state: 0
 }];
 exports.ReadinessSummary = ReadinessSummary;
-const ReadinessSummaryAsync = ["summary_date,period_id,score,score_activity_balance,score_hrv_balance,score_previous_day,score_previous_night,score_recovery_index,score_resting_hr,score_sleep_balance,score_temperature,rest_mode_state,user,day,period", "2021-12-28,0,92,93,59,100,98,100,97,100,95,0,id_6145b3af07fa22f66456e20eca49e98bfe35,2021-12-28,0"];
+const ReadinessSummaryAsync = ["summary_date,period_id,score,score_activity_balance,score_hrv_balance,score_previous_day,score_previous_night,score_recovery_index,score_resting_hr,score_sleep_balance,score_temperature,rest_mode_state,user,day,period", "2021-12-28", 0, 92, 93, 59, 100, 98, 100, 97, 100, 95, 0, "id_6145b3af07fa22f66456e20eca49e98bfe35", "2021-12-28,0"];
 exports.ReadinessSummaryAsync = ReadinessSummaryAsync;
