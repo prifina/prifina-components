@@ -1,6 +1,6 @@
 {
   "name": "@prifina/test-data",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Testing Mockup Data modules",
   "author": "tero <tero@prifina.com>",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
-    "@prifina/oura-data": "^0.0.4",
+    "@prifina/oura-data": "^0.0.5",
     "@storybook/react": "^6.0.16",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
