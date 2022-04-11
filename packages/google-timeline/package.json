@@ -1,6 +1,6 @@
 {
   "name": "@prifina/google-timeline",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Prifina Google timeline Hook",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "module": "dist/esm/packages/google-timeline/src/index.js",
   "exports": {
     ".": "./dist/esm/packages/google-timeline/src/index.js"
-  },  
+  },
   "publishConfig": {
     "access": "public"
   },
