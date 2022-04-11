@@ -554,8 +554,9 @@ type Query @aws_iam @aws_cognito_user_pools {
         }
         let fn = {};
         //const subscriptionList = module.getSubscriptions() || [];
-        console.log("LIST ", functionList);
+        console.log("LIST ", typeof functionList, functionList);
         functionList.forEach((q) => {
+          //console.log("REGISTER new ", q);
           if (q.startsWith("query")) {
             fn[q] = ({ fields, filter, next }) => {
               console.log("INIT ", providerContext.current.init);

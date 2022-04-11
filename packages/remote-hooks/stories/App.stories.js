@@ -2,9 +2,9 @@ import React, { createContext, useContext, useMemo, useEffect } from "react";
 
 import { Provider, PrifinaContext } from "../src/Provider";
 
-import GoogleTimeline from "../../google-timeline/";
+import GoogleTimeline from "@prifina/google-timeline";
 
-import Amplify, { Auth, API as GRAPHQL } from "aws-amplify";
+import { Auth, API as GRAPHQL } from "aws-amplify";
 import config from "./config";
 
 import AWSAppSyncClient, { AUTH_TYPE } from "aws-appsync";
@@ -16,16 +16,19 @@ const APIConfig = {
   aws_appsync_authenticationType: config.appSync.aws_appsync_authenticationType,
 };
 
-const AUTHConfig = {
+let AUTHConfig = {
   // To get the aws credentials, you need to configure
   // the Auth module with your Cognito Federated Identity Pool
   mandatorySignIn: false,
   userPoolId: config.cognito.USER_POOL_ID,
   identityPoolId: config.cognito.IDENTITY_POOL_ID,
   userPoolWebClientId: config.cognito.APP_CLIENT_ID,
-  region: config.main_region,
+  region: config.auth_region,
+  identityPoolRegion: config.main_region,
+  //region: config.main_region,
 };
 //import { PrifinaProvider } from "@prifina/hooks";
+
 export const usePrifina = ({ Context, appID = "", connectors = [] }) => {
   let contextExists = false;
   if (typeof Context !== "undefined") {
@@ -82,9 +85,10 @@ export const app = () => {
     setSettings,
     API,
   } = usePrifina({});
+
   //console.log(Prifina);
   //console.log("CONFIG ", API_KEY);
-  console.log(GoogleTimeline.getInfo());
+  console.log("new ", GoogleTimeline.getInfo());
 
   const Test = new Prifina({ appId: appID, modules: [GoogleTimeline] });
 
@@ -95,13 +99,7 @@ export const app = () => {
       type: AUTH_TYPE.AWS_IAM,
       credentials: () => Auth.currentCredentials(),
     },
-    /*
-    auth: {
-      type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
-      jwtToken: async () =>
-        (await Auth.currentSession()).getIdToken().getJwtToken(),
-    },
-    */
+
     disableOffline: true,
   });
 
@@ -114,9 +112,10 @@ export const app = () => {
     console.log("UPDATE INIT ");
     onUpdate(appID, updateTest);
     registerHooks(appID, [GoogleTimeline]);
+
     try {
       Auth.configure(AUTHConfig);
-      Amplify.configure(APIConfig);
+      GRAPHQL.configure(APIConfig);
       const session = await Auth.currentSession();
       console.log("SESSION ", session);
     } catch (e) {
@@ -127,45 +126,8 @@ export const app = () => {
         //console.log("APP DEBUG ", appCode);
       }
     }
-    /*
-    const flds = ["country", "desktop"];
-    const test = `query MyQuery {
-      getHeader {
-       ${flds.join(`\n`)}
-      }
-    }`;
 
-    //await client.hydrated();
-
-    const result = await client.query({ query: gql(test) });
-    */
     registerClient([client, GRAPHQL]);
-
-    /*
-  const result = await client.query({
-    query: gql(listTodos)
-  });
-  console.log("QUERY ", result);
-  */
-
-    /*
-    subscriptionTest(appID, {
-      addMessage: [
-        {
-          messageId: 1,
-          body: "Hello",
-        },
-        {
-          messageId: 3,
-          body: "Something",
-        },
-        {
-          messageId: 2,
-          body: "Testing",
-        },
-      ],
-    });
-    */
   }, []);
 
   console.log("PROVIDER TEST ", Test);
@@ -176,12 +138,30 @@ export const app = () => {
       <button
         onClick={async () => {
           //await Test.GoogleTimeline.queryActivities("TEST-ID");
-          console.log(Test);
-          //console.log("API ", await API[appID].queryActivities());
+          //console.log(Test);
+          console.log("API ", API);
+          console.log("API ", API[appID]);
+          console.log("API ", API[appID].GoogleTimeline);
+          console.log("API ", Object.keys(API[appID].GoogleTimeline));
+
+          console.log(
+            "API ",
+            await API[appID].GoogleTimeline.queryActivities({ filter: {} })
+          );
+
+          /*
+          queryActivities
+      const result = await API[appID].GoogleTimeline.queryActivities({
+        filter: filter,
+      });
+      */
+
           //f902cbca-8748-437d-a7bb-bd2dc9d25be5
+          /*
           console.log(
             await getSettings(appID, "f902cbca-8748-437d-a7bb-bd2dc9d25be5")
           );
+          */
         }}
       >
         GET DATA
@@ -190,12 +170,13 @@ export const app = () => {
       <button
         onClick={async () => {
           //widget: {name: "test", settings: {field: "fld", value: "1"}})
-
+          /*
           console.log(
             await setSettings(appID, "f902cbca-8748-437d-a7bb-bd2dc9d25be5", [
               { field: "msg", value: "Hello" },
             ])
           );
+          */
         }}
       >
         SET DATA
@@ -204,17 +185,11 @@ export const app = () => {
       <button
         onClick={async () => {
           console.log(API);
+          /*
           console.log(
             await API[appID].GoogleTimeline.queryActivities({
               fields: ["datetime", "type", "confidence"],
             })
-          );
-          /*
-          fields: ["s._1", "s._3", "s._4"],
-          console.log(
-            await setSettings(appID, "f902cbca-8748-437d-a7bb-bd2dc9d25be5", [
-              { field: "msg", value: "Hello" },
-            ])
           );
           */
         }}
@@ -235,7 +210,7 @@ app.story = {
   decorators: [
     (Story) => {
       return (
-        <Provider stage={"alpha"} Context={PrifinaContext}>
+        <Provider stage={"dev"} Context={PrifinaContext}>
           <Story />
         </Provider>
       );

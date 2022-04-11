@@ -1,7 +1,4 @@
-"use strict";
-
-//const googleTimeline = require('..');
-const { getModuleName, getFields } = require("@prifina/google-timeline");
+import { getModuleName, getFields } from "@prifina/google-timeline";
 
 describe("google-timeline", () => {
   //test.todo("needs tests");

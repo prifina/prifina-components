@@ -3,13 +3,17 @@ import {
   getInfo,
   getFields,
   queryActivities,
-  getSubscriptions,
+  queryLocations,
+  queryPlaces,
+  queryRoutes,
 } from "./Data";
 const Data = {
   getModuleName,
   getInfo,
   getFields,
-  getSubscriptions,
   queryActivities,
+  queryLocations,
+  queryPlaces,
+  queryRoutes,
 };
 export default Data;
