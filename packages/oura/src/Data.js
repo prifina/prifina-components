@@ -3,9 +3,15 @@ import { ouraDaily } from "./activityMockup";
 import { ouraHourly } from "./activityMockup";
 import { netflixData } from "./activityMockup";
 */
-import { SleepSummary, SleepSummaryAsync } from "./sleepSummary";
-import { ActivitySummary, ActivitySummaryAsync } from "./activitySummary";
-import { ReadinessSummary, ReadinessSummaryAsync } from "./readinessSummary";
+
+import {
+  SleepSummary,
+  SleepSummaryAsync,
+  ActivitySummary,
+  ActivitySummaryAsync,
+  ReadinessSummary,
+  ReadinessSummaryAsync,
+} from "@dynamic-data/oura-data/mockups";
 
 const dataQuery = `query dataObject($input:DataObjectInput!) {
   getDataObject(input:$input) {
@@ -42,10 +48,10 @@ export const getFields = (query) => {
   let fields = [];
   switch (query) {
     case "queryActivitySummary":
-      fields = Object.keys(ActivitySummary[0]);
+      fields = Object.keys(ActivitySummary);
       break;
     case "queryReadinessSummary":
-      fields = Object.keys(ReadinessSummary[0]);
+      fields = Object.keys(ReadinessSummary);
       break;
 
     case "querySleepData":
@@ -53,14 +59,14 @@ export const getFields = (query) => {
       fields = Object.keys(SleepSummary[0]);
       break;
     case "queryActivitySummariesAsync":
-      fields = ActivitySummaryAsync[0].split(",");
+      fields = ActivitySummaryAsync[0].split("\t");
       break;
     case "queryReadinessSummariesAsync":
-      fields = ReadinessSummaryAsync[0].split(",");
+      fields = ReadinessSummaryAsync[0].split("\t");
       break;
     case "querySleepDataAsync":
     case "querySleepSummariesAsync":
-      fields = SleepSummaryAsync[0].split(",");
+      fields = SleepSummaryAsync[0].split("\t");
       break;
 
     default:

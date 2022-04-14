@@ -1,15 +1,13 @@
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.querySleepData = exports.querySleepDataAsync = exports.querySleepSummary = exports.querySleepSummariesAsync = exports.queryReadinessSummary = exports.queryReadinessSummariesAsync = exports.queryActivitySummary = exports.queryActivitySummariesAsync = exports.getFields = exports.getModuleName = exports.getInfo = void 0;
+Object.defineProperty(exports, '__esModule', { value: true });
 
-var _sleepSummary = require("./sleepSummary");
-
-var _activitySummary = require("./activitySummary");
-
-var _readinessSummary = require("./readinessSummary");
+var activitySummary = require('../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/activitySummary.js');
+var readinessSummary = require('../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/readinessSummary.js');
+var sleepSummary = require('../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/sleepSummary.js');
+var activitySummaryAsync = require('../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/activitySummaryAsync.js');
+var readinessSummaryAsync = require('../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/readinessSummaryAsync.js');
+var sleepSummaryAsync = require('../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/sleepSummaryAsync.js');
 
 /*
 import { ouraDaily } from "./activityMockup";
@@ -30,43 +28,37 @@ var getInfo = function getInfo() {
   return ["queryActivitySummary", "queryActivitySummariesAsync", "queryReadinessSummary", "queryReadinessSummariesAsync", "querySleepData", // longest sleep period
   "querySleepDataAsync", "querySleepSummary", "querySleepSummariesAsync"];
 };
-
-exports.getInfo = getInfo;
-
 var getModuleName = function getModuleName() {
   return "Oura";
 };
-
-exports.getModuleName = getModuleName;
-
 var getFields = function getFields(query) {
   var fields = [];
 
   switch (query) {
     case "queryActivitySummary":
-      fields = Object.keys(_activitySummary.ActivitySummary[0]);
+      fields = Object.keys(activitySummary.ActivitySummary);
       break;
 
     case "queryReadinessSummary":
-      fields = Object.keys(_readinessSummary.ReadinessSummary[0]);
+      fields = Object.keys(readinessSummary.ReadinessSummary);
       break;
 
     case "querySleepData":
     case "querySleepSummary":
-      fields = Object.keys(_sleepSummary.SleepSummary[0]);
+      fields = Object.keys(sleepSummary.SleepSummary[0]);
       break;
 
     case "queryActivitySummariesAsync":
-      fields = _activitySummary.ActivitySummaryAsync[0].split(",");
+      fields = activitySummaryAsync.ActivitySummaryAsync[0].split("\t");
       break;
 
     case "queryReadinessSummariesAsync":
-      fields = _readinessSummary.ReadinessSummaryAsync[0].split(",");
+      fields = readinessSummaryAsync.ReadinessSummaryAsync[0].split("\t");
       break;
 
     case "querySleepDataAsync":
     case "querySleepSummariesAsync":
-      fields = _sleepSummary.SleepSummaryAsync[0].split(",");
+      fields = sleepSummaryAsync.SleepSummaryAsync[0].split("\t");
       break;
 
     default:
@@ -75,9 +67,6 @@ var getFields = function getFields(query) {
 
   return fields;
 };
-
-exports.getFields = getFields;
-
 var queryActivitySummariesAsync = function queryActivitySummariesAsync(_ref) {
   var stage = _ref.stage,
       appID = _ref.appID,
@@ -92,7 +81,7 @@ var queryActivitySummariesAsync = function queryActivitySummariesAsync(_ref) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _activitySummary.ActivitySummaryAsync
+          content: activitySummaryAsync.ActivitySummaryAsync
         }
       }
     });
@@ -110,9 +99,6 @@ var queryActivitySummariesAsync = function queryActivitySummariesAsync(_ref) {
     });
   }
 };
-
-exports.queryActivitySummariesAsync = queryActivitySummariesAsync;
-
 var queryActivitySummary = function queryActivitySummary(_ref2) {
   var stage = _ref2.stage,
       appID = _ref2.appID,
@@ -127,7 +113,7 @@ var queryActivitySummary = function queryActivitySummary(_ref2) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _activitySummary.ActivitySummary
+          content: activitySummary.ActivitySummary
         }
       }
     });
@@ -144,9 +130,6 @@ var queryActivitySummary = function queryActivitySummary(_ref2) {
     });
   }
 };
-
-exports.queryActivitySummary = queryActivitySummary;
-
 var queryReadinessSummariesAsync = function queryReadinessSummariesAsync(_ref3) {
   var stage = _ref3.stage,
       appID = _ref3.appID,
@@ -161,7 +144,7 @@ var queryReadinessSummariesAsync = function queryReadinessSummariesAsync(_ref3) 
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _readinessSummary.ReadinessSummaryAsync
+          content: readinessSummaryAsync.ReadinessSummaryAsync
         }
       }
     });
@@ -179,9 +162,6 @@ var queryReadinessSummariesAsync = function queryReadinessSummariesAsync(_ref3) 
     });
   }
 };
-
-exports.queryReadinessSummariesAsync = queryReadinessSummariesAsync;
-
 var queryReadinessSummary = function queryReadinessSummary(_ref4) {
   var stage = _ref4.stage,
       appID = _ref4.appID,
@@ -196,7 +176,7 @@ var queryReadinessSummary = function queryReadinessSummary(_ref4) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _readinessSummary.ReadinessSummary
+          content: readinessSummary.ReadinessSummary
         }
       }
     });
@@ -212,9 +192,6 @@ var queryReadinessSummary = function queryReadinessSummary(_ref4) {
     });
   }
 };
-
-exports.queryReadinessSummary = queryReadinessSummary;
-
 var querySleepSummariesAsync = function querySleepSummariesAsync(_ref5) {
   var stage = _ref5.stage,
       appID = _ref5.appID,
@@ -229,7 +206,7 @@ var querySleepSummariesAsync = function querySleepSummariesAsync(_ref5) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _sleepSummary.SleepSummaryAsync
+          content: sleepSummaryAsync.SleepSummaryAsync
         }
       }
     });
@@ -247,9 +224,6 @@ var querySleepSummariesAsync = function querySleepSummariesAsync(_ref5) {
     });
   }
 };
-
-exports.querySleepSummariesAsync = querySleepSummariesAsync;
-
 var querySleepSummary = function querySleepSummary(_ref6) {
   var stage = _ref6.stage,
       appID = _ref6.appID,
@@ -264,7 +238,7 @@ var querySleepSummary = function querySleepSummary(_ref6) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _sleepSummary.SleepSummary
+          content: sleepSummary.SleepSummary
         }
       }
     });
@@ -280,9 +254,6 @@ var querySleepSummary = function querySleepSummary(_ref6) {
     });
   }
 };
-
-exports.querySleepSummary = querySleepSummary;
-
 var querySleepDataAsync = function querySleepDataAsync(_ref7) {
   var stage = _ref7.stage,
       appID = _ref7.appID,
@@ -297,7 +268,7 @@ var querySleepDataAsync = function querySleepDataAsync(_ref7) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _sleepSummary.SleepSummaryAsync
+          content: sleepSummaryAsync.SleepSummaryAsync
         }
       }
     });
@@ -315,9 +286,6 @@ var querySleepDataAsync = function querySleepDataAsync(_ref7) {
     });
   }
 };
-
-exports.querySleepDataAsync = querySleepDataAsync;
-
 var querySleepData = function querySleepData(_ref8) {
   var stage = _ref8.stage,
       appID = _ref8.appID,
@@ -332,7 +300,7 @@ var querySleepData = function querySleepData(_ref8) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: _sleepSummary.SleepSummary
+          content: sleepSummary.SleepSummary
         }
       }
     });
@@ -424,5 +392,14 @@ export const queryNetflixData = (
 
 */
 
-
+exports.getFields = getFields;
+exports.getInfo = getInfo;
+exports.getModuleName = getModuleName;
+exports.queryActivitySummariesAsync = queryActivitySummariesAsync;
+exports.queryActivitySummary = queryActivitySummary;
+exports.queryReadinessSummariesAsync = queryReadinessSummariesAsync;
+exports.queryReadinessSummary = queryReadinessSummary;
 exports.querySleepData = querySleepData;
+exports.querySleepDataAsync = querySleepDataAsync;
+exports.querySleepSummariesAsync = querySleepSummariesAsync;
+exports.querySleepSummary = querySleepSummary;

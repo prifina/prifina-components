@@ -3948,6 +3948,11 @@
   resolved "https://registry.yarnpkg.com/@dynamic-data/google-data/-/google-data-0.0.6.tgz#7e62a069b1ce6ed3e565f9288e1ba1aaf4d45bf3"
   integrity sha512-QLGOBpaKEErMfxR5un34lEDwERIyin6RuZ8P8QwT+n0x+M0MD5JMXocanAhl4DTnEvSqGgj3a/kNXt4eo/3+cQ==
 
+"@dynamic-data/oura-data@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@dynamic-data/oura-data/-/oura-data-0.0.6.tgz#02412b05b436e0760f6fa0a4bc0f1d777dcbbada"
+  integrity sha512-7XMlpilsxVWklWarGiiaEwlYc0X+yDHvRrDZCNzjQSAUE3zoMIqwe+rkl6dyT4euwkydKuJUOBdxfzt6T4QyZA==
+
 "@emotion/cache@^10.0.27", "@emotion/cache@^10.0.9":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
