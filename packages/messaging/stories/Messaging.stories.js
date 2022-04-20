@@ -9,9 +9,13 @@ export const messaging = () => {
   const { currentUser, Prifina, check, API, registerHooks, onUpdate } =
     usePrifina();
 
+  const updateTest = (payload) => {
+    console.log("UPDATE TEST ", payload);
+  };
   useEffect(async () => {
     // init callback function for background updates/notifications
-    //onUpdate(appID, dataUpdate);
+    onUpdate(appID, updateTest);
+
     console.log("MSG ", MSG);
     // register datasource modules
     registerHooks(appID, [MSG]);
@@ -44,7 +48,7 @@ export const messaging = () => {
           console.log(
             "API ",
             await API[appID].Messaging.mutationCreateMessage({
-              variables: { test: "ok" },
+              variables: { body: { test: "ok" }, receiver: "tero" },
             })
           );
         }}

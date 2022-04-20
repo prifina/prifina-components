@@ -70,12 +70,14 @@ export const mutationCreateMessage = ({
   stage,
   appID,
   createMutation,
+  callbacks,
   uuid,
   variables,
 }) => {
   console.log("CREATE MSG ", stage);
   console.log("CREATE MSG ", appID);
   console.log("CREATE MSG ", uuid);
+  console.log("CREATE MSG ", callbacks);
   console.log("CREATE MSG ", variables);
   if (stage === "dev") {
     return Promise.resolve({
@@ -83,7 +85,7 @@ export const mutationCreateMessage = ({
         createMessage: {
           messageId: randomID(),
           body: variables.body,
-          sender: variables.sender,
+          sender: uuid,
           receiver: variables.receiver,
           createdAt: new Date().getTime(),
         },
