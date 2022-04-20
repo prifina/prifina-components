@@ -66,13 +66,13 @@ export const queryUserAddressBook = ({
   }
 };
 
-export const mutationCreateMessage = (
+export const mutationCreateMessage = ({
   stage,
   appID,
-  uuid,
   createMutation,
-  variables
-) => {
+  uuid,
+  variables,
+}) => {
   console.log("CREATE MSG ", stage);
   console.log("CREATE MSG ", appID);
   console.log("CREATE MSG ", uuid);
@@ -83,7 +83,7 @@ export const mutationCreateMessage = (
         createMessage: {
           messageId: randomID(),
           body: variables.body,
-          sender: uuid,
+          sender: variables.sender,
           receiver: variables.receiver,
           createdAt: new Date().getTime(),
         },

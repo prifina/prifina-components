@@ -43,7 +43,9 @@ export const messaging = () => {
         onClick={async (e) => {
           console.log(
             "API ",
-            await API[appID].Messaging.mutationCreateMessage({ test: "ok" })
+            await API[appID].Messaging.mutationCreateMessage({
+              variables: { test: "ok" },
+            })
           );
         }}
       >

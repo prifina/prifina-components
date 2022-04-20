@@ -636,6 +636,7 @@ type Query @aws_iam @aws_cognito_user_pools {
                 appID: appID,
                 name: moduleName + "/" + q,
                 createMutation: createMutation,
+                uuid: currentUser.uuid,
                 variables,
               });
             };
