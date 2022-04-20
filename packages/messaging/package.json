@@ -1,0 +1,46 @@
+{
+  "name": "@prifina/messaging",
+  "version": "0.0.63",
+  "description": "Prifina Messaging Component",
+  "author": "Tero <tero@prifina.com>",
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "rm -rf ./dist && yarn build:cjs",
+    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel ./src --out-dir ./dist/esm",
+    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel ./src --out-dir ./dist/cjs",
+    "storybook": "start-storybook"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@storybook/addon-actions": "^6.0.16",
+    "@storybook/addon-storyshots": "^6.0.16",
+    "@storybook/react": "^6.0.16",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^27.5.1",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-react-docgen": "^4.2.1",
+    "cross-env": "^7.0.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "dependencies": {
+    "@prifina/hooks": "^0.0.63"
+  }
+}

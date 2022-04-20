@@ -147,6 +147,41 @@ export const Provider = ({
     }
   }
 
+  const createMutation = (opts) => {
+    console.log("MUTATION OPTS ", opts);
+    if (callbacks.current.hasOwnProperty("sandbox")) {
+      let connectorFunction = Object.assign({}, opts);
+      callbacks.current["sandbox"][0]({
+        [connectorFunction.name]: connectorFunction,
+      });
+    }
+
+    if (callbacks.current.hasOwnProperty("sandbox")) {
+      callbacks.current["sandbox"][0]({
+        mutationRequest: {
+          appID: opts.appId,
+          variables: opts.variables,
+        },
+      });
+    }
+
+    return new Promise(function (resolve, reject) {
+      CLIENT.current.user
+        .mutate({
+          mutation: gql(opts.mutation),
+          variables: opts.variables,
+        })
+        .then((res) => {
+          console.log("MUTATION RES ", res);
+
+          resolve(res);
+        })
+        .catch((error) => {
+          console.log("MUTATION ERROR ", error);
+          reject(error);
+        });
+    });
+  };
   const createQuery = (opts) => {
     console.log("OPTS ", opts);
     /*
@@ -556,7 +591,7 @@ type Query @aws_iam @aws_cognito_user_pools {
         //const subscriptionList = module.getSubscriptions() || [];
         console.log("LIST ", typeof functionList, functionList);
         functionList.forEach((q) => {
-          //console.log("REGISTER new ", q);
+          console.log("REGISTER new ", q);
           if (q.startsWith("query")) {
             fn[q] = ({ fields, filter, next }) => {
               console.log("INIT ", providerContext.current.init);
@@ -581,6 +616,27 @@ type Query @aws_iam @aws_cognito_user_pools {
                 filter,
                 next,
                 fieldsList: fieldsList,
+              });
+            };
+          }
+          if (q.startsWith("mutation")) {
+            fn[q] = ({ variables }) => {
+              console.log("INIT MUTATION", providerContext.current.init);
+              const stage = providerContext.current.init.stage;
+
+              //const executionID = short.generate();
+              if (callbacks.current.hasOwnProperty("sandbox")) {
+                callbacks.current["sandbox"][0]({
+                  connector: moduleName + "/" + q,
+                });
+              }
+
+              return module[q]({
+                stage: stage,
+                appID: appID,
+                name: moduleName + "/" + q,
+                createMutation: createMutation,
+                variables,
               });
             };
           }
