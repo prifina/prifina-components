@@ -80,15 +80,28 @@ export const mutationCreateMessage = ({
   console.log("CREATE MSG ", callbacks);
   console.log("CREATE MSG ", variables);
   if (stage === "dev") {
+    const currentCallbacks = callbacks();
+    console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
+
+    // const remoteAppUrl = localStorage.getItem("remoteWidget");
+    //localStorage.setItem(key, tokens[key]);
+    const msgs = localStorage.getItem("prifinaMessaging");
+    const msg = {
+      messageId: randomID(),
+      body: variables.body,
+      sender: uuid,
+      receiver: variables.receiver,
+      createdAt: new Date().getTime(),
+    };
+    let msgQueue = [msg];
+    if (msgs !== null) {
+      console.log("MSG STORAGE ", msgs);
+      msgQueue = msgQueue.concat(JSON.parse(msgs));
+    }
+    localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
     return Promise.resolve({
       data: {
-        createMessage: {
-          messageId: randomID(),
-          body: variables.body,
-          sender: uuid,
-          receiver: variables.receiver,
-          createdAt: new Date().getTime(),
-        },
+        createMessage: msg,
       },
     });
   } else {

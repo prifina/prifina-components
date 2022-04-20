@@ -147,6 +147,28 @@ export const Provider = ({
     }
   }
 
+  const createSubscription = (opts) => {
+    console.log("SUBSCRIPTION OPTS ", opts);
+    if (callbacks.current.hasOwnProperty("sandbox")) {
+      let connectorFunction = Object.assign({}, opts);
+      callbacks.current["sandbox"][0]({
+        [connectorFunction.name]: connectorFunction,
+      });
+    }
+
+    if (callbacks.current.hasOwnProperty("sandbox")) {
+      callbacks.current["sandbox"][0]({
+        mutationRequest: {
+          appID: opts.appId,
+          variables: opts.variables,
+        },
+      });
+    }
+
+    return new Promise(function (resolve, reject) {
+      resolve(true);
+    });
+  };
   const createMutation = (opts) => {
     console.log("MUTATION OPTS ", opts);
     if (callbacks.current.hasOwnProperty("sandbox")) {
@@ -638,6 +660,28 @@ type Query @aws_iam @aws_cognito_user_pools {
                 createMutation: createMutation,
                 uuid: currentUser.uuid,
                 callbacks: getCallbacks,
+                variables,
+              });
+            };
+          }
+          if (q.startsWith("subscribe")) {
+            fn[q] = ({ variables }) => {
+              console.log("INIT MUTATION", providerContext.current.init);
+              const stage = providerContext.current.init.stage;
+
+              //const executionID = short.generate();
+              if (callbacks.current.hasOwnProperty("sandbox")) {
+                callbacks.current["sandbox"][0]({
+                  connector: moduleName + "/" + q,
+                });
+              }
+
+              return module[q]({
+                stage: stage,
+                appID: appID,
+                name: moduleName + "/" + q,
+                createSubscription: createSubscription,
+                uuid: currentUser.uuid,
                 variables,
               });
             };

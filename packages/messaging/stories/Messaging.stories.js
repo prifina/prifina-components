@@ -10,7 +10,7 @@ export const messaging = () => {
     usePrifina();
 
   const updateTest = (payload) => {
-    console.log("UPDATE TEST ", payload);
+    console.log("UPDATE TEST PAYLOAD", payload);
   };
   useEffect(async () => {
     // init callback function for background updates/notifications
