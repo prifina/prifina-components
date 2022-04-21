@@ -638,6 +638,7 @@ type Query @aws_iam @aws_cognito_user_pools {
                 filter,
                 next,
                 fieldsList: fieldsList,
+                uuid: currentUser.uuid,
               });
             };
           }

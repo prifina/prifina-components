@@ -25,10 +25,11 @@ export const messaging = () => {
   return (
     <div>
       <div>Hello, {currentUser.name}</div>
-      <button
-        onClick={async (e) => {
-          console.log("API ", API);
-          /*
+      <div>
+        <button
+          onClick={async (e) => {
+            console.log("API ", API);
+            /*
           console.log(
             "API ",
             await API[appID].S3FileUpload.S3UploadSimple({
@@ -39,22 +40,66 @@ export const messaging = () => {
             })
           );
          */
-        }}
-      >
-        API
-      </button>
-      <button
-        onClick={async (e) => {
-          console.log(
-            "API ",
-            await API[appID].Messaging.mutationCreateMessage({
-              variables: { body: { test: "ok" }, receiver: "tero" },
-            })
-          );
-        }}
-      >
-        CREATE MSG
-      </button>
+          }}
+        >
+          API
+        </button>
+      </div>
+      <div>
+        <button
+          onClick={async (e) => {
+            console.log(
+              "API ",
+              await API[appID].Messaging.mutationCreateMessage({
+                variables: { body: { test: "ok" }, receiver: "tero" },
+              })
+            );
+          }}
+        >
+          CREATE MSG
+        </button>
+      </div>
+      <div>
+        <button
+          onClick={async (e) => {
+            console.log(
+              "API ",
+              await API[appID].Messaging.mutationCreateTestMessage({
+                variables: { body: { test: "ok" }, sender: "tero" },
+              })
+            );
+          }}
+        >
+          CREATE TESTMSG
+        </button>
+      </div>
+
+      <div>
+        <button
+          onClick={async (e) => {
+            console.log(
+              "API ",
+              await API[appID].Messaging.subscribeMessagingStatus({
+                variables: { body: { test: "ok" }, receiver: "tero" },
+              })
+            );
+          }}
+        >
+          SUBS MSG STATUS
+        </button>
+      </div>
+      <div>
+        <button
+          onClick={async (e) => {
+            console.log(
+              "API ",
+              await API[appID].Messaging.queryGetUnreadMessages({})
+            );
+          }}
+        >
+          GET UNREAD MSGS
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,12 @@
 export const getInfo = () => {
-  return ["queryUserAddressBook", "mutationCreateMessage"];
+  return [
+    "queryUserAddressBook",
+    "mutationCreateMessage",
+    "subscribeMessagingStatus",
+    "subscribeMessagingData",
+    "mutationCreateTestMessage",
+    "queryGetUnreadMessages",
+  ];
 };
 export const getFields = (query) => {
   let fields = [];
@@ -45,6 +52,42 @@ function randomID() {
   return randomstring;
 }
 
+// getUnreadMessages
+// getMessages
+// update status
+
+export const queryGetUnreadMessages = ({
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next,
+  fieldsList,
+  uuid,
+}) => {
+  if (stage === "dev") {
+    const msgs = localStorage.getItem("prifinaMessaging");
+    let receiverMsgs = [];
+    if (msgs !== null) {
+      receiverMsgs = JSON.parse(msgs).filter((m) => {
+        console.log(m);
+        return (
+          m.receiver === uuid && (m?.status === "undefined" || m.status === 0)
+        );
+      });
+    }
+    return Promise.resolve({
+      data: {
+        queryGetUnreadMessages: receiverMsgs,
+      },
+    });
+  } else {
+    console.log("GET UNREAD MSG QUERY");
+  }
+};
+
 export const queryUserAddressBook = ({
   stage,
   appID,
@@ -80,25 +123,6 @@ export const mutationCreateMessage = ({
   console.log("CREATE MSG ", callbacks);
   console.log("CREATE MSG ", variables);
   if (stage === "dev") {
-    const currentCallbacks = callbacks();
-    console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
-
-    // const remoteAppUrl = localStorage.getItem("remoteWidget");
-    //localStorage.setItem(key, tokens[key]);
-    const msgs = localStorage.getItem("prifinaMessaging");
-    const msg = {
-      messageId: randomID(),
-      body: variables.body,
-      sender: uuid,
-      receiver: variables.receiver,
-      createdAt: new Date().getTime(),
-    };
-    let msgQueue = [msg];
-    if (msgs !== null) {
-      console.log("MSG STORAGE ", msgs);
-      msgQueue = msgQueue.concat(JSON.parse(msgs));
-    }
-    localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
     return Promise.resolve({
       data: {
         createMessage: msg,
@@ -111,6 +135,100 @@ export const mutationCreateMessage = ({
       variables: { input: variables },
       appId: appID,
     });
+  }
+};
+
+export const mutationCreateTestMessage = ({
+  stage,
+  appID,
+  createMutation,
+  callbacks,
+  uuid,
+  variables,
+}) => {
+  console.log("CREATE MSG ", stage);
+  console.log("CREATE MSG ", appID);
+  console.log("CREATE MSG ", uuid);
+  console.log("CREATE MSG ", callbacks);
+  console.log("CREATE MSG ", variables);
+  if (stage === "dev") {
+    const currentCallbacks = callbacks();
+    //console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
+
+    // const remoteAppUrl = localStorage.getItem("remoteWidget");
+    //localStorage.setItem(key, tokens[key]);
+    const msgs = localStorage.getItem("prifinaMessaging");
+    const msg = {
+      messageId: randomID(),
+      body: variables.body,
+      sender: variables.sender,
+      receiver: uuid,
+      createdAt: new Date().getTime(),
+    };
+    let msgQueue = [msg];
+    if (msgs !== null) {
+      console.log("MSG STORAGE ", msgs);
+      msgQueue = msgQueue.concat(JSON.parse(msgs));
+    }
+    localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
+    const msgStatus = localStorage.getItem("prifinaMessagingStatus");
+    if (msgStatus !== null && JSON.parse(msgStatus)) {
+      //console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
+      const receiverMsgs = msgQueue.filter((m) => {
+        return m.receiver === uuid;
+      });
+      currentCallbacks[appID][0]({
+        messagingStatus: {
+          cnt: receiverMsgs.length,
+          lastMessage: new Date(msg.createdAt).toISOString(),
+        },
+      });
+    }
+
+    return Promise.resolve({
+      data: {
+        createMessage: msg,
+      },
+    });
+  } else {
+    return createMutation({
+      name: "createMessage",
+      mutation: createMessageMutation,
+      variables: { input: variables },
+      appId: appID,
+    });
+  }
+};
+
+export const subscribeMessagingStatus = ({
+  stage,
+  appID,
+  name,
+  createSubscription,
+  variables,
+  uuid,
+}) => {
+  if (stage === "dev") {
+    localStorage.setItem("prifinaMessagingStatus", true);
+    return Promise.resolve(true);
+  } else {
+    console.log("SUBS ");
+  }
+};
+
+export const subscribeMessagingData = ({
+  stage,
+  appID,
+  name,
+  createSubscription,
+  variables,
+  uuid,
+}) => {
+  if (stage === "dev") {
+    localStorage.setItem("prifinaMessagingStatus", false);
+    return Promise.resolve(true);
+  } else {
+    console.log("SUBS ");
   }
 };
 
