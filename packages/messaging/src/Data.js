@@ -6,6 +6,8 @@ export const getInfo = () => {
     "subscribeMessagingData",
     "mutationCreateTestMessage",
     "queryGetUnreadMessages",
+    "queryGetMessages",
+    "mutationUpdateMessageStatus",
   ];
 };
 export const getFields = (query) => {
@@ -35,6 +37,12 @@ const createMessageMutation = `mutation newMessage($input:MessageInput!) {
     }
   }`;
 
+const updateMessageMutation = `mutation updateMessage($input:MessageInput!) {
+    createMessage(input: $input) {
+      messageId
+      status
+    }
+  }`;
 function randomID() {
   let chars = "qwertyuiopasdfghjklzxcvbnm";
   let randomstring = "";
@@ -52,9 +60,48 @@ function randomID() {
   return randomstring;
 }
 
-// getUnreadMessages
-// getMessages
-// update status
+export const mutationUpdateMessageStatus = ({
+  stage,
+  appID,
+  createMutation,
+  callbacks,
+  uuid,
+  variables,
+}) => {
+  console.log("CREATE MSG ", stage);
+  console.log("CREATE MSG ", appID);
+  console.log("CREATE MSG ", uuid);
+  console.log("CREATE MSG ", callbacks);
+  console.log("CREATE MSG ", variables);
+  if (stage === "dev") {
+    const msgs = localStorage.getItem("prifinaMessaging");
+    let msg = { messageId: variables.messageId, status: variables.status };
+    if (msgs !== null) {
+      //console.log("MSG STORAGE ", msgs);
+      let msgQueue = JSON.parse(msgs);
+      const msgIdx = msgQueue.findIndex((m) => {
+        return m.messageId === variables.messageId;
+      });
+      msgQueue[msgIdx].status = variables.status;
+      localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
+    }
+
+    return Promise.resolve({
+      data: {
+        updateMessage: msg,
+      },
+    });
+  } else {
+    return createMutation({
+      name: "updateMessage",
+      mutation: updateMessageMutation,
+      variables: {
+        input: { messageId: variables.messageId, status: variables.status },
+      },
+      appId: appID,
+    });
+  }
+};
 
 export const queryGetUnreadMessages = ({
   stage,
@@ -72,9 +119,10 @@ export const queryGetUnreadMessages = ({
     let receiverMsgs = [];
     if (msgs !== null) {
       receiverMsgs = JSON.parse(msgs).filter((m) => {
-        console.log(m);
+        console.log(uuid, m);
+        //console.log(m?.status === undefined);
         return (
-          m.receiver === uuid && (m?.status === "undefined" || m.status === 0)
+          m.receiver === uuid && (m?.status === undefined || m.status === 0)
         );
       });
     }
@@ -88,6 +136,36 @@ export const queryGetUnreadMessages = ({
   }
 };
 
+export const queryGetMessages = ({
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next,
+  fieldsList,
+  uuid,
+}) => {
+  if (stage === "dev") {
+    const msgs = localStorage.getItem("prifinaMessaging");
+    let receiverMsgs = [];
+    if (msgs !== null) {
+      receiverMsgs = JSON.parse(msgs).filter((m) => {
+        console.log(uuid, m);
+        //console.log(m?.status === undefined);
+        return m.receiver === uuid;
+      });
+    }
+    return Promise.resolve({
+      data: {
+        queryGetMessages: receiverMsgs,
+      },
+    });
+  } else {
+    console.log("GET MSG QUERY");
+  }
+};
 export const queryUserAddressBook = ({
   stage,
   appID,

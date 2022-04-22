@@ -73,7 +73,6 @@ export const messaging = () => {
           CREATE TESTMSG
         </button>
       </div>
-
       <div>
         <button
           onClick={async (e) => {
@@ -98,6 +97,20 @@ export const messaging = () => {
           }}
         >
           GET UNREAD MSGS
+        </button>
+      </div>
+      <div>
+        <button
+          onClick={async (e) => {
+            console.log(
+              "API ",
+              await API[appID].Messaging.mutationUpdateMessageStatus({
+                variables: { status: 1, messageId: "buu433" },
+              })
+            );
+          }}
+        >
+          UPDATE MSG STATUS
         </button>
       </div>
     </div>

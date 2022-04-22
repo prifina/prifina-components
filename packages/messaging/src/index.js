@@ -8,6 +8,8 @@ import {
   subscribeMessagingData,
   mutationCreateTestMessage,
   queryGetUnreadMessages,
+  queryGetMessages,
+  mutationUpdateMessageStatus,
 } from "./Data";
 const Data = {
   getModuleName,
@@ -19,5 +21,7 @@ const Data = {
   subscribeMessagingData,
   mutationCreateTestMessage,
   queryGetUnreadMessages,
+  queryGetMessages,
+  mutationUpdateMessageStatus,
 };
 export default Data;
