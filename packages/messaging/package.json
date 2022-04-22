@@ -1,6 +1,6 @@
 {
   "name": "@prifina/messaging",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Prifina Messaging Component",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
@@ -48,5 +48,4 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
- 
 }
