@@ -22,7 +22,7 @@ export const getModuleName = () => {
 
 const addressBook = [
   { name: "Name 1", uuid: "13625638c207ed2fcd5a7b7cfb2364a04661" },
-  { name: "Name 2", uuid: "zzzzz" },
+  { name: "Tero", uuid: "tero" },
   { name: "Name 3", uuid: "0cc3bc47d8a60c8a0f6f35a9134c689e0a8c" },
 ];
 
@@ -121,9 +121,31 @@ export const queryGetUnreadMessages = ({
       receiverMsgs = JSON.parse(msgs).filter((m) => {
         console.log(uuid, m);
         //console.log(m?.status === undefined);
-        return (
-          m.receiver === uuid && (m?.status === undefined || m.status === 0)
-        );
+        if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
+          console.log("UNREAD FILTER ", filter);
+          if (
+            m.receiver === uuid &&
+            (m?.status === undefined || m.status === 0)
+          ) {
+            let filterMatch = false;
+            Object.keys(filter).forEach((f) => {
+              console.log("UNREAD FILTER MATCH ", f);
+              console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
+              if (m.hasOwnProperty(f) && m[f] === filter[f]) {
+                filterMatch = true;
+              } else {
+                filterMatch = false;
+              }
+            });
+            return filterMatch;
+          } else {
+            return false;
+          }
+        } else {
+          return (
+            m.receiver === uuid && (m?.status === undefined || m.status === 0)
+          );
+        }
       });
     }
     return Promise.resolve({

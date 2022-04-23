@@ -16,8 +16,8 @@ var addressBook = [{
   name: "Name 1",
   uuid: "13625638c207ed2fcd5a7b7cfb2364a04661"
 }, {
-  name: "Name 2",
-  uuid: "zzzzz"
+  name: "Tero",
+  uuid: "tero"
 }, {
   name: "Name 3",
   uuid: "0cc3bc47d8a60c8a0f6f35a9134c689e0a8c"
@@ -100,7 +100,7 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
       _ref2.name;
       _ref2.createQuery;
       _ref2.fields;
-      _ref2.filter;
+      var filter = _ref2.filter;
       _ref2.next;
       _ref2.fieldsList;
       var uuid = _ref2.uuid;
@@ -113,7 +113,28 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
       receiverMsgs = JSON.parse(msgs).filter(function (m) {
         console.log(uuid, m); //console.log(m?.status === undefined);
 
-        return m.receiver === uuid && ((m === null || m === void 0 ? void 0 : m.status) === undefined || m.status === 0);
+        if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
+          console.log("UNREAD FILTER ", filter);
+
+          if (m.receiver === uuid && ((m === null || m === void 0 ? void 0 : m.status) === undefined || m.status === 0)) {
+            var filterMatch = false;
+            Object.keys(filter).forEach(function (f) {
+              console.log("UNREAD FILTER MATCH ", f);
+              console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
+
+              if (m.hasOwnProperty(f) && m[f] === filter[f]) {
+                filterMatch = true;
+              } else {
+                filterMatch = false;
+              }
+            });
+            return filterMatch;
+          } else {
+            return false;
+          }
+        } else {
+          return m.receiver === uuid && ((m === null || m === void 0 ? void 0 : m.status) === undefined || m.status === 0);
+        }
       });
     }
 
