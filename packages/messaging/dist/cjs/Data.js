@@ -199,6 +199,15 @@ var mutationCreateMessage = function mutationCreateMessage(_ref5) {
       receiver: variables.receiver,
       createdAt: new Date().getTime()
     };
+    var msgQueue = [msg];
+    var msgs = localStorage.getItem("prifinaMessaging");
+
+    if (msgs !== null) {
+      console.log("MSG STORAGE ", msgs);
+      msgQueue = msgQueue.concat(JSON.parse(msgs));
+    }
+
+    localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
     return Promise.resolve({
       data: {
         createMessage: msg
