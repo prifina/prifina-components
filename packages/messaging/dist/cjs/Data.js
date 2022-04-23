@@ -60,7 +60,7 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref) {
 
   if (stage === "dev") {
     var msgs = localStorage.getItem("prifinaMessaging");
-    var _msg = {
+    var msg = {
       messageId: variables.messageId,
       status: variables.status
     };
@@ -77,7 +77,7 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref) {
 
     return Promise.resolve({
       data: {
-        updateMessage: _msg
+        updateMessage: msg
       }
     });
   } else {
@@ -192,6 +192,13 @@ var mutationCreateMessage = function mutationCreateMessage(_ref5) {
   console.log("CREATE MSG ", variables);
 
   if (stage === "dev") {
+    var msg = {
+      messageId: randomID(),
+      body: variables.body,
+      sender: uuid,
+      receiver: variables.receiver,
+      createdAt: new Date().getTime()
+    };
     return Promise.resolve({
       data: {
         createMessage: msg
@@ -227,14 +234,14 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
     //localStorage.setItem(key, tokens[key]);
 
     var msgs = localStorage.getItem("prifinaMessaging");
-    var _msg2 = {
+    var msg = {
       messageId: randomID(),
       body: variables.body,
       sender: variables.sender,
       receiver: uuid,
       createdAt: new Date().getTime()
     };
-    var msgQueue = [_msg2];
+    var msgQueue = [msg];
 
     if (msgs !== null) {
       console.log("MSG STORAGE ", msgs);
@@ -252,14 +259,14 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
       currentCallbacks[appID][0]({
         messagingStatus: {
           cnt: receiverMsgs.length,
-          lastMessage: new Date(_msg2.createdAt).toISOString()
+          lastMessage: new Date(msg.createdAt).toISOString()
         }
       });
     }
 
     return Promise.resolve({
       data: {
-        createMessage: _msg2
+        createMessage: msg
       }
     });
   } else {

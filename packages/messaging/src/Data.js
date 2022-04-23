@@ -201,6 +201,14 @@ export const mutationCreateMessage = ({
   console.log("CREATE MSG ", callbacks);
   console.log("CREATE MSG ", variables);
   if (stage === "dev") {
+    const msg = {
+      messageId: randomID(),
+      body: variables.body,
+      sender: uuid,
+      receiver: variables.receiver,
+      createdAt: new Date().getTime(),
+    };
+
     return Promise.resolve({
       data: {
         createMessage: msg,
