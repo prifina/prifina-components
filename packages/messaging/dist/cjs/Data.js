@@ -103,7 +103,7 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
       var filter = _ref2.filter;
       _ref2.next;
       _ref2.fieldsList;
-      var uuid = _ref2.uuid;
+      _ref2.uuid;
 
   if (stage === "dev") {
     var msgs = localStorage.getItem("prifinaMessaging");
@@ -111,12 +111,11 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
 
     if (msgs !== null) {
       receiverMsgs = JSON.parse(msgs).filter(function (m) {
-        console.log(uuid, m); //console.log(m?.status === undefined);
-
+        //console.log(uuid, m);
+        //console.log(m?.status === undefined);
         if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
-          console.log("UNREAD FILTER ", filter);
-
-          if (m.receiver === uuid && ((m === null || m === void 0 ? void 0 : m.status) === undefined || m.status === 0)) {
+          //console.log("UNREAD FILTER ", filter);
+          if ((m === null || m === void 0 ? void 0 : m.status) === undefined || m.status === 0) {
             var filterMatch = false;
             Object.keys(filter).forEach(function (f) {
               console.log("UNREAD FILTER MATCH ", f);
@@ -129,13 +128,11 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
               }
             });
             return filterMatch;
-          } else if (m.sender === uuid) {
-            return true;
           } else {
             return false;
           }
         } else {
-          return m.receiver === uuid && ((m === null || m === void 0 ? void 0 : m.status) === undefined || m.status === 0);
+          return (m === null || m === void 0 ? void 0 : m.status) === undefined || m.status === 0;
         }
       });
     }
@@ -166,29 +163,21 @@ var queryGetMessages = function queryGetMessages(_ref3) {
 
     if (msgs !== null) {
       receiverMsgs = JSON.parse(msgs).filter(function (m) {
-        console.log(uuid, m);
-
+        //console.log(uuid, m);
         if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
-          console.log("MSG FILTER ", filter);
+          //console.log("MSG FILTER ", filter);
+          var filterMatch = false;
+          Object.keys(filter).forEach(function (f) {
+            console.log("UNREAD FILTER MATCH ", f);
+            console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
 
-          if (m.receiver === uuid) {
-            var filterMatch = false;
-            Object.keys(filter).forEach(function (f) {
-              console.log("UNREAD FILTER MATCH ", f);
-              console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
-
-              if (m.hasOwnProperty(f) && m[f] === filter[f]) {
-                filterMatch = true;
-              } else {
-                filterMatch = false;
-              }
-            });
-            return filterMatch;
-          } else if (m.sender === uuid) {
-            return true;
-          } else {
-            return false;
-          }
+            if (m.hasOwnProperty(f) && m[f] === filter[f]) {
+              filterMatch = true;
+            } else {
+              filterMatch = false;
+            }
+          });
+          return filterMatch;
         } else {
           //console.log(m?.status === undefined);
           return m.receiver === uuid;
@@ -243,6 +232,7 @@ var mutationCreateMessage = function mutationCreateMessage(_ref5) {
     var msg = {
       messageId: randomID(),
       body: variables.body,
+      chatId: variables.chatId,
       sender: uuid,
       receiver: variables.receiver,
       createdAt: new Date().getTime()
@@ -294,6 +284,7 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
     var msg = {
       messageId: randomID(),
       body: variables.body,
+      chatId: variables.chatId,
       sender: variables.sender,
       receiver: uuid,
       createdAt: new Date().getTime()

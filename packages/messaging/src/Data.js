@@ -119,14 +119,11 @@ export const queryGetUnreadMessages = ({
     let receiverMsgs = [];
     if (msgs !== null) {
       receiverMsgs = JSON.parse(msgs).filter((m) => {
-        console.log(uuid, m);
+        //console.log(uuid, m);
         //console.log(m?.status === undefined);
         if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
-          console.log("UNREAD FILTER ", filter);
-          if (
-            m.receiver === uuid &&
-            (m?.status === undefined || m.status === 0)
-          ) {
+          //console.log("UNREAD FILTER ", filter);
+          if (m?.status === undefined || m.status === 0) {
             let filterMatch = false;
             Object.keys(filter).forEach((f) => {
               console.log("UNREAD FILTER MATCH ", f);
@@ -138,15 +135,11 @@ export const queryGetUnreadMessages = ({
               }
             });
             return filterMatch;
-          } else if (m.sender === uuid) {
-            return true;
           } else {
             return false;
           }
         } else {
-          return (
-            m.receiver === uuid && (m?.status === undefined || m.status === 0)
-          );
+          return m?.status === undefined || m.status === 0;
         }
       });
     }
@@ -176,26 +169,21 @@ export const queryGetMessages = ({
     let receiverMsgs = [];
     if (msgs !== null) {
       receiverMsgs = JSON.parse(msgs).filter((m) => {
-        console.log(uuid, m);
+        //console.log(uuid, m);
         if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
-          console.log("MSG FILTER ", filter);
-          if (m.receiver === uuid) {
-            let filterMatch = false;
-            Object.keys(filter).forEach((f) => {
-              console.log("UNREAD FILTER MATCH ", f);
-              console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
-              if (m.hasOwnProperty(f) && m[f] === filter[f]) {
-                filterMatch = true;
-              } else {
-                filterMatch = false;
-              }
-            });
-            return filterMatch;
-          } else if (m.sender === uuid) {
-            return true;
-          } else {
-            return false;
-          }
+          //console.log("MSG FILTER ", filter);
+
+          let filterMatch = false;
+          Object.keys(filter).forEach((f) => {
+            console.log("UNREAD FILTER MATCH ", f);
+            console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
+            if (m.hasOwnProperty(f) && m[f] === filter[f]) {
+              filterMatch = true;
+            } else {
+              filterMatch = false;
+            }
+          });
+          return filterMatch;
         } else {
           //console.log(m?.status === undefined);
           return m.receiver === uuid;
@@ -250,6 +238,7 @@ export const mutationCreateMessage = ({
     const msg = {
       messageId: randomID(),
       body: variables.body,
+      chatId: variables.chatId,
       sender: uuid,
       receiver: variables.receiver,
       createdAt: new Date().getTime(),
@@ -300,6 +289,7 @@ export const mutationCreateTestMessage = ({
     const msg = {
       messageId: randomID(),
       body: variables.body,
+      chatId: variables.chatId,
       sender: variables.sender,
       receiver: uuid,
       createdAt: new Date().getTime(),
