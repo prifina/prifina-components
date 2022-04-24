@@ -16,7 +16,7 @@ var addressBook = [{
   name: "Name 1",
   uuid: "13625638c207ed2fcd5a7b7cfb2364a04661"
 }, {
-  name: "Tero",
+  name: "Name 2",
   uuid: "tero"
 }, {
   name: "Name 3",
@@ -153,7 +153,7 @@ var queryGetMessages = function queryGetMessages(_ref3) {
       _ref3.name;
       _ref3.createQuery;
       _ref3.fields;
-      _ref3.filter;
+      var filter = _ref3.filter;
       _ref3.next;
       _ref3.fieldsList;
       var uuid = _ref3.uuid;
@@ -164,15 +164,38 @@ var queryGetMessages = function queryGetMessages(_ref3) {
 
     if (msgs !== null) {
       receiverMsgs = JSON.parse(msgs).filter(function (m) {
-        console.log(uuid, m); //console.log(m?.status === undefined);
+        console.log(uuid, m);
 
-        return m.receiver === uuid;
+        if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
+          console.log("MSG FILTER ", filter);
+
+          if (m.receiver === uuid) {
+            var filterMatch = false;
+            Object.keys(filter).forEach(function (f) {
+              console.log("UNREAD FILTER MATCH ", f);
+              console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
+
+              if (m.hasOwnProperty(f) && m[f] === filter[f]) {
+                filterMatch = true;
+              } else {
+                filterMatch = false;
+              }
+            });
+            return filterMatch;
+          } else {
+            return false;
+          }
+        } else {
+          //console.log(m?.status === undefined);
+          return m.receiver === uuid;
+        }
       });
-    }
+    } // sort reverse order
+
 
     return Promise.resolve({
       data: {
-        queryGetMessages: receiverMsgs
+        queryGetMessages: receiverMsgs.reverse()
       }
     });
   } else {
