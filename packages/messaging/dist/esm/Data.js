@@ -125,6 +125,8 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
               }
             });
             return filterMatch;
+          } else if (m.sender === uuid) {
+            return true;
           } else {
             return false;
           }
@@ -178,6 +180,8 @@ var queryGetMessages = function queryGetMessages(_ref3) {
               }
             });
             return filterMatch;
+          } else if (m.sender === uuid) {
+            return true;
           } else {
             return false;
           }

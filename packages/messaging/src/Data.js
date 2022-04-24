@@ -138,6 +138,8 @@ export const queryGetUnreadMessages = ({
               }
             });
             return filterMatch;
+          } else if (m.sender === uuid) {
+            return true;
           } else {
             return false;
           }
@@ -189,6 +191,8 @@ export const queryGetMessages = ({
               }
             });
             return filterMatch;
+          } else if (m.sender === uuid) {
+            return true;
           } else {
             return false;
           }
