@@ -19,7 +19,7 @@ var addressBook = [{
   uuid: "0cc3bc47d8a60c8a0f6f35a9134c689e0a8c"
 }];
 var createMessageMutation = "mutation newMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      receiver\n      sender\n      role\n      createdAt\n      body\n    }\n  }";
-var updateMessageMutation = "mutation updateMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      status\n    }\n  }";
+var updateMessageStatusMutation = "mutation updateMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      status\n    }\n  }";
 
 function randomID() {
   var chars = "qwertyuiopasdfghjklzxcvbnm";
@@ -48,15 +48,16 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref) {
       callbacks = _ref.callbacks,
       uuid = _ref.uuid,
       variables = _ref.variables;
-  console.log("CREATE MSG ", stage);
-  console.log("CREATE MSG ", appID);
-  console.log("CREATE MSG ", uuid);
-  console.log("CREATE MSG ", callbacks);
-  console.log("CREATE MSG ", variables);
+  console.log("UPD MSG STATUS ", stage);
+  console.log("UPD MSG STATUS ", appID);
+  console.log("UPD MSG STATUS ", uuid);
+  console.log("UPD MSG STATUS ", callbacks);
+  console.log("UPD MSG STATUS ", variables);
 
   if (stage === "dev") {
-    var msgs = localStorage.getItem("prifinaMessaging");
+    var msgs = localStorage.getItem("prifinaMessagingStatuses");
     var msg = {
+      uuid: uuid,
       messageId: variables.messageId,
       status: variables.status
     };
@@ -68,7 +69,7 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref) {
         return m.messageId === variables.messageId;
       });
       msgQueue[msgIdx].status = variables.status;
-      localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
+      localStorage.setItem("prifinaMessagingStatuses", JSON.stringify(msgQueue));
     }
 
     return Promise.resolve({
@@ -79,9 +80,10 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref) {
   } else {
     return createMutation({
       name: "updateMessage",
-      mutation: updateMessageMutation,
+      mutation: updateMessageStatusMutation,
       variables: {
         input: {
+          uuid: uuid,
           messageId: variables.messageId,
           status: variables.status
         }
@@ -242,6 +244,19 @@ var mutationCreateMessage = function mutationCreateMessage(_ref5) {
     }
 
     localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
+    var msgStatuses = localStorage.getItem("prifinaMessagingStatuses");
+    var msgStatusQueue = [{
+      uuid: uuid,
+      messageId: msg.messageId,
+      status: 0
+    }];
+
+    if (msgStatuses !== null) {
+      console.log("MSG STORAGE ", msgs);
+      msgStatusQueue = msgStatusQueue.concat(JSON.parse(msgStatuses));
+    }
+
+    localStorage.setItem("prifinaMessagingStatuses", JSON.stringify(msgStatusQueue));
     return Promise.resolve({
       data: {
         createMessage: msg
@@ -293,16 +308,30 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
     }
 
     localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
+    var msgStatuses = localStorage.getItem("prifinaMessagingStatuses");
+    var msgStatusQueue = [{
+      uuid: uuid,
+      messageId: msg.messageId,
+      status: 0
+    }];
+
+    if (msgStatuses !== null) {
+      console.log("MSG STORAGE ", msgs);
+      msgStatusQueue = msgStatusQueue.concat(JSON.parse(msgStatuses));
+    }
+
+    localStorage.setItem("prifinaMessagingStatuses", JSON.stringify(msgStatusQueue));
     var msgStatus = localStorage.getItem("prifinaMessagingStatus");
 
     if (msgStatus !== null && JSON.parse(msgStatus)) {
       //console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
-      var receiverMsgs = msgQueue.filter(function (m) {
-        return m.receiver === uuid;
+      // scan msgStatusQueue instead... where status===0
+      var unreadMsgs = msgStatusQueue.filter(function (m) {
+        return m.uuid === uuid;
       });
       currentCallbacks[appID][0]({
         messagingStatus: {
-          cnt: receiverMsgs.length,
+          cnt: unreadMsgs.length,
           lastMessage: new Date(msg.createdAt).toISOString()
         }
       });

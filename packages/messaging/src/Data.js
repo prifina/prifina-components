@@ -37,7 +37,7 @@ const createMessageMutation = `mutation newMessage($input:MessageInput!) {
     }
   }`;
 
-const updateMessageMutation = `mutation updateMessage($input:MessageInput!) {
+const updateMessageStatusMutation = `mutation updateMessage($input:MessageInput!) {
     createMessage(input: $input) {
       messageId
       status
@@ -68,14 +68,18 @@ export const mutationUpdateMessageStatus = ({
   uuid,
   variables,
 }) => {
-  console.log("CREATE MSG ", stage);
-  console.log("CREATE MSG ", appID);
-  console.log("CREATE MSG ", uuid);
-  console.log("CREATE MSG ", callbacks);
-  console.log("CREATE MSG ", variables);
+  console.log("UPD MSG STATUS ", stage);
+  console.log("UPD MSG STATUS ", appID);
+  console.log("UPD MSG STATUS ", uuid);
+  console.log("UPD MSG STATUS ", callbacks);
+  console.log("UPD MSG STATUS ", variables);
   if (stage === "dev") {
-    const msgs = localStorage.getItem("prifinaMessaging");
-    let msg = { messageId: variables.messageId, status: variables.status };
+    const msgs = localStorage.getItem("prifinaMessagingStatuses");
+    let msg = {
+      uuid: uuid,
+      messageId: variables.messageId,
+      status: variables.status,
+    };
     if (msgs !== null) {
       //console.log("MSG STORAGE ", msgs);
       let msgQueue = JSON.parse(msgs);
@@ -83,7 +87,10 @@ export const mutationUpdateMessageStatus = ({
         return m.messageId === variables.messageId;
       });
       msgQueue[msgIdx].status = variables.status;
-      localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
+      localStorage.setItem(
+        "prifinaMessagingStatuses",
+        JSON.stringify(msgQueue)
+      );
     }
 
     return Promise.resolve({
@@ -94,9 +101,13 @@ export const mutationUpdateMessageStatus = ({
   } else {
     return createMutation({
       name: "updateMessage",
-      mutation: updateMessageMutation,
+      mutation: updateMessageStatusMutation,
       variables: {
-        input: { messageId: variables.messageId, status: variables.status },
+        input: {
+          uuid: uuid,
+          messageId: variables.messageId,
+          status: variables.status,
+        },
       },
       appId: appID,
     });
@@ -251,6 +262,16 @@ export const mutationCreateMessage = ({
     }
     localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
 
+    const msgStatuses = localStorage.getItem("prifinaMessagingStatuses");
+    let msgStatusQueue = [{ uuid: uuid, messageId: msg.messageId, status: 0 }];
+    if (msgStatuses !== null) {
+      console.log("MSG STORAGE ", msgs);
+      msgStatusQueue = msgStatusQueue.concat(JSON.parse(msgStatuses));
+    }
+    localStorage.setItem(
+      "prifinaMessagingStatuses",
+      JSON.stringify(msgStatusQueue)
+    );
     return Promise.resolve({
       data: {
         createMessage: msg,
@@ -300,15 +321,28 @@ export const mutationCreateTestMessage = ({
       msgQueue = msgQueue.concat(JSON.parse(msgs));
     }
     localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
+
+    const msgStatuses = localStorage.getItem("prifinaMessagingStatuses");
+    let msgStatusQueue = [{ uuid: uuid, messageId: msg.messageId, status: 0 }];
+    if (msgStatuses !== null) {
+      console.log("MSG STORAGE ", msgs);
+      msgStatusQueue = msgStatusQueue.concat(JSON.parse(msgStatuses));
+    }
+    localStorage.setItem(
+      "prifinaMessagingStatuses",
+      JSON.stringify(msgStatusQueue)
+    );
+
     const msgStatus = localStorage.getItem("prifinaMessagingStatus");
     if (msgStatus !== null && JSON.parse(msgStatus)) {
       //console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
-      const receiverMsgs = msgQueue.filter((m) => {
-        return m.receiver === uuid;
+      // scan msgStatusQueue instead... where status===0
+      const unreadMsgs = msgStatusQueue.filter((m) => {
+        return m.uuid === uuid;
       });
       currentCallbacks[appID][0]({
         messagingStatus: {
-          cnt: receiverMsgs.length,
+          cnt: unreadMsgs.length,
           lastMessage: new Date(msg.createdAt).toISOString(),
         },
       });
