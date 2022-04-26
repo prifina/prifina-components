@@ -100,7 +100,7 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
       _ref2.name;
       _ref2.createQuery;
       _ref2.fields;
-      _ref2.filter;
+      var filter = _ref2.filter;
       _ref2.next;
       _ref2.fieldsList;
       var uuid = _ref2.uuid;
@@ -139,10 +139,31 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
         }
       }
 
+      var filteredMsgs = [];
+
+      if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
+        filteredMsgs = JSON.parse(unreadMsgs).filter(function (m) {
+          var filterMatch = false;
+          Object.keys(filter).forEach(function (f) {
+            console.log("UNREAD FILTER MATCH ", f);
+            console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
+
+            if (m.hasOwnProperty(f) && m[f] === filter[f]) {
+              filterMatch = true;
+            } else {
+              filterMatch = false;
+            }
+          });
+          return filterMatch;
+        });
+      } else {
+        filteredMsgs = unreadMsgs;
+      }
+
       return {
         v: Promise.resolve({
           data: {
-            queryGetUnreadMessages: unreadMsgs
+            queryGetUnreadMessages: filteredMsgs
           }
         })
       };

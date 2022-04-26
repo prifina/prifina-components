@@ -149,9 +149,27 @@ export const queryGetUnreadMessages = ({
         }
       }
     }
+    let filteredMsgs = [];
+    if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
+      filteredMsgs = JSON.parse(unreadMsgs).filter((m) => {
+        let filterMatch = false;
+        Object.keys(filter).forEach((f) => {
+          console.log("UNREAD FILTER MATCH ", f);
+          console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
+          if (m.hasOwnProperty(f) && m[f] === filter[f]) {
+            filterMatch = true;
+          } else {
+            filterMatch = false;
+          }
+        });
+        return filterMatch;
+      });
+    } else {
+      filteredMsgs = unreadMsgs;
+    }
     return Promise.resolve({
       data: {
-        queryGetUnreadMessages: unreadMsgs,
+        queryGetUnreadMessages: filteredMsgs,
       },
     });
   } else {
