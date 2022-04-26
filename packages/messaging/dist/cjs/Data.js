@@ -146,7 +146,7 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
       return {
         v: Promise.resolve({
           data: {
-            queryGetUnreadMessages: ureadMsgs
+            queryGetUnreadMessages: unreadMsgs
           }
         })
       };

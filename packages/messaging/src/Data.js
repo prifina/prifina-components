@@ -151,7 +151,7 @@ export const queryGetUnreadMessages = ({
     }
     return Promise.resolve({
       data: {
-        queryGetUnreadMessages: ureadMsgs,
+        queryGetUnreadMessages: unreadMsgs,
       },
     });
   } else {
