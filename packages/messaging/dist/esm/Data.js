@@ -354,18 +354,22 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
     localStorage.setItem("prifinaMessagingStatuses", JSON.stringify(msgStatusQueue));
     var msgStatus = localStorage.getItem("prifinaMessagingStatus");
 
-    if (msgStatus !== null && JSON.parse(msgStatus)) {
-      //console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
-      // scan msgStatusQueue instead... where status===0
-      var unreadMsgs = msgStatusQueue.filter(function (m) {
-        return m.uuid === uuid;
-      });
-      currentCallbacks[appID][0]({
-        messagingStatus: {
-          cnt: unreadMsgs.length,
-          lastMessage: new Date(msg.createdAt).toISOString()
-        }
-      });
+    if (msgStatus !== null) {
+      var msgSubs = JSON.parse(msgStatus); // uuid has subscribed notifications....
+
+      if (msgSubs.hasOwnProperty(uuid) && msgSubs[uuid]) {
+        //console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
+        // scan msgStatusQueue instead... where status===0
+        var unreadMsgs = msgStatusQueue.filter(function (m) {
+          return m.uuid === uuid;
+        });
+        currentCallbacks[appID][0]({
+          messagingStatus: {
+            cnt: unreadMsgs.length,
+            lastMessage: new Date(msg.createdAt).toISOString()
+          }
+        });
+      }
     }
 
     return Promise.resolve({
@@ -389,11 +393,19 @@ var subscribeMessagingStatus = function subscribeMessagingStatus(_ref7) {
       _ref7.appID;
       _ref7.name;
       _ref7.createSubscription;
-      _ref7.variables;
+      var variables = _ref7.variables;
       _ref7.uuid;
 
   if (stage === "dev") {
-    localStorage.setItem("prifinaMessagingStatus", true);
+    var msgStatus = localStorage.getItem("prifinaMessagingStatus");
+    var msgSubs = {};
+
+    if (msgStatus !== null) {
+      msgSubs = JSON.parse(msgStatus);
+    }
+
+    msgSubs[variables.receiver] = true;
+    localStorage.setItem("prifinaMessagingStatus", JSON.stringify(msgSubs));
     return Promise.resolve(true);
   } else {
     console.log("SUBS ");

@@ -350,18 +350,22 @@ export const mutationCreateTestMessage = ({
     );
 
     const msgStatus = localStorage.getItem("prifinaMessagingStatus");
-    if (msgStatus !== null && JSON.parse(msgStatus)) {
-      //console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
-      // scan msgStatusQueue instead... where status===0
-      const unreadMsgs = msgStatusQueue.filter((m) => {
-        return m.uuid === uuid;
-      });
-      currentCallbacks[appID][0]({
-        messagingStatus: {
-          cnt: unreadMsgs.length,
-          lastMessage: new Date(msg.createdAt).toISOString(),
-        },
-      });
+    if (msgStatus !== null) {
+      const msgSubs = JSON.parse(msgStatus);
+      // uuid has subscribed notifications....
+      if (msgSubs.hasOwnProperty(uuid) && msgSubs[uuid]) {
+        //console.log("CALLBACKS ", currentCallbacks[appID][0]("OK"));
+        // scan msgStatusQueue instead... where status===0
+        const unreadMsgs = msgStatusQueue.filter((m) => {
+          return m.uuid === uuid;
+        });
+        currentCallbacks[appID][0]({
+          messagingStatus: {
+            cnt: unreadMsgs.length,
+            lastMessage: new Date(msg.createdAt).toISOString(),
+          },
+        });
+      }
     }
 
     return Promise.resolve({
@@ -388,7 +392,13 @@ export const subscribeMessagingStatus = ({
   uuid,
 }) => {
   if (stage === "dev") {
-    localStorage.setItem("prifinaMessagingStatus", true);
+    const msgStatus = localStorage.getItem("prifinaMessagingStatus");
+    let msgSubs = {};
+    if (msgStatus !== null) {
+      msgSubs = JSON.parse(msgStatus);
+    }
+    msgSubs[variables.receiver] = true;
+    localStorage.setItem("prifinaMessagingStatus", JSON.stringify(msgSubs));
     return Promise.resolve(true);
   } else {
     console.log("SUBS ");
