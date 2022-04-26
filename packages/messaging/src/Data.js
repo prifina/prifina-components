@@ -258,7 +258,10 @@ export const mutationCreateMessage = ({
     localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
 
     const msgStatuses = localStorage.getItem("prifinaMessagingStatuses");
-    let msgStatusQueue = [{ uuid: uuid, messageId: msg.messageId, status: 0 }];
+    // should use chatId "members" instead of receiver...
+    let msgStatusQueue = [
+      { uuid: variables.receiver, messageId: msg.messageId, status: 0 },
+    ];
     if (msgStatuses !== null) {
       console.log("MSG STORAGE ", msgs);
       msgStatusQueue = msgStatusQueue.concat(JSON.parse(msgStatuses));

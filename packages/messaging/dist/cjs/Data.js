@@ -257,9 +257,10 @@ var mutationCreateMessage = function mutationCreateMessage(_ref5) {
     }
 
     localStorage.setItem("prifinaMessaging", JSON.stringify(msgQueue));
-    var msgStatuses = localStorage.getItem("prifinaMessagingStatuses");
+    var msgStatuses = localStorage.getItem("prifinaMessagingStatuses"); // should use chatId "members" instead of receiver...
+
     var msgStatusQueue = [{
-      uuid: uuid,
+      uuid: variables.receiver,
       messageId: msg.messageId,
       status: 0
     }];
