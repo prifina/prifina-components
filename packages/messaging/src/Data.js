@@ -151,7 +151,7 @@ export const queryGetUnreadMessages = ({
     }
     let filteredMsgs = [];
     if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
-      filteredMsgs = JSON.parse(unreadMsgs).filter((m) => {
+      filteredMsgs = unreadMsgs.filter((m) => {
         let filterMatch = false;
         Object.keys(filter).forEach((f) => {
           console.log("UNREAD FILTER MATCH ", f);
