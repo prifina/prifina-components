@@ -2,6 +2,8 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+var _rollupPluginBabelHelpers = require('./_virtual/_rollupPluginBabelHelpers.js');
+
 var getInfo = function getInfo() {
   return ["queryUserAddressBook", "mutationCreateMessage", "subscribeMessagingStatus", "subscribeMessagingData", "mutationCreateTestMessage", "queryGetUnreadMessages", "queryGetMessages", "mutationUpdateMessageStatus"];
 };
@@ -102,48 +104,55 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
       _ref2.name;
       _ref2.createQuery;
       _ref2.fields;
-      var filter = _ref2.filter;
+      _ref2.filter;
       _ref2.next;
       _ref2.fieldsList;
-      _ref2.uuid;
+      var uuid = _ref2.uuid;
 
   if (stage === "dev") {
-    var msgs = localStorage.getItem("prifinaMessaging");
-    var receiverMsgs = [];
+    var _ret = function () {
+      var msgStatuses = localStorage.getItem("prifinaMessagingStatuses");
+      var unreadMsgQueue = [];
 
-    if (msgs !== null) {
-      receiverMsgs = JSON.parse(msgs).filter(function (m) {
-        //console.log(uuid, m);
-        //console.log(m?.status === undefined);
-        if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
-          //console.log("UNREAD FILTER ", filter);
-          if ((m === null || m === void 0 ? void 0 : m.status) === undefined || m.status === 0) {
-            var filterMatch = false;
-            Object.keys(filter).forEach(function (f) {
-              console.log("UNREAD FILTER MATCH ", f);
-              console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
-
-              if (m.hasOwnProperty(f) && m[f] === filter[f]) {
-                filterMatch = true;
-              } else {
-                filterMatch = false;
-              }
-            });
-            return filterMatch;
-          } else {
-            return false;
-          }
-        } else {
-          return (m === null || m === void 0 ? void 0 : m.status) === undefined || m.status === 0;
-        }
-      });
-    }
-
-    return Promise.resolve({
-      data: {
-        queryGetUnreadMessages: receiverMsgs
+      if (msgStatuses !== null) {
+        //console.log("MSG STORAGE ", msgs);
+        var msgQueue = JSON.parse(msgStatuses);
+        unreadMsgQueue = msgQueue.filter(function (m) {
+          return m.uuid === uuid && m.status === 0;
+        });
       }
-    });
+
+      var unreadMsgs = [];
+
+      if (unreadMsgQueue.length > 0) {
+        var msgs = localStorage.getItem("prifinaMessaging");
+
+        if (msgs !== null) {
+          var msgList = JSON.parse(msgs);
+
+          var _loop = function _loop(i) {
+            var msgIdx = msgList.findIndex(function (m) {
+              return m.messageId === unreadMsgQueue[i].messageId;
+            });
+            unreadMsgs.push(msgList[msgIdx]);
+          };
+
+          for (var i = 0; i < unreadMsgQueue.length; i++) {
+            _loop(i);
+          }
+        }
+      }
+
+      return {
+        v: Promise.resolve({
+          data: {
+            queryGetUnreadMessages: ureadMsgs
+          }
+        })
+      };
+    }();
+
+    if (_rollupPluginBabelHelpers["typeof"](_ret) === "object") return _ret.v;
   } else {
     console.log("GET UNREAD MSG QUERY");
   }

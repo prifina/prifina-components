@@ -126,37 +126,32 @@ export const queryGetUnreadMessages = ({
   uuid,
 }) => {
   if (stage === "dev") {
-    const msgs = localStorage.getItem("prifinaMessaging");
-    let receiverMsgs = [];
-    if (msgs !== null) {
-      receiverMsgs = JSON.parse(msgs).filter((m) => {
-        //console.log(uuid, m);
-        //console.log(m?.status === undefined);
-        if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
-          //console.log("UNREAD FILTER ", filter);
-          if (m?.status === undefined || m.status === 0) {
-            let filterMatch = false;
-            Object.keys(filter).forEach((f) => {
-              console.log("UNREAD FILTER MATCH ", f);
-              console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
-              if (m.hasOwnProperty(f) && m[f] === filter[f]) {
-                filterMatch = true;
-              } else {
-                filterMatch = false;
-              }
-            });
-            return filterMatch;
-          } else {
-            return false;
-          }
-        } else {
-          return m?.status === undefined || m.status === 0;
-        }
+    const msgStatuses = localStorage.getItem("prifinaMessagingStatuses");
+    let unreadMsgQueue = [];
+    if (msgStatuses !== null) {
+      //console.log("MSG STORAGE ", msgs);
+      let msgQueue = JSON.parse(msgStatuses);
+      unreadMsgQueue = msgQueue.filter((m) => {
+        return m.uuid === uuid && m.status === 0;
       });
+    }
+    let unreadMsgs = [];
+    if (unreadMsgQueue.length > 0) {
+      const msgs = localStorage.getItem("prifinaMessaging");
+
+      if (msgs !== null) {
+        const msgList = JSON.parse(msgs);
+        for (let i = 0; i < unreadMsgQueue.length; i++) {
+          const msgIdx = msgList.findIndex((m) => {
+            return m.messageId === unreadMsgQueue[i].messageId;
+          });
+          unreadMsgs.push(msgList[msgIdx]);
+        }
+      }
     }
     return Promise.resolve({
       data: {
-        queryGetUnreadMessages: receiverMsgs,
+        queryGetUnreadMessages: ureadMsgs,
       },
     });
   } else {
