@@ -148,39 +148,11 @@ export const app = () => {
             "API ",
             await API[appID].GoogleTimeline.queryActivities({ filter: {} })
           );
-
-          /*
-          queryActivities
-      const result = await API[appID].GoogleTimeline.queryActivities({
-        filter: filter,
-      });
-      */
-
-          //f902cbca-8748-437d-a7bb-bd2dc9d25be5
-          /*
-          console.log(
-            await getSettings(appID, "f902cbca-8748-437d-a7bb-bd2dc9d25be5")
-          );
-          */
         }}
       >
         GET DATA
       </button>
       <div>Settings</div>
-      <button
-        onClick={async () => {
-          //widget: {name: "test", settings: {field: "fld", value: "1"}})
-          /*
-          console.log(
-            await setSettings(appID, "f902cbca-8748-437d-a7bb-bd2dc9d25be5", [
-              { field: "msg", value: "Hello" },
-            ])
-          );
-          */
-        }}
-      >
-        SET DATA
-      </button>
       <div>Google</div>
       <button
         onClick={async () => {
@@ -210,7 +182,7 @@ app.story = {
   decorators: [
     (Story) => {
       return (
-        <Provider stage={"dev"} Context={PrifinaContext}>
+        <Provider stage={"sandbox"} Context={PrifinaContext}>
           <Story />
         </Provider>
       );

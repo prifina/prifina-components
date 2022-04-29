@@ -26,6 +26,24 @@ const addressBook = [
   { name: "Name 3", uuid: "0cc3bc47d8a60c8a0f6f35a9134c689e0a8c" },
 ];
 
+const unreadMsgsQuery = `query unreadMsgs($input:DataObjectInput!) {
+  getUnreadMsgs(input:$input) {
+    result
+  }
+}`;
+
+const getMsgsQuery = `query getMsgs($input:DataObjectInput!) {
+  getMsgs(input:$input) {
+    result
+  }
+}`;
+
+const getAddressBookQuery = `query getAddressBook($input:DataObjectInput!) {
+  getAddressBook(input:$input) {
+    result
+  }
+}`;
+
 const createMessageMutation = `mutation newMessage($input:MessageInput!) {
     createMessage(input: $input) {
       messageId
@@ -59,60 +77,6 @@ function randomID() {
 
   return randomstring;
 }
-
-export const mutationUpdateMessageStatus = ({
-  stage,
-  appID,
-  createMutation,
-  callbacks,
-  uuid,
-  variables,
-}) => {
-  console.log("UPD MSG STATUS ", stage);
-  console.log("UPD MSG STATUS ", appID);
-  console.log("UPD MSG STATUS ", uuid);
-  console.log("UPD MSG STATUS ", callbacks);
-  console.log("UPD MSG STATUS ", variables);
-  if (stage === "dev") {
-    const msgs = localStorage.getItem("prifinaMessagingStatuses");
-    let msg = {
-      uuid: uuid,
-      messageId: variables.messageId,
-      status: variables.status,
-    };
-    if (msgs !== null) {
-      //console.log("MSG STORAGE ", msgs);
-      let msgQueue = JSON.parse(msgs);
-      const msgIdx = msgQueue.findIndex((m) => {
-        return m.messageId === variables.messageId;
-      });
-      msgQueue[msgIdx].status = variables.status;
-      localStorage.setItem(
-        "prifinaMessagingStatuses",
-        JSON.stringify(msgQueue)
-      );
-    }
-
-    return Promise.resolve({
-      data: {
-        updateMessage: msg,
-      },
-    });
-  } else {
-    return createMutation({
-      name: "updateMessage",
-      mutation: updateMessageStatusMutation,
-      variables: {
-        input: {
-          uuid: uuid,
-          messageId: variables.messageId,
-          status: variables.status,
-        },
-      },
-      appId: appID,
-    });
-  }
-};
 
 export const queryGetUnreadMessages = ({
   stage,
@@ -173,7 +137,15 @@ export const queryGetUnreadMessages = ({
       },
     });
   } else {
-    console.log("GET UNREAD MSG QUERY");
+    return createQuery({
+      query: unreadMsgsQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+      fieldsList: fieldsList,
+    });
   }
 };
 
@@ -221,7 +193,15 @@ export const queryGetMessages = ({
       },
     });
   } else {
-    console.log("GET MSG QUERY");
+    return createQuery({
+      query: getMsgsQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+      fieldsList: fieldsList,
+    });
   }
 };
 export const queryUserAddressBook = ({
@@ -241,7 +221,69 @@ export const queryUserAddressBook = ({
       },
     });
   } else {
-    console.log("GET ADDRESS BOOK QUERY");
+    return createQuery({
+      query: getAddressBookQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+      fieldsList: fieldsList,
+    });
+  }
+};
+
+export const mutationUpdateMessageStatus = ({
+  stage,
+  appID,
+  createMutation,
+  callbacks,
+  uuid,
+  variables,
+}) => {
+  console.log("UPD MSG STATUS ", stage);
+  console.log("UPD MSG STATUS ", appID);
+  console.log("UPD MSG STATUS ", uuid);
+  console.log("UPD MSG STATUS ", callbacks);
+  console.log("UPD MSG STATUS ", variables);
+  if (stage === "dev") {
+    const msgs = localStorage.getItem("prifinaMessagingStatuses");
+    let msg = {
+      uuid: uuid,
+      messageId: variables.messageId,
+      status: variables.status,
+    };
+    if (msgs !== null) {
+      //console.log("MSG STORAGE ", msgs);
+      let msgQueue = JSON.parse(msgs);
+      const msgIdx = msgQueue.findIndex((m) => {
+        return m.messageId === variables.messageId;
+      });
+      msgQueue[msgIdx].status = variables.status;
+      localStorage.setItem(
+        "prifinaMessagingStatuses",
+        JSON.stringify(msgQueue)
+      );
+    }
+
+    return Promise.resolve({
+      data: {
+        updateMessage: msg,
+      },
+    });
+  } else {
+    return createMutation({
+      name: "updateMessage",
+      mutation: updateMessageStatusMutation,
+      variables: {
+        input: {
+          uuid: uuid,
+          messageId: variables.messageId,
+          status: variables.status,
+        },
+      },
+      appId: appID,
+    });
   }
 };
 
@@ -402,6 +444,12 @@ export const subscribeMessagingStatus = ({
     return Promise.resolve(true);
   } else {
     console.log("SUBS ");
+    return createMutation({
+      name: "createMessage",
+      mutation: createMessageMutation,
+      variables: { input: variables },
+      appId: appID,
+    });
   }
 };
 
@@ -420,23 +468,3 @@ export const subscribeMessagingData = ({
     console.log("SUBS ");
   }
 };
-
-/*
-
-
-    return createQuery({
-      query: dataQuery,
-      name: name,
-      fields,
-      filter,
-      next,
-      appId: appID,
-      fieldsList: fieldsList,
-    });
-
-const dataQuery = `query dataObject($input:DataObjectInput!) {
-    getDataObject(input:$input) {
-      result
-    }
-  }`;
-  */

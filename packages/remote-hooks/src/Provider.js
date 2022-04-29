@@ -166,7 +166,71 @@ export const Provider = ({
     }
 
     return new Promise(function (resolve, reject) {
+      const subHandler = CLIENT.current.user
+        .subscribe({
+          query: gql(opts.mutation),
+          variables: {
+            ...opts.variables,
+            dataconnector: opts.name,
+            userId: currentUser.uuid,
+            appId: opts.appId,
+            execId: short.generate(),
+            stage: providerContext.current.init.stage,
+          },
+        })
+        .subscribe({
+          next: (res) => {
+            console.log("NOTIFICATION SUBS RESULTS ", res);
+            /*
+            const appIndex = providerContext.current.init.apps[appID];
+              let callBackIndex = 0;
+              if (appIndex.length > 1) {
+                callBackIndex = appIndex.findIndex((id) => {
+                  return id === onUpdateID;
+                });
+              }
+              callbacks.current[appID][callBackIndex](data);
+
+
+          */
+          },
+          error: (error) => {
+            console.warn(error);
+            /*
+          const appIndex = providerContext.current.init.apps[appID];
+          let callBackIndex = 0;
+          if (appIndex.length > 1) {
+            callBackIndex = appIndex.findIndex((id) => {
+              return id === onUpdateID;
+            });
+          }
+          callbacks.current[appID][callBackIndex]({ error: err });
+          */
+          },
+        });
+
+      if (appSubscriptions.current.hasOwnProperty(appID)) {
+        appSubscriptions.current[appID].push(subHandler);
+      } else {
+        appSubscriptions.current[appID] = [subHandler];
+      }
       resolve(true);
+
+      //return userClient
+      /*
+    .subscribe({ query: gql(newNotification), variables: variables })
+    .subscribe({
+      next: res => {
+        console.log("NOTIFICATION SUBS RESULTS ", res);
+        if (res.data.newNotification.owner !== "") {
+          notificationHandler.current(1);
+        }
+      },
+      error: error => {
+        console.warn(error);
+      },
+    });
+    */
     });
   };
   const createMutation = (opts) => {
@@ -191,7 +255,14 @@ export const Provider = ({
       CLIENT.current.user
         .mutate({
           mutation: gql(opts.mutation),
-          variables: opts.variables,
+          variables: {
+            ...opts.variables,
+            dataconnector: opts.name,
+            userId: currentUser.uuid,
+            appId: opts.appId,
+            execId: short.generate(),
+            stage: providerContext.current.init.stage,
+          },
         })
         .then((res) => {
           console.log("MUTATION RES ", res);
@@ -304,14 +375,25 @@ export const Provider = ({
         })
         .then((res) => {
           console.log("RES ", res);
-          let s3Object = JSON.parse(res.data.getDataObject.result);
-          if (callbacks.current.hasOwnProperty("sandbox")) {
-            callbacks.current["sandbox"][0]({
-              queryResult: { data: { getDataObject: s3Object } },
-            });
+          if (res.data.hasOwnProperty("getDataObject")) {
+            let s3Object = JSON.parse(res.data.getDataObject.result);
+            if (callbacks.current.hasOwnProperty("sandbox")) {
+              callbacks.current["sandbox"][0]({
+                queryResult: { data: { getDataObject: s3Object } },
+              });
+            }
+            resolve({ data: { getDataObject: s3Object } });
+          } else {
+            console.log("NOT S3 DATA OBJECT");
+            const key = Object.keys(res.data)[0];
+            let dataObject = JSON.parse(res.data[key].result);
+            if (callbacks.current.hasOwnProperty("sandbox")) {
+              callbacks.current["sandbox"][0]({
+                queryResult: { data: { [key]: dataObject } },
+              });
+            }
+            resolve({ data: { [key]: dataObject } });
           }
-
-          resolve({ data: { getDataObject: s3Object } });
         })
         .catch((error) => {
           if (callbacks.current.hasOwnProperty("sandbox")) {
@@ -774,6 +856,7 @@ type Query @aws_iam @aws_cognito_user_pools {
 
   const unSubscribe = useCallback((appID, onUpdateID, subscription) => {
     if (providerContext.current.init.stage === "dev") {
+      /*
       if (
         mockups.current[appID] &&
         typeof mockups.current[appID][subscription]
@@ -784,6 +867,7 @@ type Query @aws_iam @aws_cognito_user_pools {
           delete mockups.current[appID];
         }
       }
+      */
     } else {
       console.log("UNSUBS ", appSubscriptions);
 

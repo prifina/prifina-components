@@ -24,6 +24,9 @@ var addressBook = [{
   name: "Name 3",
   uuid: "0cc3bc47d8a60c8a0f6f35a9134c689e0a8c"
 }];
+var unreadMsgsQuery = "query unreadMsgs($input:DataObjectInput!) {\n  getUnreadMsgs(input:$input) {\n    result\n  }\n}";
+var getMsgsQuery = "query getMsgs($input:DataObjectInput!) {\n  getMsgs(input:$input) {\n    result\n  }\n}";
+var getAddressBookQuery = "query getAddressBook($input:DataObjectInput!) {\n  getAddressBook(input:$input) {\n    result\n  }\n}";
 var createMessageMutation = "mutation newMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      receiver\n      sender\n      role\n      createdAt\n      body\n    }\n  }";
 var updateMessageStatusMutation = "mutation updateMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      status\n    }\n  }";
 
@@ -47,67 +50,16 @@ function randomID() {
   return randomstring;
 }
 
-var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref) {
+var queryGetUnreadMessages = function queryGetUnreadMessages(_ref) {
   var stage = _ref.stage,
       appID = _ref.appID,
-      createMutation = _ref.createMutation,
-      callbacks = _ref.callbacks,
-      uuid = _ref.uuid,
-      variables = _ref.variables;
-  console.log("UPD MSG STATUS ", stage);
-  console.log("UPD MSG STATUS ", appID);
-  console.log("UPD MSG STATUS ", uuid);
-  console.log("UPD MSG STATUS ", callbacks);
-  console.log("UPD MSG STATUS ", variables);
-
-  if (stage === "dev") {
-    var msgs = localStorage.getItem("prifinaMessagingStatuses");
-    var msg = {
-      uuid: uuid,
-      messageId: variables.messageId,
-      status: variables.status
-    };
-
-    if (msgs !== null) {
-      //console.log("MSG STORAGE ", msgs);
-      var msgQueue = JSON.parse(msgs);
-      var msgIdx = msgQueue.findIndex(function (m) {
-        return m.messageId === variables.messageId;
-      });
-      msgQueue[msgIdx].status = variables.status;
-      localStorage.setItem("prifinaMessagingStatuses", JSON.stringify(msgQueue));
-    }
-
-    return Promise.resolve({
-      data: {
-        updateMessage: msg
-      }
-    });
-  } else {
-    return createMutation({
-      name: "updateMessage",
-      mutation: updateMessageStatusMutation,
-      variables: {
-        input: {
-          uuid: uuid,
-          messageId: variables.messageId,
-          status: variables.status
-        }
-      },
-      appId: appID
-    });
-  }
-};
-var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
-  var stage = _ref2.stage;
-      _ref2.appID;
-      _ref2.name;
-      _ref2.createQuery;
-      _ref2.fields;
-      var filter = _ref2.filter;
-      _ref2.next;
-      _ref2.fieldsList;
-      var uuid = _ref2.uuid;
+      name = _ref.name,
+      createQuery = _ref.createQuery,
+      fields = _ref.fields,
+      filter = _ref.filter,
+      next = _ref.next,
+      fieldsList = _ref.fieldsList,
+      uuid = _ref.uuid;
 
   if (stage === "dev") {
     var _ret = function () {
@@ -175,19 +127,27 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref2) {
 
     if (_rollupPluginBabelHelpers["typeof"](_ret) === "object") return _ret.v;
   } else {
-    console.log("GET UNREAD MSG QUERY");
+    return createQuery({
+      query: unreadMsgsQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID,
+      fieldsList: fieldsList
+    });
   }
 };
-var queryGetMessages = function queryGetMessages(_ref3) {
-  var stage = _ref3.stage;
-      _ref3.appID;
-      _ref3.name;
-      _ref3.createQuery;
-      _ref3.fields;
-      var filter = _ref3.filter;
-      _ref3.next;
-      _ref3.fieldsList;
-      var uuid = _ref3.uuid;
+var queryGetMessages = function queryGetMessages(_ref2) {
+  var stage = _ref2.stage,
+      appID = _ref2.appID,
+      name = _ref2.name,
+      createQuery = _ref2.createQuery,
+      fields = _ref2.fields,
+      filter = _ref2.filter,
+      next = _ref2.next,
+      fieldsList = _ref2.fieldsList,
+      uuid = _ref2.uuid;
 
   if (stage === "dev") {
     var msgs = localStorage.getItem("prifinaMessaging");
@@ -224,18 +184,26 @@ var queryGetMessages = function queryGetMessages(_ref3) {
       }
     });
   } else {
-    console.log("GET MSG QUERY");
+    return createQuery({
+      query: getMsgsQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID,
+      fieldsList: fieldsList
+    });
   }
 };
-var queryUserAddressBook = function queryUserAddressBook(_ref4) {
-  var stage = _ref4.stage;
-      _ref4.appID;
-      _ref4.name;
-      _ref4.createQuery;
-      _ref4.fields;
-      _ref4.filter;
-      _ref4.next;
-      _ref4.fieldsList;
+var queryUserAddressBook = function queryUserAddressBook(_ref3) {
+  var stage = _ref3.stage,
+      appID = _ref3.appID,
+      name = _ref3.name,
+      createQuery = _ref3.createQuery,
+      fields = _ref3.fields,
+      filter = _ref3.filter,
+      next = _ref3.next,
+      fieldsList = _ref3.fieldsList;
 
   if (stage === "dev") {
     return Promise.resolve({
@@ -244,7 +212,66 @@ var queryUserAddressBook = function queryUserAddressBook(_ref4) {
       }
     });
   } else {
-    console.log("GET ADDRESS BOOK QUERY");
+    return createQuery({
+      query: getAddressBookQuery,
+      name: name,
+      fields: fields,
+      filter: filter,
+      next: next,
+      appId: appID,
+      fieldsList: fieldsList
+    });
+  }
+};
+var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref4) {
+  var stage = _ref4.stage,
+      appID = _ref4.appID,
+      createMutation = _ref4.createMutation,
+      callbacks = _ref4.callbacks,
+      uuid = _ref4.uuid,
+      variables = _ref4.variables;
+  console.log("UPD MSG STATUS ", stage);
+  console.log("UPD MSG STATUS ", appID);
+  console.log("UPD MSG STATUS ", uuid);
+  console.log("UPD MSG STATUS ", callbacks);
+  console.log("UPD MSG STATUS ", variables);
+
+  if (stage === "dev") {
+    var msgs = localStorage.getItem("prifinaMessagingStatuses");
+    var msg = {
+      uuid: uuid,
+      messageId: variables.messageId,
+      status: variables.status
+    };
+
+    if (msgs !== null) {
+      //console.log("MSG STORAGE ", msgs);
+      var msgQueue = JSON.parse(msgs);
+      var msgIdx = msgQueue.findIndex(function (m) {
+        return m.messageId === variables.messageId;
+      });
+      msgQueue[msgIdx].status = variables.status;
+      localStorage.setItem("prifinaMessagingStatuses", JSON.stringify(msgQueue));
+    }
+
+    return Promise.resolve({
+      data: {
+        updateMessage: msg
+      }
+    });
+  } else {
+    return createMutation({
+      name: "updateMessage",
+      mutation: updateMessageStatusMutation,
+      variables: {
+        input: {
+          uuid: uuid,
+          messageId: variables.messageId,
+          status: variables.status
+        }
+      },
+      appId: appID
+    });
   }
 };
 var mutationCreateMessage = function mutationCreateMessage(_ref5) {
@@ -393,8 +420,8 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
   }
 };
 var subscribeMessagingStatus = function subscribeMessagingStatus(_ref7) {
-  var stage = _ref7.stage;
-      _ref7.appID;
+  var stage = _ref7.stage,
+      appID = _ref7.appID;
       _ref7.name;
       _ref7.createSubscription;
       var variables = _ref7.variables;
@@ -413,6 +440,14 @@ var subscribeMessagingStatus = function subscribeMessagingStatus(_ref7) {
     return Promise.resolve(true);
   } else {
     console.log("SUBS ");
+    return createMutation({
+      name: "createMessage",
+      mutation: createMessageMutation,
+      variables: {
+        input: variables
+      },
+      appId: appID
+    });
   }
 };
 var subscribeMessagingData = function subscribeMessagingData(_ref8) {
@@ -430,25 +465,6 @@ var subscribeMessagingData = function subscribeMessagingData(_ref8) {
     console.log("SUBS ");
   }
 };
-/*
-
-
-    return createQuery({
-      query: dataQuery,
-      name: name,
-      fields,
-      filter,
-      next,
-      appId: appID,
-      fieldsList: fieldsList,
-    });
-
-const dataQuery = `query dataObject($input:DataObjectInput!) {
-    getDataObject(input:$input) {
-      result
-    }
-  }`;
-  */
 
 exports.getFields = getFields;
 exports.getInfo = getInfo;
