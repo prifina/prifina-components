@@ -256,12 +256,14 @@ export const Provider = ({
         .mutate({
           mutation: gql(opts.mutation),
           variables: {
-            ...opts.variables,
-            dataconnector: opts.name,
-            userId: currentUser.uuid,
-            appId: opts.appId,
-            execId: short.generate(),
-            stage: providerContext.current.init.stage,
+            input: {
+              ...opts.variables,
+              dataconnector: opts.name,
+              userId: currentUser.uuid,
+              appId: opts.appId,
+              execId: short.generate(),
+              stage: providerContext.current.init.stage,
+            },
           },
         })
         .then((res) => {

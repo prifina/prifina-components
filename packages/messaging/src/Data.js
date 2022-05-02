@@ -48,8 +48,8 @@ const createMessageMutation = `mutation newMessage($input:MessageInput!) {
     createMessage(input: $input) {
       messageId
       receiver
+      chatId
       sender
-      role
       createdAt
       body
     }
@@ -336,10 +336,11 @@ export const mutationCreateMessage = ({
       },
     });
   } else {
+    variables.sender = uuid;
     return createMutation({
       name: "createMessage",
       mutation: createMessageMutation,
-      variables: { input: variables },
+      variables: { content: variables },
       appId: appID,
     });
   }

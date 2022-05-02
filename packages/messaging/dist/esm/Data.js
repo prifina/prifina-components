@@ -23,7 +23,7 @@ var addressBook = [{
 var unreadMsgsQuery = "query unreadMsgs($input:DataObjectInput!) {\n  getUnreadMsgs(input:$input) {\n    result\n  }\n}";
 var getMsgsQuery = "query getMsgs($input:DataObjectInput!) {\n  getMsgs(input:$input) {\n    result\n  }\n}";
 var getAddressBookQuery = "query getAddressBook($input:DataObjectInput!) {\n  getAddressBook(input:$input) {\n    result\n  }\n}";
-var createMessageMutation = "mutation newMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      receiver\n      sender\n      role\n      createdAt\n      body\n    }\n  }";
+var createMessageMutation = "mutation newMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      receiver\n      chatId\n      sender\n      createdAt\n      body\n    }\n  }";
 var updateMessageStatusMutation = "mutation updateMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      status\n    }\n  }";
 
 function randomID() {
@@ -321,6 +321,7 @@ var mutationCreateMessage = function mutationCreateMessage(_ref5) {
       }
     });
   } else {
+    variables.sender = uuid;
     return createMutation({
       name: "createMessage",
       mutation: createMessageMutation,
