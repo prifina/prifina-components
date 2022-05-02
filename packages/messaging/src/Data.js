@@ -46,19 +46,13 @@ const getAddressBookQuery = `query getAddressBook($input:DataObjectInput!) {
 
 const createMessageMutation = `mutation newMessage($input:MessageInput!) {
     createMessage(input: $input) {
-      messageId
-      receiver
-      chatId
-      sender
-      createdAt
-      body
+     result
     }
   }`;
 
 const updateMessageStatusMutation = `mutation updateMessage($input:MessageInput!) {
     createMessage(input: $input) {
-      messageId
-      status
+     result
     }
   }`;
 function randomID() {
@@ -236,6 +230,7 @@ export const queryUserAddressBook = ({
 export const mutationUpdateMessageStatus = ({
   stage,
   appID,
+  name,
   createMutation,
   callbacks,
   uuid,
@@ -273,10 +268,10 @@ export const mutationUpdateMessageStatus = ({
     });
   } else {
     return createMutation({
-      name: "updateMessage",
+      name: name,
       mutation: updateMessageStatusMutation,
       variables: {
-        input: {
+        content: {
           uuid: uuid,
           messageId: variables.messageId,
           status: variables.status,
@@ -290,6 +285,7 @@ export const mutationUpdateMessageStatus = ({
 export const mutationCreateMessage = ({
   stage,
   appID,
+  name,
   createMutation,
   callbacks,
   uuid,
@@ -338,7 +334,7 @@ export const mutationCreateMessage = ({
   } else {
     variables.sender = uuid;
     return createMutation({
-      name: "createMessage",
+      name: name,
       mutation: createMessageMutation,
       variables: { content: variables },
       appId: appID,
@@ -349,6 +345,7 @@ export const mutationCreateMessage = ({
 export const mutationCreateTestMessage = ({
   stage,
   appID,
+  name,
   createMutation,
   callbacks,
   uuid,
@@ -418,9 +415,9 @@ export const mutationCreateTestMessage = ({
     });
   } else {
     return createMutation({
-      name: "createMessage",
+      name: name,
       mutation: createMessageMutation,
-      variables: { input: variables },
+      variables: { content: variables },
       appId: appID,
     });
   }
@@ -446,7 +443,7 @@ export const subscribeMessagingStatus = ({
   } else {
     console.log("SUBS ");
     return createMutation({
-      name: "createMessage",
+      name: name,
       mutation: createMessageMutation,
       variables: { input: variables },
       appId: appID,

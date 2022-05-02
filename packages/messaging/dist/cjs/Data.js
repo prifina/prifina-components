@@ -226,6 +226,7 @@ var queryUserAddressBook = function queryUserAddressBook(_ref3) {
 var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref4) {
   var stage = _ref4.stage,
       appID = _ref4.appID,
+      name = _ref4.name,
       createMutation = _ref4.createMutation,
       callbacks = _ref4.callbacks,
       uuid = _ref4.uuid,
@@ -261,10 +262,10 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref4) {
     });
   } else {
     return createMutation({
-      name: "updateMessage",
+      name: name,
       mutation: updateMessageStatusMutation,
       variables: {
-        input: {
+        content: {
           uuid: uuid,
           messageId: variables.messageId,
           status: variables.status
@@ -277,6 +278,7 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref4) {
 var mutationCreateMessage = function mutationCreateMessage(_ref5) {
   var stage = _ref5.stage,
       appID = _ref5.appID,
+      name = _ref5.name,
       createMutation = _ref5.createMutation,
       callbacks = _ref5.callbacks,
       uuid = _ref5.uuid,
@@ -327,10 +329,10 @@ var mutationCreateMessage = function mutationCreateMessage(_ref5) {
   } else {
     variables.sender = uuid;
     return createMutation({
-      name: "createMessage",
+      name: name,
       mutation: createMessageMutation,
       variables: {
-        input: variables
+        content: variables
       },
       appId: appID
     });
@@ -339,6 +341,7 @@ var mutationCreateMessage = function mutationCreateMessage(_ref5) {
 var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
   var stage = _ref6.stage,
       appID = _ref6.appID,
+      name = _ref6.name,
       createMutation = _ref6.createMutation,
       callbacks = _ref6.callbacks,
       uuid = _ref6.uuid,
@@ -411,10 +414,10 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
     });
   } else {
     return createMutation({
-      name: "createMessage",
+      name: name,
       mutation: createMessageMutation,
       variables: {
-        input: variables
+        content: variables
       },
       appId: appID
     });
@@ -422,8 +425,8 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
 };
 var subscribeMessagingStatus = function subscribeMessagingStatus(_ref7) {
   var stage = _ref7.stage,
-      appID = _ref7.appID;
-      _ref7.name;
+      appID = _ref7.appID,
+      name = _ref7.name;
       _ref7.createSubscription;
       var variables = _ref7.variables;
       _ref7.uuid;
@@ -442,7 +445,7 @@ var subscribeMessagingStatus = function subscribeMessagingStatus(_ref7) {
   } else {
     console.log("SUBS ");
     return createMutation({
-      name: "createMessage",
+      name: name,
       mutation: createMessageMutation,
       variables: {
         input: variables

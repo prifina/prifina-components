@@ -268,8 +268,18 @@ export const Provider = ({
         })
         .then((res) => {
           console.log("MUTATION RES ", res);
+          //console.log("NOT S3 DATA OBJECT");
 
-          resolve(res);
+          const key = Object.keys(res.data)[0];
+          let dataObject = JSON.parse(res.data[key].result);
+          if (callbacks.current.hasOwnProperty("sandbox")) {
+            callbacks.current["sandbox"][0]({
+              mutationResult: { data: { [key]: dataObject } },
+            });
+          }
+          resolve({ data: { [key]: dataObject } });
+
+          //resolve(res);
         })
         .catch((error) => {
           console.log("MUTATION ERROR ", error);
