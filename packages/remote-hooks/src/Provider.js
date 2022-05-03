@@ -209,10 +209,10 @@ export const Provider = ({
           },
         });
 
-      if (appSubscriptions.current.hasOwnProperty(appID)) {
-        appSubscriptions.current[appID].push(subHandler);
+      if (appSubscriptions.current.hasOwnProperty(opts.appID)) {
+        appSubscriptions.current[opts.appID].push(subHandler);
       } else {
-        appSubscriptions.current[appID] = [subHandler];
+        appSubscriptions.current[opts.appID] = [subHandler];
       }
       resolve(true);
 

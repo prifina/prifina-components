@@ -47,12 +47,20 @@ const getAddressBookQuery = `query getAddressBook($input:DataObjectInput!) {
 const createMessageMutation = `mutation newMessage($input:MessageInput!) {
     createMessage(input: $input) {
      result
+     receiver
     }
   }`;
 
 const updateMessageStatusMutation = `mutation updateMessage($input:MessageInput!) {
     createMessage(input: $input) {
      result
+    }
+  }`;
+
+const subscribeCreateMessage = `subscription MySubscription($receiver: String!) {
+    addMessage(receiver: $receiver) {
+      receiver
+      result
     }
   }`;
 function randomID() {
@@ -442,10 +450,10 @@ export const subscribeMessagingStatus = ({
     return Promise.resolve(true);
   } else {
     console.log("SUBS ");
-    return createMutation({
+    return createSubscription({
       name: name,
-      mutation: createMessageMutation,
-      variables: { input: variables },
+      mutation: subscribeCreateMessage,
+      variables: { receiver: uuid },
       appId: appID,
     });
   }
