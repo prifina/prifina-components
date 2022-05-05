@@ -275,7 +275,7 @@ export const Provider = ({
           if (callbacks.current.hasOwnProperty(res.data[key].result)) {
             dataObject = JSON.parse(res.data[key].result);
           } else {
-            dataObject = res.data[key].result;
+            dataObject = res.data[key];
           }
           if (callbacks.current.hasOwnProperty("sandbox")) {
             callbacks.current["sandbox"][0]({
