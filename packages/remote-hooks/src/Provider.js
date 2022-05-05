@@ -271,7 +271,12 @@ export const Provider = ({
           //console.log("NOT S3 DATA OBJECT");
 
           const key = Object.keys(res.data)[0];
-          let dataObject = JSON.parse(res.data[key].result);
+          let dataObject = undefined;
+          if (callbacks.current.hasOwnProperty(res.data[key].result)) {
+            dataObject = JSON.parse(res.data[key].result);
+          } else {
+            dataObject = res.data[key].result;
+          }
           if (callbacks.current.hasOwnProperty("sandbox")) {
             callbacks.current["sandbox"][0]({
               mutationResult: { data: { [key]: dataObject } },

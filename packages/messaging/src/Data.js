@@ -51,10 +51,8 @@ const createMessageMutation = `mutation newMessage($input:MessageInput!) {
     }
   }`;
 
-const updateMessageStatusMutation = `mutation updateMessage($input:MessageInput!) {
-    createMessage(input: $input) {
-     result
-    }
+const updateMessageStatusMutation = `mutation updateMessage($input:DataObjectInput!) {
+  updateMessageStatus(input: $input) 
   }`;
 
 const subscribeCreateMessage = `subscription MySubscription($receiver: String!) {
@@ -271,7 +269,7 @@ export const mutationUpdateMessageStatus = ({
 
     return Promise.resolve({
       data: {
-        updateMessage: msg,
+        updateMessage: true,
       },
     });
   } else {
@@ -279,10 +277,11 @@ export const mutationUpdateMessageStatus = ({
       name: name,
       mutation: updateMessageStatusMutation,
       variables: {
-        content: {
-          uuid: uuid,
-          messageId: variables.messageId,
-          status: variables.status,
+        options: {
+          input: JSON.stringify({
+            uuid: uuid,
+            messageId: variables.messageId,
+          }),
         },
       },
       appId: appID,
@@ -422,6 +421,7 @@ export const mutationCreateTestMessage = ({
       },
     });
   } else {
+    variables.receiver = uuid;
     return createMutation({
       name: name,
       mutation: createMessageMutation,
