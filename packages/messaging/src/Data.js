@@ -133,7 +133,7 @@ export const queryGetUnreadMessages = ({
     }
     return Promise.resolve({
       data: {
-        queryGetUnreadMessages: filteredMsgs,
+        getUnreadMsgs: filteredMsgs,
       },
     });
   } else {
@@ -189,7 +189,7 @@ export const queryGetMessages = ({
     // sort reverse order
     return Promise.resolve({
       data: {
-        queryGetMessages: receiverMsgs.reverse(),
+        getMsgs: receiverMsgs.reverse(),
       },
     });
   } else {
@@ -217,7 +217,7 @@ export const queryUserAddressBook = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        queryUserAddressBook: addressBook,
+        getAddressBook: addressBook,
       },
     });
   } else {

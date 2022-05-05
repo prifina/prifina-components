@@ -23,8 +23,9 @@ var addressBook = [{
 var unreadMsgsQuery = "query unreadMsgs($input:DataObjectInput!) {\n  getUnreadMsgs(input:$input) {\n    result\n  }\n}";
 var getMsgsQuery = "query getMsgs($input:DataObjectInput!) {\n  getMsgs(input:$input) {\n    result\n  }\n}";
 var getAddressBookQuery = "query getAddressBook($input:DataObjectInput!) {\n  getAddressBook(input:$input) {\n    result\n  }\n}";
-var createMessageMutation = "mutation newMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      receiver\n      chatId\n      sender\n      createdAt\n      body\n    }\n  }";
-var updateMessageStatusMutation = "mutation updateMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n      messageId\n      status\n    }\n  }";
+var createMessageMutation = "mutation newMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n     result\n     receiver\n    }\n  }";
+var updateMessageStatusMutation = "mutation updateMessage($input:DataObjectInput!) {\n  updateMessageStatus(input: $input) \n  }";
+var subscribeCreateMessage = "subscription MySubscription($receiver: String!) {\n    addMessage(receiver: $receiver) {\n      receiver\n      result\n    }\n  }";
 
 function randomID() {
   var chars = "qwertyuiopasdfghjklzxcvbnm";
@@ -115,7 +116,7 @@ var queryGetUnreadMessages = function queryGetUnreadMessages(_ref) {
       return {
         v: Promise.resolve({
           data: {
-            queryGetUnreadMessages: filteredMsgs
+            getUnreadMsgs: filteredMsgs
           }
         })
       };
@@ -176,7 +177,7 @@ var queryGetMessages = function queryGetMessages(_ref2) {
 
     return Promise.resolve({
       data: {
-        queryGetMessages: receiverMsgs.reverse()
+        getMsgs: receiverMsgs.reverse()
       }
     });
   } else {
@@ -204,7 +205,7 @@ var queryUserAddressBook = function queryUserAddressBook(_ref3) {
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        queryUserAddressBook: addressBook
+        getAddressBook: addressBook
       }
     });
   } else {
@@ -235,11 +236,11 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref4) {
 
   if (stage === "dev") {
     var msgs = localStorage.getItem("prifinaMessagingStatuses");
-    var msg = {
+    ({
       uuid: uuid,
       messageId: variables.messageId,
       status: variables.status
-    };
+    });
 
     if (msgs !== null) {
       //console.log("MSG STORAGE ", msgs);
@@ -253,7 +254,7 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref4) {
 
     return Promise.resolve({
       data: {
-        updateMessage: msg
+        updateMessage: true
       }
     });
   } else {
@@ -261,10 +262,11 @@ var mutationUpdateMessageStatus = function mutationUpdateMessageStatus(_ref4) {
       name: name,
       mutation: updateMessageStatusMutation,
       variables: {
-        content: {
-          uuid: uuid,
-          messageId: variables.messageId,
-          status: variables.status
+        options: {
+          input: JSON.stringify({
+            uuid: uuid,
+            messageId: variables.messageId
+          })
         }
       },
       appId: appID
@@ -409,6 +411,7 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
       }
     });
   } else {
+    variables.receiver = uuid;
     return createMutation({
       name: name,
       mutation: createMessageMutation,
@@ -422,10 +425,10 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
 var subscribeMessagingStatus = function subscribeMessagingStatus(_ref7) {
   var stage = _ref7.stage,
       appID = _ref7.appID,
-      name = _ref7.name;
-      _ref7.createSubscription;
-      var variables = _ref7.variables;
-      _ref7.uuid;
+      name = _ref7.name,
+      createSubscription = _ref7.createSubscription,
+      variables = _ref7.variables,
+      uuid = _ref7.uuid;
 
   if (stage === "dev") {
     var msgStatus = localStorage.getItem("prifinaMessagingStatus");
@@ -440,11 +443,11 @@ var subscribeMessagingStatus = function subscribeMessagingStatus(_ref7) {
     return Promise.resolve(true);
   } else {
     console.log("SUBS ");
-    return createMutation({
+    return createSubscription({
       name: name,
-      mutation: createMessageMutation,
+      mutation: subscribeCreateMessage,
       variables: {
-        input: variables
+        receiver: uuid
       },
       appId: appID
     });
