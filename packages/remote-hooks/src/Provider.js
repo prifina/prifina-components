@@ -180,32 +180,25 @@ export const Provider = ({
         })
         .subscribe({
           next: (res) => {
-            console.log("NOTIFICATION SUBS RESULTS ", res);
+            console.log("NOTIFICATION SUBS RESULTS2 ", res);
+
+            const appIndex = providerContext.current.init.apps[opts.appId];
+            let callBackIndex = 0;
+            // only one appId installation works with subs...
             /*
-            const appIndex = providerContext.current.init.apps[appID];
-              let callBackIndex = 0;
               if (appIndex.length > 1) {
                 callBackIndex = appIndex.findIndex((id) => {
                   return id === onUpdateID;
                 });
               }
-              callbacks.current[appID][callBackIndex](data);
-
-
-          */
+              */
+            callbacks.current[opts.appId][callBackIndex](data);
           },
           error: (error) => {
             console.warn(error);
-            /*
-          const appIndex = providerContext.current.init.apps[appID];
-          let callBackIndex = 0;
-          if (appIndex.length > 1) {
-            callBackIndex = appIndex.findIndex((id) => {
-              return id === onUpdateID;
-            });
-          }
-          callbacks.current[appID][callBackIndex]({ error: err });
-          */
+            const appIndex = providerContext.current.init.apps[opts.appId];
+            let callBackIndex = 0;
+            callbacks.current[opts.appId][callBackIndex]({ error: err });
           },
         });
 
