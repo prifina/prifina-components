@@ -46,6 +46,8 @@ const getAddressBookQuery = `query getAddressBook($input:DataObjectInput!) {
 
 const createMessageMutation = `mutation newMessage($input:MessageInput!) {
     createMessage(input: $input) {
+     messageId
+     createdAt 
      result
      receiver
     }
