@@ -180,7 +180,7 @@ export const Provider = ({
         })
         .subscribe({
           next: (res) => {
-            console.log("NOTIFICATION SUBS RESULTS2 ", res);
+            console.log("NOTIFICATION SUBS RESULTS3 ", res);
 
             //const appIndex = providerContext.current.init.apps[opts.appId];
             let callBackIndex = 0;
@@ -192,7 +192,7 @@ export const Provider = ({
                 });
               }
               */
-            callbacks.current[opts.appId][callBackIndex](data);
+            callbacks.current[opts.appId][callBackIndex](res.data);
           },
           error: (error) => {
             console.warn(error);
