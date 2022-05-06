@@ -182,7 +182,7 @@ export const Provider = ({
           next: (res) => {
             console.log("NOTIFICATION SUBS RESULTS2 ", res);
 
-            const appIndex = providerContext.current.init.apps[opts.appId];
+            //const appIndex = providerContext.current.init.apps[opts.appId];
             let callBackIndex = 0;
             // only one appId installation works with subs...
             /*
@@ -196,7 +196,7 @@ export const Provider = ({
           },
           error: (error) => {
             console.warn(error);
-            const appIndex = providerContext.current.init.apps[opts.appId];
+            //const appIndex = providerContext.current.init.apps[opts.appId];
             let callBackIndex = 0;
             callbacks.current[opts.appId][callBackIndex]({ error: err });
           },
