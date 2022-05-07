@@ -23,9 +23,9 @@ var addressBook = [{
 var unreadMsgsQuery = "query unreadMsgs($input:DataObjectInput!) {\n  getUnreadMsgs(input:$input) {\n    result\n  }\n}";
 var getMsgsQuery = "query getMsgs($input:DataObjectInput!) {\n  getMsgs(input:$input) {\n    result\n  }\n}";
 var getAddressBookQuery = "query getAddressBook($input:DataObjectInput!) {\n  getAddressBook(input:$input) {\n    result\n  }\n}";
-var createMessageMutation = "mutation newMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n     messageId\n     createdAt \n     result\n     receiver\n    }\n  }";
+var createMessageMutation = "mutation newMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n     messageId\n     chatId\n     createdAt \n     result\n     receiver\n    }\n  }";
 var updateMessageStatusMutation = "mutation updateMessage($input:DataObjectInput!) {\n  updateMessageStatus(input: $input) \n  }";
-var subscribeCreateMessage = "subscription MySubscription($receiver: String!) {\n    addMessage(receiver: $receiver) {\n      receiver\n      result\n    }\n  }";
+var subscribeCreateMessage = "subscription MySubscription($receiver: String!) {\n    addMessage(receiver: $receiver) {\n      messageId\n      chatId\n      receiver\n      result\n    }\n  }";
 
 function randomID() {
   var chars = "qwertyuiopasdfghjklzxcvbnm";
