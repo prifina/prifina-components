@@ -198,7 +198,7 @@ export const Provider = ({
             console.warn(error);
             //const appIndex = providerContext.current.init.apps[opts.appId];
             let callBackIndex = 0;
-            callbacks.current[opts.appId][callBackIndex]({ error: err });
+            callbacks.current[opts.appId][callBackIndex]({ error: error });
           },
         });
 
