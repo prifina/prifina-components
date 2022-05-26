@@ -25,6 +25,7 @@ export const messaging = () => {
   return (
     <div>
       <div>Hello, {currentUser.name}</div>
+      <div>DEV-stage</div>
       <div>
         <button
           onClick={async (e) => {
@@ -70,7 +71,7 @@ export const messaging = () => {
             );
           }}
         >
-          CREATE TESTMSG
+          CREATE TEST MSG
         </button>
       </div>
       <div>
@@ -85,6 +86,20 @@ export const messaging = () => {
           }}
         >
           SUBS MSG STATUS
+        </button>
+      </div>
+      <div>
+        <button
+          onClick={async (e) => {
+            console.log(
+              "API ",
+              await API[appID].Messaging.subscribeMessagingData({
+                variables: { body: { test: "ok" }, receiver: "tero" },
+              })
+            );
+          }}
+        >
+          SUBS MSG DATA
         </button>
       </div>
       <div>
@@ -111,6 +126,35 @@ export const messaging = () => {
           }}
         >
           UPDATE MSG STATUS
+        </button>
+      </div>
+
+      <div>
+        <button
+          onClick={async (e) => {
+            console.log(
+              "API ",
+              await API[appID].Messaging.mutationCreateDataMessage({
+                variables: { body: { test: "ok" }, receiver: "tero" },
+              })
+            );
+          }}
+        >
+          CREATE DATA MSG
+        </button>
+      </div>
+      <div>
+        <button
+          onClick={async (e) => {
+            console.log(
+              "API ",
+              await API[appID].Messaging.mutationCreateTestDataMessage({
+                variables: { body: { test: "ok" }, sender: "tero" },
+              })
+            );
+          }}
+        >
+          CREATE TEST DATA MSG
         </button>
       </div>
     </div>

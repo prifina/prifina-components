@@ -2,9 +2,11 @@ export const getInfo = () => {
   return [
     "queryUserAddressBook",
     "mutationCreateMessage",
+    "mutationCreateDataMessage",
     "subscribeMessagingStatus",
     "subscribeMessagingData",
     "mutationCreateTestMessage",
+    "mutationCreateTestDataMessage",
     "queryGetUnreadMessages",
     "queryGetMessages",
     "mutationUpdateMessageStatus",
@@ -54,12 +56,31 @@ const createMessageMutation = `mutation newMessage($input:MessageInput!) {
     }
   }`;
 
+const createDataMessageMutation = `mutation newMessage($input:MessageInput!) {
+  createDataMessage(input: $input) {
+   messageId
+   chatId
+   createdAt 
+   result
+   receiver
+  }
+}`;
+
 const updateMessageStatusMutation = `mutation updateMessage($input:DataObjectInput!) {
   updateMessageStatus(input: $input) 
   }`;
 
-const subscribeCreateMessage = `subscription MySubscription($receiver: String!) {
+const subscribeCreateMessage = `subscription msgSubscription($receiver: String!) {
     addMessage(receiver: $receiver) {
+      messageId
+      chatId
+      receiver
+      result
+    }
+  }`;
+
+const subscribeCreateDataMessage = `subscription msgSubscription($receiver: String!) {
+    addDataMessage(receiver: $receiver) {
       messageId
       chatId
       receiver
@@ -412,9 +433,11 @@ export const mutationCreateTestMessage = ({
           return m.uuid === uuid;
         });
         currentCallbacks[appID][0]({
-          messagingStatus: {
-            cnt: unreadMsgs.length,
-            lastMessage: new Date(msg.createdAt).toISOString(),
+          addMessage: {
+            result: {
+              cnt: unreadMsgs.length,
+              lastMessage: new Date(msg.createdAt).toISOString(),
+            },
           },
         });
       }
@@ -430,6 +453,81 @@ export const mutationCreateTestMessage = ({
     return createMutation({
       name: name,
       mutation: createMessageMutation,
+      variables: { content: variables },
+      appId: appID,
+    });
+  }
+};
+
+export const mutationCreateDataMessage = ({
+  stage,
+  appID,
+  name,
+  createMutation,
+  callbacks,
+  uuid,
+  variables,
+}) => {
+  if (stage === "dev") {
+    const msg = {
+      messageId: randomID(),
+      body: variables.body,
+      chatId: variables.chatId,
+      sender: uuid,
+      receiver: variables.receiver,
+      createdAt: new Date().getTime(),
+    };
+
+    return Promise.resolve({
+      data: {
+        createDataMessage: msg,
+      },
+    });
+  } else {
+    variables.sender = uuid;
+    return createMutation({
+      name: name,
+      mutation: createDataMessageMutation,
+      variables: { content: variables },
+      appId: appID,
+    });
+  }
+};
+
+export const mutationCreateTestDataMessage = ({
+  stage,
+  appID,
+  name,
+  createMutation,
+  callbacks,
+  uuid,
+  variables,
+}) => {
+  if (stage === "dev") {
+    const currentCallbacks = callbacks();
+    const msg = {
+      messageId: randomID(),
+      body: variables.body,
+      chatId: variables.chatId,
+      sender: variables.sender,
+      receiver: uuid,
+      createdAt: new Date().getTime(),
+    };
+
+    currentCallbacks[appID][0]({
+      addDataMessage: { result: msg },
+    });
+
+    return Promise.resolve({
+      data: {
+        createDataMessage: msg,
+      },
+    });
+  } else {
+    variables.receiver = uuid;
+    return createMutation({
+      name: name,
+      mutation: createDataMessageMutation,
       variables: { content: variables },
       appId: appID,
     });
@@ -473,9 +571,14 @@ export const subscribeMessagingData = ({
   uuid,
 }) => {
   if (stage === "dev") {
-    localStorage.setItem("prifinaMessagingStatus", false);
     return Promise.resolve(true);
   } else {
     console.log("SUBS ");
+    return createSubscription({
+      name: name,
+      mutation: subscribeCreateDataMessage,
+      variables: { receiver: uuid },
+      appId: appID,
+    });
   }
 };

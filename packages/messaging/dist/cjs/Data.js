@@ -5,7 +5,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var _rollupPluginBabelHelpers = require('./_virtual/_rollupPluginBabelHelpers.js');
 
 var getInfo = function getInfo() {
-  return ["queryUserAddressBook", "mutationCreateMessage", "subscribeMessagingStatus", "subscribeMessagingData", "mutationCreateTestMessage", "queryGetUnreadMessages", "queryGetMessages", "mutationUpdateMessageStatus"];
+  return ["queryUserAddressBook", "mutationCreateMessage", "mutationCreateDataMessage", "subscribeMessagingStatus", "subscribeMessagingData", "mutationCreateTestMessage", "mutationCreateTestDataMessage", "queryGetUnreadMessages", "queryGetMessages", "mutationUpdateMessageStatus"];
 };
 var getFields = function getFields(query) {
   var fields = [];
@@ -28,8 +28,10 @@ var unreadMsgsQuery = "query unreadMsgs($input:DataObjectInput!) {\n  getUnreadM
 var getMsgsQuery = "query getMsgs($input:DataObjectInput!) {\n  getMsgs(input:$input) {\n    result\n  }\n}";
 var getAddressBookQuery = "query getAddressBook($input:DataObjectInput!) {\n  getAddressBook(input:$input) {\n    result\n  }\n}";
 var createMessageMutation = "mutation newMessage($input:MessageInput!) {\n    createMessage(input: $input) {\n     messageId\n     chatId\n     createdAt \n     result\n     receiver\n    }\n  }";
+var createDataMessageMutation = "mutation newMessage($input:MessageInput!) {\n  createDataMessage(input: $input) {\n   messageId\n   chatId\n   createdAt \n   result\n   receiver\n  }\n}";
 var updateMessageStatusMutation = "mutation updateMessage($input:DataObjectInput!) {\n  updateMessageStatus(input: $input) \n  }";
-var subscribeCreateMessage = "subscription MySubscription($receiver: String!) {\n    addMessage(receiver: $receiver) {\n      messageId\n      chatId\n      receiver\n      result\n    }\n  }";
+var subscribeCreateMessage = "subscription msgSubscription($receiver: String!) {\n    addMessage(receiver: $receiver) {\n      messageId\n      chatId\n      receiver\n      result\n    }\n  }";
+var subscribeCreateDataMessage = "subscription msgSubscription($receiver: String!) {\n    addDataMessage(receiver: $receiver) {\n      messageId\n      chatId\n      receiver\n      result\n    }\n  }";
 
 function randomID() {
   var chars = "qwertyuiopasdfghjklzxcvbnm";
@@ -401,9 +403,11 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
           return m.uuid === uuid;
         });
         currentCallbacks[appID][0]({
-          messagingStatus: {
-            cnt: unreadMsgs.length,
-            lastMessage: new Date(msg.createdAt).toISOString()
+          addMessage: {
+            result: {
+              cnt: unreadMsgs.length,
+              lastMessage: new Date(msg.createdAt).toISOString()
+            }
           }
         });
       }
@@ -426,13 +430,89 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
     });
   }
 };
-var subscribeMessagingStatus = function subscribeMessagingStatus(_ref7) {
+var mutationCreateDataMessage = function mutationCreateDataMessage(_ref7) {
   var stage = _ref7.stage,
       appID = _ref7.appID,
       name = _ref7.name,
-      createSubscription = _ref7.createSubscription,
-      variables = _ref7.variables,
-      uuid = _ref7.uuid;
+      createMutation = _ref7.createMutation;
+      _ref7.callbacks;
+      var uuid = _ref7.uuid,
+      variables = _ref7.variables;
+
+  if (stage === "dev") {
+    var msg = {
+      messageId: randomID(),
+      body: variables.body,
+      chatId: variables.chatId,
+      sender: uuid,
+      receiver: variables.receiver,
+      createdAt: new Date().getTime()
+    };
+    return Promise.resolve({
+      data: {
+        createDataMessage: msg
+      }
+    });
+  } else {
+    variables.sender = uuid;
+    return createMutation({
+      name: name,
+      mutation: createDataMessageMutation,
+      variables: {
+        content: variables
+      },
+      appId: appID
+    });
+  }
+};
+var mutationCreateTestDataMessage = function mutationCreateTestDataMessage(_ref8) {
+  var stage = _ref8.stage,
+      appID = _ref8.appID,
+      name = _ref8.name,
+      createMutation = _ref8.createMutation,
+      callbacks = _ref8.callbacks,
+      uuid = _ref8.uuid,
+      variables = _ref8.variables;
+
+  if (stage === "dev") {
+    var currentCallbacks = callbacks();
+    var msg = {
+      messageId: randomID(),
+      body: variables.body,
+      chatId: variables.chatId,
+      sender: variables.sender,
+      receiver: uuid,
+      createdAt: new Date().getTime()
+    };
+    currentCallbacks[appID][0]({
+      addDataMessage: {
+        result: msg
+      }
+    });
+    return Promise.resolve({
+      data: {
+        createDataMessage: msg
+      }
+    });
+  } else {
+    variables.receiver = uuid;
+    return createMutation({
+      name: name,
+      mutation: createDataMessageMutation,
+      variables: {
+        content: variables
+      },
+      appId: appID
+    });
+  }
+};
+var subscribeMessagingStatus = function subscribeMessagingStatus(_ref9) {
+  var stage = _ref9.stage,
+      appID = _ref9.appID,
+      name = _ref9.name,
+      createSubscription = _ref9.createSubscription,
+      variables = _ref9.variables,
+      uuid = _ref9.uuid;
 
   if (stage === "dev") {
     var msgStatus = localStorage.getItem("prifinaMessagingStatus");
@@ -457,26 +537,35 @@ var subscribeMessagingStatus = function subscribeMessagingStatus(_ref7) {
     });
   }
 };
-var subscribeMessagingData = function subscribeMessagingData(_ref8) {
-  var stage = _ref8.stage;
-      _ref8.appID;
-      _ref8.name;
-      _ref8.createSubscription;
-      _ref8.variables;
-      _ref8.uuid;
+var subscribeMessagingData = function subscribeMessagingData(_ref10) {
+  var stage = _ref10.stage,
+      appID = _ref10.appID,
+      name = _ref10.name,
+      createSubscription = _ref10.createSubscription;
+      _ref10.variables;
+      var uuid = _ref10.uuid;
 
   if (stage === "dev") {
-    localStorage.setItem("prifinaMessagingStatus", false);
     return Promise.resolve(true);
   } else {
     console.log("SUBS ");
+    return createSubscription({
+      name: name,
+      mutation: subscribeCreateDataMessage,
+      variables: {
+        receiver: uuid
+      },
+      appId: appID
+    });
   }
 };
 
 exports.getFields = getFields;
 exports.getInfo = getInfo;
 exports.getModuleName = getModuleName;
+exports.mutationCreateDataMessage = mutationCreateDataMessage;
 exports.mutationCreateMessage = mutationCreateMessage;
+exports.mutationCreateTestDataMessage = mutationCreateTestDataMessage;
 exports.mutationCreateTestMessage = mutationCreateTestMessage;
 exports.mutationUpdateMessageStatus = mutationUpdateMessageStatus;
 exports.queryGetMessages = queryGetMessages;

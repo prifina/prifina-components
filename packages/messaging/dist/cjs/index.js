@@ -8,9 +8,11 @@ var Data = {
   getFields: Data$1.getFields,
   queryUserAddressBook: Data$1.queryUserAddressBook,
   mutationCreateMessage: Data$1.mutationCreateMessage,
+  mutationCreateDataMessage: Data$1.mutationCreateDataMessage,
   subscribeMessagingStatus: Data$1.subscribeMessagingStatus,
   subscribeMessagingData: Data$1.subscribeMessagingData,
   mutationCreateTestMessage: Data$1.mutationCreateTestMessage,
+  mutationCreateTestDataMessage: Data$1.mutationCreateTestDataMessage,
   queryGetUnreadMessages: Data$1.queryGetUnreadMessages,
   queryGetMessages: Data$1.queryGetMessages,
   mutationUpdateMessageStatus: Data$1.mutationUpdateMessageStatus

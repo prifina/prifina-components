@@ -1,4 +1,4 @@
-import { getModuleName, getInfo, getFields, queryUserAddressBook, mutationCreateMessage, subscribeMessagingStatus, subscribeMessagingData, mutationCreateTestMessage, queryGetUnreadMessages, queryGetMessages, mutationUpdateMessageStatus } from './Data.js';
+import { getModuleName, getInfo, getFields, queryUserAddressBook, mutationCreateMessage, mutationCreateDataMessage, subscribeMessagingStatus, subscribeMessagingData, mutationCreateTestMessage, mutationCreateTestDataMessage, queryGetUnreadMessages, queryGetMessages, mutationUpdateMessageStatus } from './Data.js';
 
 var Data = {
   getModuleName: getModuleName,
@@ -6,9 +6,11 @@ var Data = {
   getFields: getFields,
   queryUserAddressBook: queryUserAddressBook,
   mutationCreateMessage: mutationCreateMessage,
+  mutationCreateDataMessage: mutationCreateDataMessage,
   subscribeMessagingStatus: subscribeMessagingStatus,
   subscribeMessagingData: subscribeMessagingData,
   mutationCreateTestMessage: mutationCreateTestMessage,
+  mutationCreateTestDataMessage: mutationCreateTestDataMessage,
   queryGetUnreadMessages: queryGetUnreadMessages,
   queryGetMessages: queryGetMessages,
   mutationUpdateMessageStatus: mutationUpdateMessageStatus
