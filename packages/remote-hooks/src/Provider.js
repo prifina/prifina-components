@@ -1021,7 +1021,7 @@ mutation MyMutation {
     return callbacks.current;
   }, []);
 
-  const remoteCallbacks = useCallback(() => {
+  const removeCallbacks = useCallback(() => {
     callbacks.current={};
     return true;
   }, []);
@@ -1278,7 +1278,7 @@ mutation MyMutation {
     getLocalization,
     onUpdate,
     getCallbacks,
-    remoteCallbacks,
+    removeCallbacks,
     deleteCallback,
     currentUser,
     subscriptionTest,
