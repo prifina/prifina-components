@@ -1021,6 +1021,23 @@ mutation MyMutation {
     return callbacks.current;
   }, []);
 
+  const remoteCallbacks = useCallback(() => {
+    callbacks.current={};
+    return true;
+  }, []);
+
+
+  const deleteCallback = useCallback((appID, index) => {
+    const currentCount=callbacks.current[appID].length;
+    if (currentCount>1) {
+      callbacks.current[appID].splice(index,1);
+    } else {
+      delete callbacks.current[appID];
+    }
+    return true;
+  }, []);
+
+
   /*
   useEffect(() => {
     //console.log("APP SUBS ", appSubscriptions);
@@ -1261,6 +1278,8 @@ mutation MyMutation {
     getLocalization,
     onUpdate,
     getCallbacks,
+    remoteCallbacks,
+    deleteCallback,
     currentUser,
     subscriptionTest,
     unSubscribe,
