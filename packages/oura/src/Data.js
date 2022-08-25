@@ -56,7 +56,7 @@ export const getFields = (query) => {
 
     case "querySleepData":
     case "querySleepSummary":
-      fields = Object.keys(SleepSummary[0]);
+      fields = Object.keys(SleepSummary);
       break;
     case "queryActivitySummariesAsync":
       fields = ActivitySummaryAsync[0].split("\t");

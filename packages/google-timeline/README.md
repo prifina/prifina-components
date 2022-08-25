@@ -1,11 +1,11 @@
-# `google-timeline`
+# `oura`
 
 > TODO: description
 
 ## Usage
 
 ```
-const googleTimeline = require('google-timeline');
+const oura = require('oura');
 
 // TODO: DEMONSTRATE API
 ```

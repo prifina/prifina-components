@@ -1,7 +1,7 @@
-import { Activity } from '../../../node_modules/@dynamic-data/google-data/dist/esm/mockups/activity.js';
-import { Location } from '../../../node_modules/@dynamic-data/google-data/dist/esm/mockups/location.js';
-import { Places } from '../../../node_modules/@dynamic-data/google-data/dist/esm/mockups/places.js';
-import { Routes } from '../../../node_modules/@dynamic-data/google-data/dist/esm/mockups/routes.js';
+import { Location } from '../node_modules/@dynamic-data/google-data/dist/esm/mockups/location.js';
+import { Places } from '../node_modules/@dynamic-data/google-data/dist/esm/mockups/places.js';
+import { Routes } from '../node_modules/@dynamic-data/google-data/dist/esm/mockups/routes.js';
+import { Activity } from './activity.js';
 
 /*
 export const Activity = [
@@ -56,14 +56,14 @@ var queryActivities = function queryActivities(_ref) {
       filter = _ref.filter,
       next = _ref.next,
       fieldsList = _ref.fieldsList;
-  console.log("QUERY STAGE", stage);
-  console.log("QUERY APP", appID); //console.log("QUERY UUID", uuid);
-  //console.log("QUERY EX", executionID);
 
-  console.log("QUERY FIELDS", fields);
-  console.log("QUERY FILTER", filter);
-  console.log("QUERY NEXT", next);
-
+  // console.log("QUERY STAGE", stage);
+  // console.log("QUERY APP", appID);
+  // //console.log("QUERY UUID", uuid);
+  // //console.log("QUERY EX", executionID);
+  // console.log("QUERY FIELDS", fields);
+  // console.log("QUERY FILTER", filter);
+  // console.log("QUERY NEXT", next);
   if (stage === "dev") {
     return Promise.resolve({
       data: {
