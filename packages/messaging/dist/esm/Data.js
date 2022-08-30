@@ -150,25 +150,52 @@ var queryGetMessages = function queryGetMessages(_ref2) {
 
   if (stage === "dev") {
     var msgs = localStorage.getItem("prifinaMessaging");
+    console.log("GET MSGS ", msgs, filter);
     var receiverMsgs = [];
 
     if (msgs !== null) {
       receiverMsgs = JSON.parse(msgs).filter(function (m) {
-        //console.log(uuid, m);
-        if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
-          //console.log("MSG FILTER ", filter);
+        console.log("FILTER ", m); //console.log(uuid, m);
+
+        var logicalOperators = Object.getOwnPropertySymbols(filter);
+        console.log("MSG FILTER ", Object.keys(filter), logicalOperators);
+
+        if (typeof filter !== "undefined" && logicalOperators.length === 0 && Object.keys(filter).length > 0) {
+          // console.log("SIMPLE FILTER ");
           var filterMatch = false;
           Object.keys(filter).forEach(function (f) {
-            console.log("UNREAD FILTER MATCH ", f);
-            console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
-
-            if (m.hasOwnProperty(f) && m[f] === filter[f]) {
-              filterMatch = true;
-            } else {
-              filterMatch = false;
-            }
+            // console.log("FILTER KEY ",f);
+            // console.log("FILTER OBJ ",m);
+            // console.log("FILTER KEY VAL ",filter[f]);
+            // console.log("FILTER OBJ VAL ",m[f]);
+            Object.getOwnPropertySymbols(filter[f]).forEach(function (e, i) {
+              //filter[logicalOP][k][e]
+              // only eq is accepted...
+              if (m.hasOwnProperty(f) && m[f] === filter[f][e]) {
+                filterMatch = true;
+              } else {
+                filterMatch = false;
+              }
+            });
           });
           return filterMatch;
+        } else if (typeof filter !== "undefined" && logicalOperators.length > 0) {
+          var logicalOP = logicalOperators[0]; //  Object.keys(filter[logicalOP]).forEach((k, ii) => {
+          //console.log("OP ",logicalOP);
+
+          var _filterMatch = false;
+          Object.keys(filter[logicalOP]).forEach(function (f) {
+            Object.getOwnPropertySymbols(filter[logicalOP][f]).forEach(function (e, i) {
+              //filter[logicalOP][k][e]
+              // only eq is accepted...
+              if (m.hasOwnProperty(f) && m[f] === filter[logicalOP][f][e]) {
+                _filterMatch = true;
+              } else {
+                _filterMatch = false;
+              }
+            });
+          });
+          return _filterMatch;
         } else {
           //console.log(m?.status === undefined);
           return m.receiver === uuid;
@@ -294,6 +321,7 @@ var mutationCreateMessage = function mutationCreateMessage(_ref5) {
       messageId: randomID(),
       body: variables.body,
       chatId: variables.chatId,
+      owner: uuid,
       sender: uuid,
       receiver: variables.receiver,
       createdAt: new Date().getTime()
@@ -364,6 +392,7 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
       chatId: variables.chatId,
       sender: variables.sender,
       receiver: uuid,
+      owner: uuid,
       createdAt: new Date().getTime()
     };
     var msgQueue = [msg];
@@ -400,10 +429,10 @@ var mutationCreateTestMessage = function mutationCreateTestMessage(_ref6) {
         });
         currentCallbacks[appID][0]({
           addMessage: {
-            result: {
+            result: JSON.stringify({
               cnt: unreadMsgs.length,
               lastMessage: new Date(msg.createdAt).toISOString()
-            }
+            })
           }
         });
       }
@@ -441,6 +470,7 @@ var mutationCreateDataMessage = function mutationCreateDataMessage(_ref7) {
       body: variables.body,
       chatId: variables.chatId,
       sender: uuid,
+      owner: uuid,
       receiver: variables.receiver,
       createdAt: new Date().getTime()
     };
@@ -478,6 +508,7 @@ var mutationCreateTestDataMessage = function mutationCreateTestDataMessage(_ref8
       chatId: variables.chatId,
       sender: variables.sender,
       receiver: uuid,
+      owner: uuid,
       createdAt: new Date().getTime()
     };
     currentCallbacks[appID][0]({

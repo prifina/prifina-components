@@ -87,6 +87,7 @@ const subscribeCreateDataMessage = `subscription msgSubscription($receiver: Stri
       result
     }
   }`;
+  
 function randomID() {
   let chars = "qwertyuiopasdfghjklzxcvbnm";
   let randomstring = "";
@@ -187,23 +188,59 @@ export const queryGetMessages = ({
   uuid,
 }) => {
   if (stage === "dev") {
+   
     const msgs = localStorage.getItem("prifinaMessaging");
+    console.log("GET MSGS ",msgs,filter);
     let receiverMsgs = [];
     if (msgs !== null) {
       receiverMsgs = JSON.parse(msgs).filter((m) => {
+        console.log("FILTER ",m)
         //console.log(uuid, m);
-        if (typeof filter !== "undefined" && Object.keys(filter).length > 0) {
-          //console.log("MSG FILTER ", filter);
-
+        const logicalOperators = Object.getOwnPropertySymbols(filter);
+        console.log("MSG FILTER ", Object.keys(filter),logicalOperators);
+        if (typeof filter!=="undefined" && logicalOperators.length===0 && Object.keys(filter).length>0) {
+          // console.log("SIMPLE FILTER ");
           let filterMatch = false;
           Object.keys(filter).forEach((f) => {
-            console.log("UNREAD FILTER MATCH ", f);
-            console.log("UNREAD FILTER MATCH ", m.hasOwnProperty(f));
-            if (m.hasOwnProperty(f) && m[f] === filter[f]) {
+          
+            // console.log("FILTER KEY ",f);
+            // console.log("FILTER OBJ ",m);
+            // console.log("FILTER KEY VAL ",filter[f]);
+            // console.log("FILTER OBJ VAL ",m[f]);
+            
+            Object.getOwnPropertySymbols(filter[f]).forEach((e, i) => {
+            
+              //filter[logicalOP][k][e]
+              // only eq is accepted...
+              if (m.hasOwnProperty(f) && m[f] === filter[f][e]) {
+                filterMatch = true;
+              } else {
+                filterMatch = false;
+              }
+            });
+
+            
+        
+          });
+          return filterMatch;
+
+        } else if (typeof filter !== "undefined" && logicalOperators.length > 0) {
+         
+         let logicalOP = logicalOperators[0];
+          //  Object.keys(filter[logicalOP]).forEach((k, ii) => {
+          //console.log("OP ",logicalOP);
+          let filterMatch = false;
+          Object.keys(filter[logicalOP]).forEach((f) => {
+            Object.getOwnPropertySymbols(filter[logicalOP][f]).forEach((e, i) => {
+            
+            //filter[logicalOP][k][e]
+            // only eq is accepted...
+            if (m.hasOwnProperty(f) && m[f] === filter[logicalOP][f][e]) {
               filterMatch = true;
             } else {
               filterMatch = false;
             }
+          });
           });
           return filterMatch;
         } else {
@@ -334,6 +371,7 @@ export const mutationCreateMessage = ({
       messageId: randomID(),
       body: variables.body,
       chatId: variables.chatId,
+      owner:uuid,
       sender: uuid,
       receiver: variables.receiver,
       createdAt: new Date().getTime(),
@@ -402,6 +440,7 @@ export const mutationCreateTestMessage = ({
       chatId: variables.chatId,
       sender: variables.sender,
       receiver: uuid,
+      owner:uuid,
       createdAt: new Date().getTime(),
     };
     let msgQueue = [msg];
@@ -434,10 +473,10 @@ export const mutationCreateTestMessage = ({
         });
         currentCallbacks[appID][0]({
           addMessage: {
-            result: {
+            result: JSON.stringify({
               cnt: unreadMsgs.length,
               lastMessage: new Date(msg.createdAt).toISOString(),
-            },
+            }),
           },
         });
       }
@@ -474,6 +513,7 @@ export const mutationCreateDataMessage = ({
       body: variables.body,
       chatId: variables.chatId,
       sender: uuid,
+      owner:uuid,
       receiver: variables.receiver,
       createdAt: new Date().getTime(),
     };
@@ -511,6 +551,7 @@ export const mutationCreateTestDataMessage = ({
       chatId: variables.chatId,
       sender: variables.sender,
       receiver: uuid,
+      owner:uuid,
       createdAt: new Date().getTime(),
     };
 
