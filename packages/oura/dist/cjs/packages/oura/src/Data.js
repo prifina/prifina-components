@@ -45,7 +45,7 @@ var getFields = function getFields(query) {
 
     case "querySleepData":
     case "querySleepSummary":
-      fields = Object.keys(sleepSummary.SleepSummary[0]);
+      fields = Object.keys(sleepSummary.SleepSummary);
       break;
 
     case "queryActivitySummariesAsync":
