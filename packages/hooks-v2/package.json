@@ -22,7 +22,7 @@
     "test": "./node_modules/.bin/jest"
   },
   "dependencies": {
-    "gql": "^1.1.2"
+    "graphql-tag": "^2.12.6"
   },
   "peerDependencies": {
     "react": "^18.2.0",
