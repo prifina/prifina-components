@@ -7,13 +7,12 @@
  //const googleTimeline = require('..');
  // const { getModuleName, getFields } = require("@prifina/oura");
 //  const React = require('react')
-  const React = require("react")
- const {useRef,useEffect, useState} = require('react')
-
+import React,{useRef,useEffect, useState} from 'react'
  
- const {render, fireEvent, waitFor, screen,act} = require('@testing-library/react')
- const {PrifinaProvider,usePrifina,PrifinaContext,Op} = require("../../hooks/src");
- const FITBIT = require("../src").default;
+import {render, fireEvent, waitFor, screen,act} from '@testing-library/react'
+import {PrifinaProvider,usePrifina,PrifinaContext,Op} from "../../hooks/src";
+import FITBIT from "../src";
+ 
  
  // import '@testing-library/jest-dom'
  

@@ -61,13 +61,13 @@ export const queryActivities = ({
   next,
   fieldsList,
 }) => {
-  console.log("QUERY STAGE", stage);
-  console.log("QUERY APP", appID);
-  //console.log("QUERY UUID", uuid);
-  //console.log("QUERY EX", executionID);
-  console.log("QUERY FIELDS", fields);
-  console.log("QUERY FILTER", filter);
-  console.log("QUERY NEXT", next);
+  // console.log("QUERY STAGE", stage);
+  // console.log("QUERY APP", appID);
+  // //console.log("QUERY UUID", uuid);
+  // //console.log("QUERY EX", executionID);
+  // console.log("QUERY FIELDS", fields);
+  // console.log("QUERY FILTER", filter);
+  // console.log("QUERY NEXT", next);
   if (stage === "dev") {
     return Promise.resolve({
       data: {
