@@ -1,193 +1,74 @@
-/**
- * @jest-environment jsdom
- */
+// 'use strict';
+// // import {} from "@prifina/fitbit";
 
- "use strict";
+import {DailiesData,DailiesDataObject,EpochsData,EpochsDataObject,PulseoxData,PulseoxObject,SleepsData,SleepsDataObject,} from "@dynamic-data/garmin-data"
+import {getFields,getInfo,getModuleName,queryDailiesDataAsync,queryEpochsDataAsync,querySleepsDataAsync,queryPulseoxDataAsync,
+queryDailiesData,queryEpochsData,querySleepsData,queryPulseoxData} from "@prifina/garmin"
+import 'regenerator-runtime/runtime';
 
- //const googleTimeline = require('..');
- // const { getModuleName, getFields } = require("@prifina/oura");
-//  const React = require('react')
-  const React = require("react")
- const {useRef,useEffect, useState} = require('react')
+describe("garmin", () => {
+  //test.todo("needs tests");
+  it("test if imports work", () => {
+    expect(getFields).toBeTruthy()
+    expect(getInfo).toBeTruthy()
+    expect(getModuleName).toBeTruthy()
+    expect(queryDailiesDataAsync).toBeTruthy()
+  })
+  it("getModuleName", () => {
+    const name = getModuleName()
+    expect(typeof name).toEqual('string');
+    expect(name).toEqual('Garmin');
 
- 
- const {render, fireEvent, waitFor, screen,act} = require('@testing-library/react')
- const {PrifinaProvider,usePrifina,PrifinaContext,Op} = require("../../hooks/src");
- const GARMIN = require("../src").default;
- 
- // import '@testing-library/jest-dom'
- 
- const appID = "garmin";
- const TestCompoent = () => {
-     const { currentUser, Prifina, check, API, registerHooks, onUpdate } =
-     usePrifina();
-     // const updateTest = (payload) => {
-         // console.log("UPDATE TEST PAYLOAD", payload);
-     //   };
-       useEffect(async () => {
-         // init callback function for background updates/notifications
-         // onUpdate(appID, updateTest);
-     
-         console.log("GARMIN ", GARMIN);
-         // register datasource modules
-         registerHooks(appID, [GARMIN]);
-         console.log(check());
-       }, []);
- 
-     const [changeOutput, setChangeOutput] = useState("")
-       
-     return (
-      <>
-      <div>
-          <button
-            onClick={async (e) => {
-              let x = await API[appID].Garmin.queryDailiesDataAsync({
-              }) 
-              console.log(
-                "API ",
-                x
-              );
-              setChangeOutput(x)
-              
-            }}
-          >
-            queryDailiesDataAsync
-          </button>
-          <button
-            onClick={async (e) => {
-              let x = await API[appID].Garmin.queryEpochsDataAsync({
-              }) 
-              console.log(
-                "API ",
-                x
-              );
-              setChangeOutput(x)
-              
-            }}
-          >
-            queryEpochsDataAsync
-          </button>
-          <button
-            onClick={async (e) => {
-              let x = await API[appID].Garmin.querySleepsDataAsync({
-              }) 
-              console.log(
-                "API ",
-                x
-              );
-              setChangeOutput(x)
-              
-            }}
-          >
-            querySleepsDataAsync
-          </button>
-          <button
-            onClick={async (e) => {
-              let x = await API[appID].Garmin.queryPulseoxDataAsync({
-              }) 
-              console.log(
-                "API ",
-                x
-              );
-              setChangeOutput(x)
-              
-            }}
-          >
-            queryPulseoxDataAsync
-          </button>
-          <p data-testid="output">
-            {JSON.stringify(changeOutput)}
-          </p>
-      </div>
-      </>
-  )
- }
- describe("hooks", () => {
-   //test.todo("needs tests");
- 
-   beforeEach(()=>{
-     render(
-       <PrifinaProvider stage={"dev"}>
-           <TestCompoent/>
-       </PrifinaProvider>    
-   )
-   })
- 
-   it("queryDailiesDataAsync", async () => {
- 
-     
-    // console.log(await waitFor(()=>(screen.findAllByText("Hey There"))))
-    const queryDailiesDataAsyncButton = await waitFor(()=>(screen.getByRole('button',{name: "queryDailiesDataAsync"})))
-    await waitFor(()=>{
-      fireEvent.click(queryDailiesDataAsyncButton)
-    })
-    await waitFor(()=>{
-      const output = screen.getByTestId('output')
-      console.log(output.textContent)
+  })
+  it("getInfo", () => {
+    const name = getInfo()
+    // console.log(typeof name)
+    //Check if array
+    expect(typeof name).toEqual('object'); 
+    expect(name.length).toBeTruthy() 
+    //Check if each item is string
+    expect(typeof name[0]).toEqual('string'); 
 
-      let result = JSON.parse(output.textContent)
-      console.log(result)
-      expect(typeof result).toBe("object");  
-    })
-    //console.log(result);
-    
+
+  })
+  it("queryDailiesDataAsync", async () => {
+    const result = await queryDailiesDataAsync({stage: "dev"})
+    // console.log("queryDailiesDataAsync ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:DailiesData}}})
+  });
+  it("queryEpochsDataAsync", async () => {
+    const result = await queryEpochsDataAsync({stage: "dev"})
+    // console.log("queryEpochsDataAsync ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:EpochsData}}})
   });
   it("querySleepsDataAsync", async () => {
-
-    
-   // console.log(await waitFor(()=>(screen.findAllByText("Hey There"))))
-   const querySleepsDataAsyncButton = await waitFor(()=>(screen.getByRole('button',{name: "querySleepsDataAsync"})))
-   await waitFor(()=>{
-     fireEvent.click(querySleepsDataAsyncButton)
-   })
-   await waitFor(()=>{
-     const output = screen.getByTestId('output')
-     console.log(output.textContent)
-
-     let result = JSON.parse(output.textContent)
-     console.log(result)
-     expect(typeof result).toBe("object");  
-   })
-   //console.log(result);
-   
- });
- it("querySleepsDataAsync", async () => {
-
-    
-   // console.log(await waitFor(()=>(screen.findAllByText("Hey There"))))
-   const querySleepsDataAsyncButton = await waitFor(()=>(screen.getByRole('button',{name: "querySleepsDataAsync"})))
-   await waitFor(()=>{
-     fireEvent.click(querySleepsDataAsyncButton)
-   })
-   await waitFor(()=>{
-     const output = screen.getByTestId('output')
-     console.log(output.textContent)
-
-     let result = JSON.parse(output.textContent)
-     console.log(result)
-     expect(typeof result).toBe("object");  
-   })
-   //console.log(result);
-   
- });
- it("queryPulseoxDataAsync", async () => {
-
-    
-   // console.log(await waitFor(()=>(screen.findAllByText("Hey There"))))
-   const queryPulseoxDataAsyncButton = await waitFor(()=>(screen.getByRole('button',{name: "queryPulseoxDataAsync"})))
-   await waitFor(()=>{
-     fireEvent.click(queryPulseoxDataAsyncButton)
-   })
-   await waitFor(()=>{
-     const output = screen.getByTestId('output')
-     console.log(output.textContent)
-
-     let result = JSON.parse(output.textContent)
-     console.log(result)
-     expect(typeof result).toBe("object");  
-   })
-   //console.log(result);
-   
- });
- });
- 
+    const result = await querySleepsDataAsync({stage: "dev"})
+    // console.log("querySleepsDataAsync ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:SleepsData}}})
+  });
+  it("queryPulseoxDataAsync", async () => {
+    const result = await queryPulseoxDataAsync({stage: "dev"})
+    // console.log("queryPulseoxDataAsync ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:PulseoxData}}})
+  });
+  it("queryDailiesData", async () => {
+    const result = await queryDailiesData({stage: "dev"})
+    // console.log("queryDailiesData ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:DailiesDataObject}}})
+  });
+  it("queryEpochsData", async () => {
+    const result = await queryEpochsData({stage: "dev"})
+    // console.log("queryEpochsData ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:EpochsDataObject}}})
+  });
+  it("querySleepsData", async () => {
+    const result = await querySleepsData({stage: "dev"})
+    // console.log("querySleepsData ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:SleepsDataObject}}})
+  });
+  it("queryPulseoxData", async () => {
+    const result = await queryPulseoxData({stage: "dev"})
+    // console.log("queryPulseoxData ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:PulseoxObject}}})
+  });
+});
