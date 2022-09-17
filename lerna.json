@@ -1,5 +1,7 @@
 {
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/*"
+  ],
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "independent",
@@ -9,6 +11,10 @@
     "**/package.json",
     "**/*.md",
     "**/perf/**",
-    "**/remote-hooks/**"
+    "**/remote-hooks/**",
+    "**/babel.config.js",
+    "**/jest.config.js",
+    "**/rollup.config.js",
+    "**/__tests__/**"
   ]
 }

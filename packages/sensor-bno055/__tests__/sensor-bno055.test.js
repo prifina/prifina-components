@@ -1,129 +1,46 @@
-/**
- * @jest-environment jsdom
- */
+'use strict';
+import {getFields,
+  getInfo,
+  getModuleName,queryRawSync,  queryRawAsync
+  } from "@prifina/sensor-bno055";
+import 'regenerator-runtime/runtime';
+import { RawAsync,RawSync, } from "@dynamic-data/sensor-bno055-data";
 
- "use strict";
 
- //const googleTimeline = require('..');
- // const { getModuleName, getFields } = require("@prifina/oura");
-//  const React = require('react')
-  const React = require("react")
- const {useRef,useEffect, useState} = require('react')
 
- 
- const {render, fireEvent, waitFor, screen,act} = require('@testing-library/react')
- const {PrifinaProvider,usePrifina,PrifinaContext,Op} = require("../../hooks/src");
- const SENSOR = require("../src").default;
- 
- // import '@testing-library/jest-dom'
- 
- const appID = "sensor-bno055";
- const TestCompoent = () => {
-     const { currentUser, Prifina, check, API, registerHooks, onUpdate } =
-     usePrifina();
-     // const updateTest = (payload) => {
-         // console.log("UPDATE TEST PAYLOAD", payload);
-     //   };
-       useEffect(async () => {
-         // init callback function for background updates/notifications
-         // onUpdate(appID, updateTest);
-     
-         console.log("SENSOR-BNO055 ", SENSOR);
-         // register datasource modules
-         registerHooks(appID, [SENSOR]);
-         console.log(check());
-       }, []);
- 
-     const [changeOutput, setChangeOutput] = useState("")
-       
-     return (
-         <>
-         <div>
-             <button
-               onClick={async (e) => {
+describe("sensor-bno055", () => {
+  //test.todo("needs tests");
+  it("test if imports work", () => {
+    expect(getFields).toBeTruthy()
+    expect(getInfo).toBeTruthy()
+    expect(getModuleName).toBeTruthy()
+    expect(queryRawSync).toBeTruthy()
+  })
+  it("getModuleName", () => {
+    const name = getModuleName()
+    expect(typeof name).toEqual('string');
+    expect(name).toEqual('Sensor-BNO055');
 
-                console.log("API", API)
-                 let x = await API[appID]["Sensor-BNO055"].queryRawSync({
-                 }) 
-                 console.log(
-                   "API ",
-                   x
-                 );
-                 setChangeOutput(x)
-                 
-               }}
-             >
-               queryRawSync
-             </button>
-             <button
-               onClick={async (e) => {
-                 let x = await API[appID]["Sensor-BNO055"].queryRawAsync({
-                 }) 
-                 console.log(
-                   "API ",
-                   x
-                 );
-                 setChangeOutput(x)
-                 
-               }}
-             >
-               queryRawAsync
-             </button>
-             <p data-testid="output">
-               {JSON.stringify(changeOutput)}
-             </p>
-         </div>
-         </>
-     )
- }
- describe("Sensor-BNO055 Connector", () => {
-   //test.todo("needs tests");
- 
-   beforeEach(()=>{
-     render(
-       <PrifinaProvider stage={"dev"}>
-           <TestCompoent/>
-       </PrifinaProvider>    
-   )
-   })
- 
-   it("queryRawSync", async () => {
- 
-     
-    // console.log(await waitFor(()=>(screen.findAllByText("Hey There"))))
-    const queryRawSyncButton = await waitFor(()=>(screen.getByRole('button',{name: "queryRawSync"})))
-    await waitFor(()=>{
-      fireEvent.click(queryRawSyncButton)
-    })
-    await waitFor(()=>{
-      const output = screen.getByTestId('output')
-      console.log(output.textContent)
+  })
+  it("getInfo", () => {
+    const name = getInfo()
+    // console.log(typeof name)
+    //Check if array
+    expect(typeof name).toEqual('object'); 
+    expect(name.length).toBeTruthy() 
+    //Check if each item is string
+    expect(typeof name[0]).toEqual('string'); 
 
-      let result = JSON.parse(output.textContent)
-      console.log(result)
-      expect(typeof result).toBe("object");  
-    })
-    //console.log(result);
-    
+
+  })
+  it("queryRawSync", async () => {
+    const result = await queryRawSync({stage: "dev"})
+    // console.log("queryRawSync ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:RawSync}}})
   });
   it("queryRawAsync", async () => {
-
-    
-    // console.log(await waitFor(()=>(screen.findAllByText("Hey There"))))
-    const queryRawAsyncButton = await waitFor(()=>(screen.getByRole('button',{name: "queryRawAsync"})))
-    await waitFor(()=>{
-      fireEvent.click(queryRawAsyncButton)
-    })
-    await waitFor(()=>{
-      const output = screen.getByTestId('output')
-      console.log(output.textContent)
-
-      let result = JSON.parse(output.textContent)
-      console.log(result)
-
-      expect(typeof result).toBe("object");  
-    })
-    //console.log(result);
+    const result = await queryRawAsync({stage: "dev"})
+    // console.log("queryRawAsync ", JSON.stringify(result, undefined, 2));
+    expect(result).toStrictEqual({data:{getDataObject:{content:RawAsync}}})
   });
- });
- 
+});

@@ -9,3 +9,6 @@ lerna-debug.log
 /backups
 
 packages/messaging/stories/App.stories.js
+
+dist/
+package-lock.json

@@ -1,12 +1,20 @@
-import { ActivitiesData, ActivitiesDataAsync } from "./ActivitiesData";
+// import { ActivitiesData, ActivitiesDataAsync } from "./ActivitiesData";
 
-import { ActivitiesSummary, ActivitiesSummaryAsync } from "./ActivitiesSummary";
-import { HeartRateData, HeartRateDataAsync } from "./HeartRateData";
-import { HeartRateSummary, HeartRateSummaryAsync } from "./HeartRateSummary";
-import { SleepData, SleepDataAsync } from "./SleepData";
-import { SleepSummary, SleepSummaryAsync } from "./SleepSummary";
-import { SleepQuality, SleepQualityAsync } from "./SleepQuality";
+// import { ActivitiesSummary, ActivitiesSummaryAsync } from "./ActivitiesSummary";
+// import { HeartRateData, HeartRateDataAsync } from "./HeartRateData";
+// import { HeartRateSummary, HeartRateSummaryAsync } from "./HeartRateSummary";
+// import { SleepData, SleepDataAsync } from "./SleepData";
+// import { SleepSummary, SleepSummaryAsync } from "./SleepSummary";
+// import { SleepQuality, SleepQualityAsync } from "./SleepQuality";
 
+import {ActivitiesData,
+  ActivitiesDataAsync,
+  ActivitiesSummary, 
+  ActivitiesSummaryAsync,
+HeartRateData,
+HeartRateDataAsync,
+HeartRateSummary, HeartRateSummaryAsync,SleepData, SleepDataAsync,
+SleepSummary, SleepSummaryAsync,SleepQuality, SleepQualityAsync} from "@dynamic-data/fitbit-data/mockups"
 const dataQuery = `query dataObject($input:DataObjectInput!) {
   getDataObject(input:$input) {
     result
@@ -147,7 +155,7 @@ export const queryActivitiesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: ActivitiesData },
+        getDataObject: { content: ActivitiesDataAsync },
       },
     });
   } else {
@@ -208,7 +216,7 @@ export const queryActivitySummariesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: ActivitiesSummary },
+        getDataObject: { content: ActivitiesSummaryAsync },
       },
     });
   } else {
@@ -266,7 +274,7 @@ export const queryHeartRateSummariesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: HeartRateSummary },
+        getDataObject: { content: HeartRateSummaryAsync },
       },
     });
   } else {
@@ -324,7 +332,7 @@ export const querySleepSummariesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: SleepSummary },
+        getDataObject: { content: SleepSummaryAsync },
       },
     });
   } else {
@@ -382,7 +390,7 @@ export const queryHeartRateDataAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: HeartRateData },
+        getDataObject: { content: HeartRateDataAsync },
       },
     });
   } else {
@@ -440,7 +448,7 @@ export const querySleepDataAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: SleepData },
+        getDataObject: { content: SleepDataAsync },
       },
     });
   } else {
@@ -469,7 +477,7 @@ export const querySleepQuality = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: SleepData },
+        getDataObject: { content: SleepQuality },
       },
     });
   } else {
@@ -498,7 +506,7 @@ export const querySleepQualityAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: SleepData },
+        getDataObject: { content: SleepQualityAsync },
       },
     });
   } else {

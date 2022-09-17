@@ -1,0 +1,31 @@
+import {
+  getModuleName,
+  getInfo,
+  getFields,
+  queryHMAccessory,
+  queryHMActionSet,
+  queryHMCharacteristic,
+  queryHMEventTrigger,
+  queryHMHomeManager,
+  queryHMMatterHome,
+  queryHMMatterRoom,
+  queryHMMatterTopology,
+  queryHMService,
+  queryHMTimerTrigger,
+} from "./Data";
+const Data = {
+  getModuleName,
+  getInfo,
+  getFields,
+  queryHMAccessory,
+  queryHMActionSet,
+  queryHMCharacteristic,
+  queryHMEventTrigger,
+  queryHMHomeManager,
+  queryHMMatterHome,
+  queryHMMatterRoom,
+  queryHMMatterTopology,
+  queryHMService,
+  queryHMTimerTrigger,
+};
+export default Data;
