@@ -1,0 +1,56 @@
+{
+  "name": "@prifina/ancestry",
+  "version": "0.0.19",
+  "description": "Data connector for Ancestry data",
+  "author": "hamza <hamzahalilovic.12@gmail.com>",
+  "license": "MIT",
+  "main": "dist/cjs/packages/ancestry/src/index.js",
+  "module": "dist/esm/packages/ancestry/src/index.js",
+  "exports": {
+    ".": "./dist/esm/packages/ancestry/src/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "rm -rf ./dist && rollup -c",
+    "builds": "yarn build:cjs && yarn build:es && yarn build:esm",
+    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel ./src --out-dir ./dist/esm",
+    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel ./src --out-dir ./dist/cjs",
+    "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel ./src --out-dir ./dist/es",
+    "storybook": "start-storybook",
+    "test": "node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage -c ../../jest.config.base.js  --selectProjects=@prifina/ancestry"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@storybook/addon-actions": "^6.0.16",
+    "@storybook/addon-storyshots": "^6.0.16",
+    "@storybook/react": "^6.0.16",
+    "@styled-system/prop-types": "^5.1.5",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^27.5.1",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-react-docgen": "^4.2.1",
+    "cross-env": "^7.0.3",
+    "jest": "^27.5.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rollup": "^2.70.1"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "dependencies": {
+    "@dynamic-data/ancestry-data": "^0.0.8"
+  }
+}
