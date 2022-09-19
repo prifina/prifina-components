@@ -32,6 +32,34 @@ var activityMockup = [{
   day: "Sa",
   deepSleep: 1,
   screenTime: 3
+}, {
+  day: "Su",
+  deepSleep: 1,
+  screenTime: 6
+}, {
+  day: "M",
+  deepSleep: 1,
+  screenTime: 4
+}, {
+  day: "T",
+  deepSleep: 1,
+  screenTime: 4
+}, {
+  day: "W",
+  deepSleep: 1,
+  screenTime: 4
+}, {
+  day: "Th",
+  deepSleep: 1,
+  screenTime: 4
+}, {
+  day: "F",
+  deepSleep: 1,
+  screenTime: 5
+}, {
+  day: "Sa",
+  deepSleep: 1,
+  screenTime: 3
 }];
 var _default = activityMockup;
 exports["default"] = _default;

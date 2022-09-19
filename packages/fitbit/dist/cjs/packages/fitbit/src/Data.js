@@ -39,19 +39,19 @@ var getFields = function getFields(query) {
 
   switch (query) {
     case "queryActivitySummary":
-      fields = Object.keys(ActivitiesSummary.ActivitiesSummary[0]);
+      fields = Object.keys(ActivitiesSummary.ActivitiesSummary);
       break;
 
     case "queryHeartRateSummary":
-      fields = Object.keys(HeartRateSummary.HeartRateSummary[0]);
+      fields = Object.keys(HeartRateSummary.HeartRateSummary);
       break;
 
     case "querySleepSummary":
-      fields = Object.keys(SleepSummary.SleepSummary[0]);
+      fields = Object.keys(SleepSummary.SleepSummary);
       break;
 
     case "queryActivities":
-      fields = Object.keys(ActivitiesData.ActivitiesData[0]);
+      fields = Object.keys(ActivitiesData.ActivitiesData);
       break;
 
     case "queryHeartRateData":

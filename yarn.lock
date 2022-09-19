@@ -4701,11 +4701,6 @@
   resolved "https://registry.yarnpkg.com/@dynamic-data/twitch-data/-/twitch-data-0.0.8.tgz#48bece3b523d6406c68050a4b79e8a79077a758e"
   integrity sha512-ZFT5KT/bT0gf8/sG0uEtqx2O2ko8gf/p/bAVLPMkyLDSCM4cTywuetKUhwBSmdxmzG8dUciEXaM0L6o568s5sg==
 
-"@dynamic-data/uber-data@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@dynamic-data/uber-data/-/uber-data-1.0.2.tgz#6e108ca7b26e957d2904696c57cc12a79249145c"
-  integrity sha512-3gjkCvcYCU9eMh0P+YpgdZ5vkeNkiuH8GPzcdh5PuNNr3YjEpZpmpKAhqjJaceksu0wrgV8e+rZUT7Pk3rg0fA==
-
 "@dynamic-data/whoop-data@^0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@dynamic-data/whoop-data/-/whoop-data-0.0.8.tgz#0de917d3104e0ff17ffc4ad480c418ffc50e8810"
