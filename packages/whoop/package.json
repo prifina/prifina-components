@@ -1,6 +1,6 @@
 {
   "name": "@prifina/whoop",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Data connector for Whoop data",
   "author": "hamza <hamzahalilovic.12@gmail.com>",
   "license": "MIT",

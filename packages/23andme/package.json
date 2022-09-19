@@ -1,6 +1,6 @@
 {
   "name": "@prifina/23andme",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Data connector for 23andMe data",
   "author": "hamza <hamzahalilovic.12@gmail.com>",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "name": "@prifina/movesense",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Data connector for Movesense data",
   "author": "hamza <hamzahalilovic.12@gmail.com>",
   "license": "MIT",
