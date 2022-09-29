@@ -1,6 +1,6 @@
 {
   "name": "@prifina/garmin",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Prifina Garmin data connector hook",
   "author": "Tero <tero@prifina.com>",
   "license": "MIT",
