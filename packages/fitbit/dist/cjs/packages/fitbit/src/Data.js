@@ -55,15 +55,15 @@ var getFields = function getFields(query) {
       break;
 
     case "queryHeartRateData":
-      fields = heartRateData.HeartRateData[0].split("\t");
+      fields = Object.keys(heartRateData.HeartRateData);
       break;
 
     case "querySleepData":
-      fields = sleepData.SleepData[0].split("\t");
+      fields = Object.keys(sleepData.SleepData);
       break;
 
     case "querySleepQuality":
-      fields = sleepQuality.SleepQuality[0].split("\t");
+      fields = Object.keys(sleepQuality.SleepQuality);
       break;
 
     case "queryActivitiesAsync":
