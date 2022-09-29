@@ -2,15 +2,16 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var dailies = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/dailies.js');
-var dailiesObject = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/dailiesObject.js');
-var epochs = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/epochs.js');
-var epochsObject = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/epochsObject.js');
-var sleeps = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/sleeps.js');
-var sleepsObject = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/sleepsObject.js');
-var pulseox = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/pulseox.js');
-var pulseoxObject = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/pulseoxObject.js');
+var dailiesDataAsync = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/dailiesDataAsync.js');
+var dailiesData = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/dailiesData.js');
+var epochsDataAsync = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/epochsDataAsync.js');
+var epochsData = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/epochsData.js');
+var sleepsDataAsync = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/sleepsDataAsync.js');
+var sleepsData = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/sleepsData.js');
+var pulseoxDataAsync = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/pulseoxDataAsync.js');
+var pulseoxData = require('../../../node_modules/@dynamic-data/garmin-data/dist/esm/mockups/pulseoxData.js');
 
+//import { DailiesData, EpochsData, SleepsData, PulseoxData, DailiesDataObject,EpochsDataObject,PulseoxObject,SleepsDataObject, } from "@dynamic-data/garmin-data/mockups";
 var dataQuery = "query dataObject($input:DataObjectInput!) {\n  getDataObject(input:$input) {\n    result\n  }\n}";
 var getInfo = function getInfo() {
   return ["queryDailiesDataAsync", "queryEpochsDataAsync", "querySleepsDataAsync", "queryPulseoxDataAsync", "queryDailiesData", "queryEpochsData", "querySleepsData", "queryPulseoxData"];
@@ -23,35 +24,35 @@ var getFields = function getFields(query) {
 
   switch (query) {
     case "queryDailiesData":
-      fields = Object.keys(dailiesObject.DailiesDataObject[0]);
+      fields = Object.keys(dailiesData.DailiesData);
       break;
 
     case "queryEpochsData":
-      fields = Object.keys(epochsObject.EpochsDataObject[0]);
+      fields = Object.keys(epochsData.EpochsData);
       break;
 
     case "querySleepsData":
-      fields = Object.keys(sleepsObject.SleepsDataObject[0]);
+      fields = Object.keys(sleepsData.SleepsData);
       break;
 
     case "queryPulseoxData":
-      fields = Object.keys(pulseoxObject.PulseoxObject[0]);
+      fields = Object.keys(pulseoxData.PulseoxData);
       break;
 
     case "queryDailiesDataAsync":
-      fields = dailies.DailiesData[0].split(",");
+      fields = dailiesDataAsync.DailiesDataAsync[0].split("\t");
       break;
 
     case "queryEpochsDataAsync":
-      fields = epochs.EpochsData[0].split(",");
+      fields = epochsDataAsync.EpochsDataAsync[0].split("\t");
       break;
 
     case "querySleepsDataAsync":
-      fields = sleeps.SleepsData[0].split(",");
+      fields = sleepsDataAsync.SleepsDataAsync[0].split("\t");
       break;
 
     case "queryPulseoxDataAsync":
-      fields = pulseox.PulseoxData[0].split(",");
+      fields = pulseoxDataAsync.PulseoxDataAsync[0].split("\t");
       break;
 
     default:
@@ -74,7 +75,7 @@ var queryDailiesData = function queryDailiesData(_ref) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: dailiesObject.DailiesDataObject
+          content: dailiesData.DailiesData
         }
       }
     });
@@ -104,7 +105,7 @@ var queryEpochsData = function queryEpochsData(_ref2) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: epochsObject.EpochsDataObject
+          content: epochsData.EpochsData
         }
       }
     });
@@ -134,7 +135,7 @@ var querySleepsData = function querySleepsData(_ref3) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: sleepsObject.SleepsDataObject
+          content: sleepsData.SleepsData
         }
       }
     });
@@ -164,7 +165,7 @@ var queryPulseoxData = function queryPulseoxData(_ref4) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: pulseoxObject.PulseoxObject
+          content: pulseoxData.PulseoxData
         }
       }
     });
@@ -194,7 +195,7 @@ var queryDailiesDataAsync = function queryDailiesDataAsync(_ref5) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: dailies.DailiesData
+          content: dailiesData.DailiesData
         }
       }
     });
@@ -224,7 +225,7 @@ var queryEpochsDataAsync = function queryEpochsDataAsync(_ref6) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: epochs.EpochsData
+          content: epochsDataAsync.EpochsDataAsync
         }
       }
     });
@@ -254,7 +255,7 @@ var querySleepsDataAsync = function querySleepsDataAsync(_ref7) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: sleeps.SleepsData
+          content: sleepsDataAsync.SleepsDataAsync
         }
       }
     });
@@ -284,7 +285,7 @@ var queryPulseoxDataAsync = function queryPulseoxDataAsync(_ref8) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: pulseox.PulseoxData
+          content: pulseoxDataAsync.PulseoxDataAsync
         }
       }
     });

@@ -2,19 +2,19 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var ActivitiesData = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/ActivitiesData.js');
+var activitiesData = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/activitiesData.js');
 var activitiesDataAsync = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/activitiesDataAsync.js');
-var ActivitiesSummary = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/ActivitiesSummary.js');
+var activitiesSummary = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/activitiesSummary.js');
 var activitiesSummaryAsync = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/activitiesSummaryAsync.js');
-var HeartRateData = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/HeartRateData.js');
+var heartRateData = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/heartRateData.js');
 var heartRateDataAsync = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/heartRateDataAsync.js');
-var HeartRateSummary = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/HeartRateSummary.js');
+var heartRateSummary = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/heartRateSummary.js');
 var heartRateSummaryAsync = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/heartRateSummaryAsync.js');
-var SleepData = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/SleepData.js');
+var sleepData = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepData.js');
 var sleepDataAsync = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepDataAsync.js');
-var SleepSummary = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/SleepSummary.js');
+var sleepSummary = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepSummary.js');
 var sleepSummaryAsync = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepSummaryAsync.js');
-var SleepQuality = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/SleepQuality.js');
+var sleepQuality = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepQuality.js');
 var sleepQualityAsync = require('../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepQualityAsync.js');
 
 // import { ActivitiesData, ActivitiesDataAsync } from "./ActivitiesData";
@@ -39,59 +39,59 @@ var getFields = function getFields(query) {
 
   switch (query) {
     case "queryActivitySummary":
-      fields = Object.keys(ActivitiesSummary.ActivitiesSummary);
+      fields = Object.keys(activitiesSummary.ActivitiesSummary);
       break;
 
     case "queryHeartRateSummary":
-      fields = Object.keys(HeartRateSummary.HeartRateSummary);
+      fields = Object.keys(heartRateSummary.HeartRateSummary);
       break;
 
     case "querySleepSummary":
-      fields = Object.keys(SleepSummary.SleepSummary);
+      fields = Object.keys(sleepSummary.SleepSummary);
       break;
 
     case "queryActivities":
-      fields = Object.keys(ActivitiesData.ActivitiesData);
+      fields = Object.keys(activitiesData.ActivitiesData);
       break;
 
     case "queryHeartRateData":
-      fields = HeartRateData.HeartRateData[0].split(",");
+      fields = heartRateData.HeartRateData[0].split("\t");
       break;
 
     case "querySleepData":
-      fields = SleepData.SleepData[0].split(",");
+      fields = sleepData.SleepData[0].split("\t");
       break;
 
     case "querySleepQuality":
-      fields = SleepQuality.SleepQuality[0].split(",");
+      fields = sleepQuality.SleepQuality[0].split("\t");
       break;
 
     case "queryActivitiesAsync":
-      fields = activitiesDataAsync.ActivitiesDataAsync[0].split(",");
+      fields = activitiesDataAsync.ActivitiesDataAsync[0].split("\t");
       break;
 
     case "queryHeartRateDataAsync":
-      fields = heartRateDataAsync.HeartRateDataAsync[0].split(",");
+      fields = heartRateDataAsync.HeartRateDataAsync[0].split("\t");
       break;
 
     case "querySleepDataAsync":
-      fields = sleepDataAsync.SleepDataAsync[0].split(",");
+      fields = sleepDataAsync.SleepDataAsync[0].split("\t");
       break;
 
     case "querySleepQualityAsync":
-      fields = sleepQualityAsync.SleepQualityAsync[0].split(",");
+      fields = sleepQualityAsync.SleepQualityAsync[0].split("\t");
       break;
 
     case "queryActivitySummariesAsync":
-      fields = activitiesSummaryAsync.ActivitiesSummaryAsync[0].split(",");
+      fields = activitiesSummaryAsync.ActivitiesSummaryAsync[0].split("\t");
       break;
 
     case "queryHeartRateSummariesAsync":
-      fields = heartRateSummaryAsync.HeartRateSummaryAsync[0].split(",");
+      fields = heartRateSummaryAsync.HeartRateSummaryAsync[0].split("\t");
       break;
 
     case "querySleepSummariesAsync":
-      fields = sleepSummaryAsync.SleepSummaryAsync[0].split(",");
+      fields = sleepSummaryAsync.SleepSummaryAsync[0].split("\t");
       break;
 
     default:
@@ -121,7 +121,7 @@ var queryActivities = function queryActivities(_ref) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: ActivitiesData.ActivitiesData
+          content: activitiesData.ActivitiesData
         }
       }
     });
@@ -185,7 +185,7 @@ var queryActivitySummary = function queryActivitySummary(_ref3) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: ActivitiesSummary.ActivitiesSummary
+          content: activitiesSummary.ActivitiesSummary
         }
       }
     });
@@ -245,7 +245,7 @@ var queryHeartRateSummary = function queryHeartRateSummary(_ref5) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: HeartRateSummary.HeartRateSummary
+          content: heartRateSummary.HeartRateSummary
         }
       }
     });
@@ -305,7 +305,7 @@ var querySleepSummary = function querySleepSummary(_ref7) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: SleepSummary.SleepSummary
+          content: sleepSummary.SleepSummary
         }
       }
     });
@@ -365,7 +365,7 @@ var queryHeartRateData = function queryHeartRateData(_ref9) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: HeartRateData.HeartRateData
+          content: heartRateData.HeartRateData
         }
       }
     });
@@ -425,7 +425,7 @@ var querySleepData = function querySleepData(_ref11) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: SleepData.SleepData
+          content: sleepData.SleepData
         }
       }
     });
@@ -485,7 +485,7 @@ var querySleepQuality = function querySleepQuality(_ref13) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: SleepQuality.SleepQuality
+          content: sleepQuality.SleepQuality
         }
       }
     });

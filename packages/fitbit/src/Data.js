@@ -7,14 +7,16 @@
 // import { SleepSummary, SleepSummaryAsync } from "./SleepSummary";
 // import { SleepQuality, SleepQualityAsync } from "./SleepQuality";
 
-import {ActivitiesData,
+import {
+  ActivitiesData,
   ActivitiesDataAsync,
-  ActivitiesSummary, 
+  ActivitiesSummary,
   ActivitiesSummaryAsync,
-HeartRateData,
-HeartRateDataAsync,
-HeartRateSummary, HeartRateSummaryAsync,SleepData, SleepDataAsync,
-SleepSummary, SleepSummaryAsync,SleepQuality, SleepQualityAsync} from "@dynamic-data/fitbit-data/mockups"
+  HeartRateData,
+  HeartRateDataAsync,
+  HeartRateSummary, HeartRateSummaryAsync, SleepData, SleepDataAsync,
+  SleepSummary, SleepSummaryAsync, SleepQuality, SleepQualityAsync
+} from "@dynamic-data/fitbit-data/mockups"
 const dataQuery = `query dataObject($input:DataObjectInput!) {
   getDataObject(input:$input) {
     result
@@ -68,34 +70,34 @@ export const getFields = (query) => {
       fields = Object.keys(ActivitiesData);
       break;
     case "queryHeartRateData":
-      fields = HeartRateData[0].split(",");
+      fields = HeartRateData[0].split("\t");
       break;
     case "querySleepData":
-      fields = SleepData[0].split(",");
+      fields = SleepData[0].split("\t");
       break;
     case "querySleepQuality":
-      fields = SleepQuality[0].split(",");
+      fields = SleepQuality[0].split("\t");
       break;
     case "queryActivitiesAsync":
-      fields = ActivitiesDataAsync[0].split(",");
+      fields = ActivitiesDataAsync[0].split("\t");
       break;
     case "queryHeartRateDataAsync":
-      fields = HeartRateDataAsync[0].split(",");
+      fields = HeartRateDataAsync[0].split("\t");
       break;
     case "querySleepDataAsync":
-      fields = SleepDataAsync[0].split(",");
+      fields = SleepDataAsync[0].split("\t");
       break;
     case "querySleepQualityAsync":
-      fields = SleepQualityAsync[0].split(",");
+      fields = SleepQualityAsync[0].split("\t");
       break;
     case "queryActivitySummariesAsync":
-      fields = ActivitiesSummaryAsync[0].split(",");
+      fields = ActivitiesSummaryAsync[0].split("\t");
       break;
     case "queryHeartRateSummariesAsync":
-      fields = HeartRateSummaryAsync[0].split(",");
+      fields = HeartRateSummaryAsync[0].split("\t");
       break;
     case "querySleepSummariesAsync":
-      fields = SleepSummaryAsync[0].split(",");
+      fields = SleepSummaryAsync[0].split("\t");
       break;
     default:
       fields = [];

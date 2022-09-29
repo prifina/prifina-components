@@ -4,6 +4,7 @@ import { SleepSummary } from '../../../node_modules/@dynamic-data/oura-data/dist
 import { ActivitySummaryAsync } from '../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/activitySummaryAsync.js';
 import { ReadinessSummaryAsync } from '../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/readinessSummaryAsync.js';
 import { SleepSummaryAsync } from '../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/sleepSummaryAsync.js';
+import '../../../node_modules/@dynamic-data/oura-data/dist/esm/mockups/sleepDataAsync.js';
 
 /*
 import { ouraDaily } from "./activityMockup";
@@ -41,7 +42,7 @@ var getFields = function getFields(query) {
 
     case "querySleepData":
     case "querySleepSummary":
-      fields = Object.keys(SleepSummary[0]);
+      fields = Object.keys(SleepSummary);
       break;
 
     case "queryActivitySummariesAsync":

@@ -4621,20 +4621,20 @@
   resolved "https://registry.yarnpkg.com/@dynamic-data/ancestry-data/-/ancestry-data-0.0.8.tgz#e1f19e50bf1e0f421d7507e08688af25b1eb7865"
   integrity sha512-BMOqy7MRKwXpLYDOTLTrSIT5gigzZAdfahMwXNn6PlrPXglPqXR5I8GIE2iUZcgURCpffGyRI86Q+u666nAL0w==
 
-"@dynamic-data/fitbit-data@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@dynamic-data/fitbit-data/-/fitbit-data-0.0.5.tgz#5a67378f1e0d7b1516bba21bab51ca716166630a"
-  integrity sha512-auSngkYO6dXxTw3/KOJvwLLYySSUfdw5p3/KEqmh7lnT6PiFfPycoX3sk+lHMQr6ihg5c7U/Ma7tXZIlNqUmVw==
+"@dynamic-data/fitbit-data@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@dynamic-data/fitbit-data/-/fitbit-data-0.0.7.tgz#a9834675aff75e9404e89aa028d4a788ff43c966"
+  integrity sha512-xMYaZootoynuBag/1eqNVgH5FZIOklkyQkEIHyt0oKVAKM9XJM8jOePQmQKV8QsAbJuZzhFv3iQwWT8LRd3BDQ==
 
 "@dynamic-data/foursquare-data@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@dynamic-data/foursquare-data/-/foursquare-data-1.0.2.tgz#05fd23b383958d6d98a884a7302ad058ba1044a3"
   integrity sha512-5+fMieDS/6BKM4YgN7bnvwm2XmAH+FRq5rCFM9wzAXtwqXlDTLVZJkRhFPc8HtTYsGmuv2nGy/SersgNOYGA8A==
 
-"@dynamic-data/garmin-data@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@dynamic-data/garmin-data/-/garmin-data-0.0.5.tgz#349cd097d3511d493200a0c34cd92297a40604c9"
-  integrity sha512-CxSNzfuqgBEpsssgEdbNvcHt/I52trEsIdlWOyiJr35zFY02wkZAjdGXhRxfionkvG9rL9Do2104LhUFPue9dw==
+"@dynamic-data/garmin-data@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@dynamic-data/garmin-data/-/garmin-data-0.0.7.tgz#cf9d5c7f7158adb311c3818f530a9179887e855d"
+  integrity sha512-T1E3klt8ucWcTm/J59obDc4TdMufTEWydO860J1goz872i//1hxFsbjQejKWkYUJUEwQdolpBrr2uCS3zq+FhA==
 
 "@dynamic-data/google-data@^0.0.6":
   version "0.0.6"
@@ -4666,10 +4666,10 @@
   resolved "https://registry.yarnpkg.com/@dynamic-data/movesense-data/-/movesense-data-0.0.8.tgz#5b0d6f625e88688ec62973e75a4a3c453bb5b1dc"
   integrity sha512-xLUT40MRfvbsaJHwNXm7BB2Eo0WI1dVAbkI/kfYdiFSjNJ3eB/7xalOsl2NVM8jyS9DDPyXxIz+o2X3vc4jobw==
 
-"@dynamic-data/oura-data@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@dynamic-data/oura-data/-/oura-data-0.0.6.tgz#02412b05b436e0760f6fa0a4bc0f1d777dcbbada"
-  integrity sha512-7XMlpilsxVWklWarGiiaEwlYc0X+yDHvRrDZCNzjQSAUE3zoMIqwe+rkl6dyT4euwkydKuJUOBdxfzt6T4QyZA==
+"@dynamic-data/oura-data@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@dynamic-data/oura-data/-/oura-data-0.0.9.tgz#b3058e8a64341ca3cad6249bc4a72e7b9435a24b"
+  integrity sha512-yKXWlFV/wQaV5u/WjLA0iETuX6MsA3bgAUaSXjaSwTaPCzkoArb7LPPGpgH/cRJeq9zf5Y5g0x5u8fU6CegXgQ==
 
 "@dynamic-data/peloton-data@^0.0.8":
   version "0.0.8"

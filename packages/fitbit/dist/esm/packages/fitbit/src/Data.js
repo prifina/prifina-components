@@ -1,16 +1,16 @@
-import { ActivitiesData } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/ActivitiesData.js';
+import { ActivitiesData } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/activitiesData.js';
 import { ActivitiesDataAsync } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/activitiesDataAsync.js';
-import { ActivitiesSummary } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/ActivitiesSummary.js';
+import { ActivitiesSummary } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/activitiesSummary.js';
 import { ActivitiesSummaryAsync } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/activitiesSummaryAsync.js';
-import { HeartRateData } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/HeartRateData.js';
+import { HeartRateData } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/heartRateData.js';
 import { HeartRateDataAsync } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/heartRateDataAsync.js';
-import { HeartRateSummary } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/HeartRateSummary.js';
+import { HeartRateSummary } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/heartRateSummary.js';
 import { HeartRateSummaryAsync } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/heartRateSummaryAsync.js';
-import { SleepData } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/SleepData.js';
+import { SleepData } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepData.js';
 import { SleepDataAsync } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepDataAsync.js';
-import { SleepSummary } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/SleepSummary.js';
+import { SleepSummary } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepSummary.js';
 import { SleepSummaryAsync } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepSummaryAsync.js';
-import { SleepQuality } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/SleepQuality.js';
+import { SleepQuality } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepQuality.js';
 import { SleepQualityAsync } from '../../../node_modules/@dynamic-data/fitbit-data/dist/esm/mockups/sleepQualityAsync.js';
 
 // import { ActivitiesData, ActivitiesDataAsync } from "./ActivitiesData";
@@ -51,43 +51,43 @@ var getFields = function getFields(query) {
       break;
 
     case "queryHeartRateData":
-      fields = HeartRateData[0].split(",");
+      fields = HeartRateData[0].split("\t");
       break;
 
     case "querySleepData":
-      fields = SleepData[0].split(",");
+      fields = SleepData[0].split("\t");
       break;
 
     case "querySleepQuality":
-      fields = SleepQuality[0].split(",");
+      fields = SleepQuality[0].split("\t");
       break;
 
     case "queryActivitiesAsync":
-      fields = ActivitiesDataAsync[0].split(",");
+      fields = ActivitiesDataAsync[0].split("\t");
       break;
 
     case "queryHeartRateDataAsync":
-      fields = HeartRateDataAsync[0].split(",");
+      fields = HeartRateDataAsync[0].split("\t");
       break;
 
     case "querySleepDataAsync":
-      fields = SleepDataAsync[0].split(",");
+      fields = SleepDataAsync[0].split("\t");
       break;
 
     case "querySleepQualityAsync":
-      fields = SleepQualityAsync[0].split(",");
+      fields = SleepQualityAsync[0].split("\t");
       break;
 
     case "queryActivitySummariesAsync":
-      fields = ActivitiesSummaryAsync[0].split(",");
+      fields = ActivitiesSummaryAsync[0].split("\t");
       break;
 
     case "queryHeartRateSummariesAsync":
-      fields = HeartRateSummaryAsync[0].split(",");
+      fields = HeartRateSummaryAsync[0].split("\t");
       break;
 
     case "querySleepSummariesAsync":
-      fields = SleepSummaryAsync[0].split(",");
+      fields = SleepSummaryAsync[0].split("\t");
       break;
 
     default:
