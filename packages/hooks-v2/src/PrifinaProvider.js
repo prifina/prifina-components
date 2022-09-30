@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useMemo,useRef,useCallback,useState } from "react";
+import React, { createContext, useContext, useMemo, useRef, useCallback, useState } from "react";
 
-import { stringify,shortId } from "./utils";
+import { stringify, shortId } from "./utils";
 //import { v4 as uuidv4 } from 'uuid';
 import gql from "graphql-tag";
 
@@ -35,9 +35,9 @@ export function useAccountContext() {
 
 export const PrifinaContext = createContext({});
 
-export const PrifinaContextProvider = ({ activeApp,activeUser,Context,stage = "dev", children, ...props }) => {
+export const PrifinaContextProvider = ({ activeApp, activeUser, Context, stage = "dev", children, ...props }) => {
 
-  const providerContext = useRef({stage,...props});
+  const providerContext = useRef({ stage, ...props });
   const callbacks = useRef({});
   const appSubscriptions = useRef({});
   const CLIENT = useRef({});
@@ -59,7 +59,7 @@ export const PrifinaContextProvider = ({ activeApp,activeUser,Context,stage = "d
     //console.log("Prifina API", API.current);
     //console.log("Prifina CLIENT", CLIENT.current);
     //timerTest();
-    return { init:providerContext.current.init,callbacks:getCallbacks(),API:getAPI()  };
+    return { init: providerContext.current.init, callbacks: getCallbacks(), API: getAPI() };
   }, []);
 
   //S3FileUpload,
@@ -91,7 +91,7 @@ export const PrifinaContextProvider = ({ activeApp,activeUser,Context,stage = "d
     }
 
     return new Promise(function (resolve, reject) {
-      const {appHandler,...variables}=opts.variables;
+      const { appHandler, ...variables } = opts.variables;
       const subHandler = CLIENT.current.user
         .subscribe({
           query: gql(opts.mutation),
@@ -106,12 +106,12 @@ export const PrifinaContextProvider = ({ activeApp,activeUser,Context,stage = "d
         })
         .subscribe({
           next: (res) => {
-            console.log("NOTIFICATION SUBS RESULTS3 ", res,appHandler);
+            console.log("NOTIFICATION SUBS RESULTS3 ", res, appHandler);
 
             //appSubscriptions.current[opts.appId][appHandler]=subHandler;
 
             const appIndex = providerContext.current.init.apps[opts.appId];
-            console.log("APP INDEX ARRAY ",appIndex);
+            console.log("APP INDEX ARRAY ", appIndex);
             /*
             NOTIFICATION SUBS RESULTS3  { data: 'Subsription Testing...' } s8af6yaxis
             console.log
@@ -121,15 +121,15 @@ export const PrifinaContextProvider = ({ activeApp,activeUser,Context,stage = "d
         
           console.log
             SUBS  { 'APP-ID': { s8af6yaxis: '181ujb3avr' } }
-            */  
+            */
 
-            let callBackIndex = 0; 
-              if (appIndex.length > 1) {
-                callBackIndex = appIndex.findIndex((id) => {
-                  return id === appHandler;
-                });
-              }
-              
+            let callBackIndex = 0;
+            if (appIndex.length > 1) {
+              callBackIndex = appIndex.findIndex((id) => {
+                return id === appHandler;
+              });
+            }
+
             callbacks.current[opts.appId][callBackIndex](res.data);
           },
           error: (error) => {
@@ -140,13 +140,13 @@ export const PrifinaContextProvider = ({ activeApp,activeUser,Context,stage = "d
           },
         });
 
-      console.log("SUBS HANDLER ",subHandler);  
+      console.log("SUBS HANDLER ", subHandler);
       if (appSubscriptions.current?.[opts.appId]) {
         // not array so we can support multiple subscriptions for same app/widget... 
-        appSubscriptions.current[opts.appId][appHandler]=subHandler;
+        appSubscriptions.current[opts.appId][appHandler] = subHandler;
         //appSubscriptions.current[opts.appId].push(subHandler);
       } else {
-        appSubscriptions.current[opts.appId] = {[appHandler]:subHandler};
+        appSubscriptions.current[opts.appId] = { [appHandler]: subHandler };
       }
       resolve(true);
     });
@@ -172,7 +172,7 @@ export const PrifinaContextProvider = ({ activeApp,activeUser,Context,stage = "d
 
     return new Promise(function (resolve, reject) {
 
-    const moduleParts = opts.name.split("/");
+      const moduleParts = opts.name.split("/");
 
       CLIENT.current.user
         .mutate({
@@ -190,36 +190,36 @@ export const PrifinaContextProvider = ({ activeApp,activeUser,Context,stage = "d
         })
         .then((res) => {
           console.log("MUTATION RES ", res);
-/*
-type MsgObjectData @aws_iam {
-	receiver: String
-	messageId: String
-	chatId: String
-	createdAt: AWSTimestamp
-	result: AWSJSON
-}
-     MUTATION RES  { data: { mutationCreateMessage: { result: [Object] } } 
-*/
-        let dataObject = undefined;
-        //let key=moduleParts[1];
-        const key = Object.keys(res.data)[0];
-        console.log("KEY ",key)
-         // messaging mutations... 
-         if (res.data[key]?.result && res.data[key].result?.result) {
-          //console.log("KEY2 ",res.data[key])
-          dataObject = JSON.parse(res.data[key].result.result);
-         } else {
-           dataObject = res.data[key];
-         }
+          /*
+          type MsgObjectData @aws_iam {
+            receiver: String
+            messageId: String
+            chatId: String
+            createdAt: AWSTimestamp
+            result: AWSJSON
+          }
+               MUTATION RES  { data: { mutationCreateMessage: { result: [Object] } } 
+          */
+          let dataObject = undefined;
+          //let key=moduleParts[1];
+          const key = Object.keys(res.data)[0];
+          console.log("KEY ", key)
+          // messaging mutations... 
+          if (res.data[key]?.result && res.data[key].result?.result) {
+            //console.log("KEY2 ",res.data[key])
+            dataObject = JSON.parse(res.data[key].result.result);
+          } else {
+            dataObject = res.data[key];
+          }
 
-         if (callbacks.current?.sandbox) {
-          callbacks.current["sandbox"][0]({
-            mutationResult: { data: { [key]: dataObject } },
-          });
-        }
-        resolve({ data: { [key]: dataObject } });
+          if (callbacks.current?.sandbox) {
+            callbacks.current["sandbox"][0]({
+              mutationResult: { data: { [key]: dataObject } },
+            });
+          }
+          resolve({ data: { [key]: dataObject } });
 
-          
+
         })
         .catch((error) => {
           console.log("MUTATION ERROR ", error);
@@ -227,14 +227,14 @@ type MsgObjectData @aws_iam {
         });
     });
   };
-  
+
   const createQuery = (opts) => {
     console.log("OPTS ", opts);
-   
+
     if (callbacks.current?.sandbox) {
       //"{\"s3::date\":{\"=\":\"2022-08-01\"}}"
       //const filter = stringify(opts.filter);
-      const filter = opts?.filter?stringify(opts.filter):"";
+      const filter = opts?.filter ? stringify(opts.filter) : "";
       let connectorFunction = Object.assign({}, opts);
       connectorFunction.filter = filter;
 
@@ -256,7 +256,7 @@ type MsgObjectData @aws_iam {
           return opts.fieldsList.indexOf(k) === -1;
         })
       ) {
-        if (callbacks.current?.[sandbox]) {
+        if (callbacks.current?.sandbox) {
           callbacks.current["sandbox"][0]({
             fieldsError: { fieldsList: fieldsList, invalidField: invField },
           });
@@ -271,66 +271,66 @@ type MsgObjectData @aws_iam {
         queryRequest: {
           appID: opts.appId,
           fields: queryFields,
-          filter: opts?.filter?buildProviderFilter(opts.filter):"",
+          filter: opts?.filter ? buildProviderFilter(opts.filter) : "",
           next: opts.next,
         },
       });
     }
-   
+
     return new Promise(function (resolve, reject) {
       CLIENT.current.user
-      .query({
-        query: gql(opts.query),
-        variables: {
-          input: {
-            //bucket: S3Bucket,
-            //key: S3Key,
-            dataconnector: opts.name,
-            userId: currentUser.uuid,
-            fields: queryFields,
-            filter: opts?.filter?buildProviderFilter(opts.filter):"",
-            next: opts.next,
-            appId: opts.appId,
-            execId: shortId(),
-            stage: providerContext.current.init.stage,
+        .query({
+          query: gql(opts.query),
+          variables: {
+            input: {
+              //bucket: S3Bucket,
+              //key: S3Key,
+              dataconnector: opts.name,
+              userId: currentUser.uuid,
+              fields: queryFields,
+              filter: opts?.filter ? buildProviderFilter(opts.filter) : "",
+              next: opts.next,
+              appId: opts.appId,
+              execId: shortId(),
+              stage: providerContext.current.init.stage,
+            },
           },
-        },
-      })
-      .then((res) => {
-        console.log("RES ", res);
-        if (res.data?.getDataObject) {
-          let s3Object = JSON.parse(res.data.getDataObject.result);
+        })
+        .then((res) => {
+          console.log("RES ", res);
+          if (res.data?.getDataObject) {
+            let s3Object = JSON.parse(res.data.getDataObject.result);
+            if (callbacks.current?.sandbox) {
+              callbacks.current["sandbox"][0]({
+                queryResult: { data: { getDataObject: s3Object } },
+              });
+            }
+            resolve({ data: { getDataObject: s3Object } });
+          } else {
+            console.log("NOT S3 DATA OBJECT");
+            const key = Object.keys(res.data)[0];
+            let dataObject = JSON.parse(res.data[key].result);
+            if (callbacks.current?.sandbox) {
+              callbacks.current["sandbox"][0]({
+                queryResult: { data: { [key]: dataObject } },
+              });
+            }
+            resolve({ data: { [key]: dataObject } });
+          }
+        })
+        .catch((error) => {
           if (callbacks.current?.sandbox) {
             callbacks.current["sandbox"][0]({
-              queryResult: { data: { getDataObject: s3Object } },
+              queryError: JSON.stringify(error),
             });
           }
-          resolve({ data: { getDataObject: s3Object } });
-        } else {
-          console.log("NOT S3 DATA OBJECT");
-          const key = Object.keys(res.data)[0];
-          let dataObject = JSON.parse(res.data[key].result);
-          if (callbacks.current?.sandbox) {
-            callbacks.current["sandbox"][0]({
-              queryResult: { data: { [key]: dataObject } },
-            });
-          }
-          resolve({ data: { [key]: dataObject } });
-        }
-      })
-      .catch((error) => {
-        if (callbacks.current?.sandbox) {
-          callbacks.current["sandbox"][0]({
-            queryError: JSON.stringify(error),
-          });
-        }
-        console.log("QUERY ERROR ", error);
-        reject(error);
-      });
+          console.log("QUERY ERROR ", error);
+          reject(error);
+        });
 
-    });  
- 
-  };  
+    });
+
+  };
 
   const registerDataConnector = useCallback((appID, modules) => {
     if (modules.length > 0) {
@@ -376,7 +376,7 @@ type MsgObjectData @aws_iam {
               });
             };
           }
-        
+
           else if (q.startsWith("subscribe")) {
             fn[q] = ({ variables }) => {
               console.log("INIT MUTATION", providerContext.current.init);
@@ -441,13 +441,13 @@ type MsgObjectData @aws_iam {
   }, []);
 
   const onUpdate = useCallback((appID, fn, type = "WIDGET") => {
-    console.log("UPDATE SET ", appID,callbacks);
-  
-    if (typeof appID!=="string") {
+    console.log("UPDATE SET ", appID, callbacks);
+
+    if (typeof appID !== "string") {
       throw new Error("onUpdate, appID is not string");
     }
     const updateID = shortId()
-    
+
     if (callbacks.current) {
       // multiple apps/widgets active...
       if (providerContext.current.init.apps?.[appID]) {
@@ -460,7 +460,7 @@ type MsgObjectData @aws_iam {
         providerContext.current.init.users[currentUser.uuid] = "";
       }
       providerContext.current.init.users[currentUser.uuid] = activeApp;
-    
+
       if (Object.keys(callbacks.current).length === 0) callbacks.current = {};
       if (callbacks.current?.[appID]) {
         callbacks.current[appID].push(fn);
@@ -471,12 +471,12 @@ type MsgObjectData @aws_iam {
       } else {
         callbacks.current[appID] = fn;
       }
-      
+
       console.log("UPDATE SET ", callbacks.current);
       return updateID;
     }
   }, []);
-  
+
   const getAppSubscriptions = useCallback(() => {
     //console.log("GET CALLBACk ", data);
     return appSubscriptions.current;
@@ -487,14 +487,14 @@ type MsgObjectData @aws_iam {
   }, []);
 
   const removeCallbacks = useCallback(() => {
-    callbacks.current={};
+    callbacks.current = {};
     return true;
   }, []);
 
   const deleteCallback = useCallback((appID, index) => {
-    const currentCount=callbacks.current[appID].length;
-    if (currentCount>1) {
-      callbacks.current[appID].splice(index,1);
+    const currentCount = callbacks.current[appID].length;
+    if (currentCount > 1) {
+      callbacks.current[appID].splice(index, 1);
     } else {
       delete callbacks.current[appID];
     }
@@ -543,34 +543,34 @@ type MsgObjectData @aws_iam {
     registerClient,
     registerDataConnector,
     API: API.current,
-  }  
-/*
-  providerContext.current = {
-    
-    activeRole,
-    setSettings,
-    getSettings,
-    
-    subscriptionTest,
-    unSubscribe,
-    Prifina,
-    registerRemoteClient,
-    API: API.current,
-   
-  };
-*/
+  }
+  /*
+    providerContext.current = {
+      
+      activeRole,
+      setSettings,
+      getSettings,
+      
+      subscriptionTest,
+      unSubscribe,
+      Prifina,
+      registerRemoteClient,
+      API: API.current,
+     
+    };
+  */
 
 
-if (typeof providerContext.current.init === "undefined") {
-  providerContext.current.init = { stage: stage, apps: {}, users: {} };
-}
-//console.log("Prifina ", providerContext);
-if (!children) {
-  return null;
-}
+  if (typeof providerContext.current.init === "undefined") {
+    providerContext.current.init = { stage: stage, apps: {}, users: {} };
+  }
+  //console.log("Prifina ", providerContext);
+  if (!children) {
+    return null;
+  }
 
   return (
-    <Context.Provider 
+    <Context.Provider
       value={providerContext}
     >
       {children}
@@ -581,13 +581,13 @@ if (!children) {
 /* Hook */
 // ==============================
 export const usePrifina = () => {
- // console.log("CONTEXT ",PrifinaContext);
+  // console.log("CONTEXT ",PrifinaContext);
   const prifinaContext = useContext(PrifinaContext);
- // console.log("CONTEXT2 ",prifinaContext);
+  // console.log("CONTEXT2 ",prifinaContext);
   const prifina = useMemo(() => {
     return prifinaContext.current;
   }, [prifinaContext]);
-  
+
   return prifina;
 };
 

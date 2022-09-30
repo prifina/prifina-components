@@ -224,11 +224,11 @@ var PrifinaContextProvider = function PrifinaContextProvider(_ref) {
         console.log("MUTATION RES ", res);
         /*
         type MsgObjectData @aws_iam {
-        	receiver: String
-        	messageId: String
-        	chatId: String
-        	createdAt: AWSTimestamp
-        	result: AWSJSON
+          receiver: String
+          messageId: String
+          chatId: String
+          createdAt: AWSTimestamp
+          result: AWSJSON
         }
              MUTATION RES  { data: { mutationCreateMessage: { result: [Object] } } 
         */
@@ -291,7 +291,7 @@ var PrifinaContextProvider = function PrifinaContextProvider(_ref) {
       })) {
         var _callbacks$current7;
 
-        if ((_callbacks$current7 = callbacks.current) !== null && _callbacks$current7 !== void 0 && _callbacks$current7[sandbox]) {
+        if ((_callbacks$current7 = callbacks.current) !== null && _callbacks$current7 !== void 0 && _callbacks$current7.sandbox) {
           callbacks.current["sandbox"][0]({
             fieldsError: {
               fieldsList: fieldsList,
