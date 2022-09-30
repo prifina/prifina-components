@@ -1,5 +1,5 @@
 
-import React,{useEffect,useState,useRef} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 //import {usePrifina,Op} from "@prifina/hooks-v2";
 import { shortId } from '../src/utils';
 
@@ -52,24 +52,24 @@ const subscribeCreateDataMessage = `subscription msgSubscription($receiver: Stri
 class SubscribeClient {
   constructor(init) {
     // query,variables...
-    console.log("INIT ",init)
+    console.log("INIT ", init)
   }
-  
+
   subscribe(args) {
     // next(), error()
-    console.log("ARGS ",args)
+    console.log("ARGS ", args)
     // send test notification..
-    args.next({data:"Subsription Testing..."});
+    args.next({ data: "Subsription Testing..." });
     // random subscription handler
     return shortId();
-  }  
+  }
 }
 
-const mockupClient={
-  query:({query,variables})=>{
+const mockupClient = {
+  query: ({ query, variables }) => {
     return new Promise(function (resolve, reject) {
-      console.log("QUERY ",query);
-      console.log("VARS ",variables);
+      console.log("QUERY ", query);
+      console.log("VARS ", variables);
       /*
       variables: {
         input: {
@@ -85,16 +85,16 @@ const mockupClient={
       },
       */
       // not possible to send async query request result to onUpdate callback 
-     
+
       // mocked query result for provider createQuery function... 
-      resolve({"data": {"getDataObject": {result:JSON.stringify({"content": mockupObject}) }}})
-      
+      resolve({ "data": { "getDataObject": { result: JSON.stringify({ "content": mockupObject }) } } })
+
     });
   },
-  mutate:({mutation,variables})=>{
+  mutate: ({ mutation, variables }) => {
     return new Promise(function (resolve, reject) {
-      console.log("MUTATE ",mutation);
-      console.log("VARS ",variables);
+      console.log("MUTATE ", mutation);
+      console.log("VARS ", variables);
       /*
       VARS  {
         input: {
@@ -118,20 +118,26 @@ const mockupClient={
       "messageId":"$messageId","createdAt":$ctx.args.input.content.createdAt,
       "result":{"cnt":$messages,"lastMessage":"$lastMessage"}})
       */
-     if (variables.input?.dataconnector) {
-        if (variables.input.dataconnector==="Test/mutationCreateMessage") {
+      if (variables.input?.dataconnector) {
+        if (variables.input.dataconnector === "Test/mutationCreateMessage") {
 
           const moduleParts = variables.input.dataconnector.split("/");
-          const created=new Date().getTime();
-          resolve({data:{[moduleParts[1]]:{result:{
-            receiver:variables.input.content.receiver,
-            chatId:variables.input.content.chatId,
-            messageId:shortId(),
-            createdAt:new Date(created).toISOString(),
-            result:JSON.stringify({cnt:1,lastMessage:new Date(created).toISOString() })
-          }}}})
+          const created = new Date().getTime();
+          resolve({
+            data: {
+              [moduleParts[1]]: {
+                result: {
+                  receiver: variables.input.content.receiver,
+                  chatId: variables.input.content.chatId,
+                  messageId: shortId(),
+                  createdAt: new Date(created).toISOString(),
+                  result: JSON.stringify({ cnt: 1, lastMessage: new Date(created).toISOString() })
+                }
+              }
+            }
+          })
         }
-        if (variables.input.dataconnector==="Test/mutationCreateDataMessage") {
+        if (variables.input.dataconnector === "Test/mutationCreateDataMessage") {
 
           const moduleParts = variables.input.dataconnector.split("/");
           /*
@@ -145,20 +151,20 @@ const mockupClient={
               stage: providerContext.current.init.stage,
             },
             */
-          const created=new Date().getTime();
-          resolve({data:{[moduleParts[1]]:{result:variables.input}}})
+          const created = new Date().getTime();
+          resolve({ data: { [moduleParts[1]]: { result: variables.input } } })
         }
-     }
+      }
 
     });
   },
-  subscribe:({query,variables})=> new SubscribeClient({query,variables})
+  subscribe: ({ query, variables }) => new SubscribeClient({ query, variables })
 };
 
-export const mockupObject={
-  id:"12345",
-  ts:"2022-08-03",
-  val:"Testing"
+export const mockupObject = {
+  id: "12345",
+  ts: "2022-08-03",
+  val: "Testing"
 }
 
 const subscribeMessagingStatus = ({
@@ -173,14 +179,14 @@ const subscribeMessagingStatus = ({
     throw new Error("appHandler is required");
   }
   if (stage === "dev") {
-   
+
     return Promise.resolve(true);
   } else {
     console.log("SUBS ");
     return createSubscription({
       name: name,
       mutation: subscribeCreateMessage,
-      variables: { receiver: uuid,appHandler:variables.appHandler },
+      variables: { receiver: uuid, appHandler: variables.appHandler },
       appId: appID,
     });
   }
@@ -204,7 +210,7 @@ const subscribeMessagingData = ({
     return createSubscription({
       name: name,
       mutation: subscribeCreateDataMessage,
-      variables: { receiver: uuid,appHandler:variables.appHandler },
+      variables: { receiver: uuid, appHandler: variables.appHandler },
       appId: appID,
     });
   }
@@ -233,7 +239,7 @@ const mutationCreateMessage = ({
       receiver: variables.receiver,
       createdAt: new Date().getTime(),
     };
-    
+
     return Promise.resolve({
       data: {
         createMessage: msg,
@@ -286,112 +292,112 @@ export const mutationCreateDataMessage = ({
 };
 
 const queryDataAsync = ({
-    stage,
-    appID,
-    name,
-    createQuery,
-    fields,
-    filter,
-    next,
-    fieldsList,
-  }) => {
-    if (stage === "dev") {
-      return Promise.resolve({
-        data: {
-          getDataObject: { content: mockupObject },
-        },
-      });
-    } else {
-    
-      return createQuery({
-        query: dataQuery,
-        name: name,
-        fields,
-        filter,
-        next,
-        appId: appID,
-        fieldsList: fieldsList,
-      });
-    }
-  };
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next,
+  fieldsList,
+}) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: mockupObject },
+      },
+    });
+  } else {
 
-  const queryData = ({
-    stage,
-    appID,
-    name,
-    createQuery,
-    fields,
-    filter,
-    next,
-    fieldsList,
-  }) => {
-    if (stage === "dev") {
-      return Promise.resolve({
-        data: {
-          getDataObject: { content: mockupObject },
-        },
-      });
-    } else {
-    
-      return createQuery({
-        query: dataQuery,
-        name: name,
-        fields,
-        filter,
-        next,
-        appId: appID,
-        fieldsList: fieldsList,
-      });
-    }
-  };
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+      fieldsList: fieldsList,
+    });
+  }
+};
 
-  const mockupData={
-    getModuleName:()=>{
-        return "Test"
-    },
-    getInfo:()=>{
-        return   ["queryData","queryDataAsync","mutationCreateMessage","mutationCreateDataMessage","subscribeMessagingStatus","subscribeMessagingData"]
-    },
-    getFields:()=>{
-        return Object.keys(mockupObject)
-    },
-    queryData,
-    queryDataAsync,
-    mutationCreateMessage,
-    mutationCreateDataMessage,
-    subscribeMessagingStatus,
-    subscribeMessagingData
+const queryData = ({
+  stage,
+  appID,
+  name,
+  createQuery,
+  fields,
+  filter,
+  next,
+  fieldsList,
+}) => {
+  if (stage === "dev") {
+    return Promise.resolve({
+      data: {
+        getDataObject: { content: mockupObject },
+      },
+    });
+  } else {
+
+    return createQuery({
+      query: dataQuery,
+      name: name,
+      fields,
+      filter,
+      next,
+      appId: appID,
+      fieldsList: fieldsList,
+    });
+  }
+};
+
+const mockupData = {
+  getModuleName: () => {
+    return "Test"
+  },
+  getInfo: () => {
+    return ["queryData", "queryDataAsync", "mutationCreateMessage", "mutationCreateDataMessage", "subscribeMessagingStatus", "subscribeMessagingData"]
+  },
+  getFields: () => {
+    return Object.keys(mockupObject)
+  },
+  queryData,
+  queryDataAsync,
+  mutationCreateMessage,
+  mutationCreateDataMessage,
+  subscribeMessagingStatus,
+  subscribeMessagingData
 
 }
 
 
-export const TestContext=({appId,usePrifina,Op})=>{
-  const {stage,check,onUpdate,registerDataConnector,API,registerClient,currentUser,getAppSubscriptions}=usePrifina();
-  
+export const TestContext = ({ appId, usePrifina, Op }) => {
+  const { stage, check, onUpdate, registerDataConnector, API, registerClient, currentUser, getAppSubscriptions } = usePrifina();
+
   //onUpdate(appID, dataUpdate);
   // registerClient([appSyncClient, GRAPHQL, Storage]);
- // const appId="APP-ID"
- const appHandler=useRef(null);
- const [updateTest,setUpdateTest]=useState("");
- 
- const [queryTest,setQueryTest]=useState("");
- const [mutationTest,setMutationTest]=useState("");
- const [mutationDataTest,setMutationDataTest]=useState("");
- const [subscriptionTest,setSubscriptionTest]=useState("");
+  // const appId="APP-ID"
+  const appHandler = useRef(null);
+  const [updateTest, setUpdateTest] = useState("");
 
- const [subscriptionDataTest,setSubscriptionDataTest]=useState("");
+  const [queryTest, setQueryTest] = useState("");
+  const [mutationTest, setMutationTest] = useState("");
+  const [mutationDataTest, setMutationDataTest] = useState("");
+  const [subscriptionTest, setSubscriptionTest] = useState("");
+
+  const [subscriptionDataTest, setSubscriptionDataTest] = useState("");
 
 
-  const dataUpdate=(data)=>{
-      console.log("UPDATE ",data);
-      localStorage.setItem("updateTest",JSON.stringify(data));
-      setUpdateTest("UPDATE TEST");
-      return data
+  const dataUpdate = (data) => {
+    console.log("UPDATE ", data);
+    localStorage.setItem("updateTest", JSON.stringify(data));
+    setUpdateTest("UPDATE TEST");
+    return data
   }
-  useEffect(()=>{
-      appHandler.current=onUpdate(appId,dataUpdate);
-      registerDataConnector(appId, [mockupData]);
-      registerClient([mockupClient,{},{}])
+  useEffect(() => {
+    appHandler.current = onUpdate(appId, dataUpdate);
+    registerDataConnector(appId, [mockupData]);
+    registerClient([mockupClient, {}, {}])
 
     /*
   const d = new Date();
@@ -414,160 +420,164 @@ export const TestContext=({appId,usePrifina,Op})=>{
       })
     */
 
-      console.log("TEST ", check(),API );
-      /*
-      API[appId].Test.queryDataAsync({}).then(res=>{
-        console.log("QUERY ",res)
-        localStorage.setItem("testCase",JSON.stringify(res));
-      })
-      */
-     
-  },[])
-  
-  
+    console.log("TEST ", check(), API);
+    /*
+    API[appId].Test.queryDataAsync({}).then(res=>{
+      console.log("QUERY ",res)
+      localStorage.setItem("testCase",JSON.stringify(res));
+    })
+    */
+
+  }, [])
+
+
   // register datasource modules
   //registerHooks(appID, [Oura]);
 
   return <>
-  <div>{"Context `${stage}`"}</div>
-  <button role="queryTest" onClick={()=>{
-    API[appId].Test.queryDataAsync({}).then(res=>{
-      console.log("QUERY ",res)
-      localStorage.setItem("testCaseQuery",JSON.stringify(res));
-      setQueryTest("QueryTest-OK")
-    });
-  }}>Query</button>
-  <div>{queryTest}</div>
-  <button role="mutationTest" onClick={()=>{
-    const input="Test MSG"
-   
-    API[appId].Test.mutationCreateMessage({ variables: {
-      body: JSON.stringify(input),
-      receiver: "receiver-ID",
-      sender: currentUser.uuid,
-      chatId: "chat-ID"
-    },}).then(res=>{
-      console.log("MUTATION ",res)
-      localStorage.setItem("testCaseMutation",JSON.stringify(res));
-      
-      setMutationTest("MutationTest-OK")
-    })
-    
-  }}>Mutation</button>
-  <button role="mutationDataTest" onClick={()=>{
-    const input="Test MSG"
-   
-    API[appId].Test.mutationCreateDataMessage({ variables: {
-      body: JSON.stringify(input),
-      receiver: "receiver-ID",
-      sender: currentUser.uuid,
-      chatId: "chat-ID"
-    },}).then(res=>{
-      console.log("MUTATION2 ",res)
-      localStorage.setItem("testCaseMutation2",JSON.stringify(res));
-      
-      setMutationDataTest("MutationTest2-OK")
-    })
-    
-  }}>Mutation</button>
+    <div>{"Context `${stage}`"}</div>
+    <button role="queryTest" onClick={() => {
+      API[appId].Test.queryDataAsync({}).then(res => {
+        console.log("QUERY ", res)
+        localStorage.setItem("testCaseQuery", JSON.stringify(res));
+        setQueryTest("QueryTest-OK")
+      });
+    }}>Query</button>
+    <div>{queryTest}</div>
+    <button role="mutationTest" onClick={() => {
+      const input = "Test MSG"
 
-<button role="subscriptionTest" onClick={()=>{
+      API[appId].Test.mutationCreateMessage({
+        variables: {
+          body: JSON.stringify(input),
+          receiver: "receiver-ID",
+          sender: currentUser.uuid,
+          chatId: "chat-ID"
+        },
+      }).then(res => {
+        console.log("MUTATION ", res)
+        localStorage.setItem("testCaseMutation", JSON.stringify(res));
+
+        setMutationTest("MutationTest-OK")
+      })
+
+    }}>Mutation</button>
+    <button role="mutationDataTest" onClick={() => {
+      const input = "Test MSG"
+
+      API[appId].Test.mutationCreateDataMessage({
+        variables: {
+          body: JSON.stringify(input),
+          receiver: "receiver-ID",
+          sender: currentUser.uuid,
+          chatId: "chat-ID"
+        },
+      }).then(res => {
+        console.log("MUTATION2 ", res)
+        localStorage.setItem("testCaseMutation2", JSON.stringify(res));
+
+        setMutationDataTest("MutationTest2-OK")
+      })
+
+    }}>Mutation</button>
+
+    <button role="subscriptionTest" onClick={() => {
 
       API[appId].Test.subscribeMessagingStatus({
         variables: {
-          appHandler:appHandler.current,
+          appHandler: appHandler.current,
           receiver: currentUser.uuid,
         },
       }).then((res) => {
         // this is just true... 
-        console.log("TEST RES ",res);
-       // setMutationTest("MutationTest-OK")
-      setSubscriptionTest("SubscriptionTest-OK");
-       //</>console.log("SUBS ",getAppSubscriptions())
-      });  
-    
-    
-  }}>Subscription</button>
-
-<button role="subscriptionDataTest" onClick={()=>{
-
-API[appId].Test.subscribeMessagingData({
-  variables: {
-    appHandler:appHandler.current,
-    receiver: currentUser.uuid,
-  },
-}).then((res) => {
-  // this is just true... 
-  console.log("TEST RES ",res);
-  setSubscriptionTest("SubscriptionDataTest-OK");
- // setMutationTest("MutationTest-OK")
- //console.log("SUBS ",getAppSubscriptions())
-});  
+        console.log("TEST RES ", res);
+        // setMutationTest("MutationTest-OK")
+        setSubscriptionTest("SubscriptionTest-OK");
+        //</>console.log("SUBS ",getAppSubscriptions())
+      });
 
 
-}}>Subscription</button>
+    }}>Subscription</button>
 
-  <div>{mutationTest}</div>
-  <div>{mutationDataTest}</div>
-  <div>{subscriptionTest}</div>
+    <button role="subscriptionDataTest" onClick={() => {
 
-  <div>{subscriptionDataTest}</div>
-  <div>{updateTest}</div>
-  
+      API[appId].Test.subscribeMessagingData({
+        variables: {
+          appHandler: appHandler.current,
+          receiver: currentUser.uuid,
+        },
+      }).then((res) => {
+        // this is just true... 
+        console.log("TEST RES ", res);
+        setSubscriptionTest("SubscriptionDataTest-OK");
+        // setMutationTest("MutationTest-OK")
+        //console.log("SUBS ",getAppSubscriptions())
+      });
+
+
+    }}>Subscription</button>
+
+    <div>{mutationTest}</div>
+    <div>{mutationDataTest}</div>
+    <div>{subscriptionTest}</div>
+
+    <div>{subscriptionDataTest}</div>
+    <div>{updateTest}</div>
+
   </>
 }
 
 
 
-export const SandboxContext=({appId,usePrifina,Op})=>{
-  const {stage,check,onUpdate,registerDataConnector,API,registerClient,currentUser,getAppSubscriptions}=usePrifina();
-  
+export const SandboxContext = ({ appId, usePrifina, Op }) => {
+  const { stage, check, onUpdate, registerDataConnector, API, registerClient, currentUser, getAppSubscriptions } = usePrifina();
+
   //onUpdate(appID, dataUpdate);
   // registerClient([appSyncClient, GRAPHQL, Storage]);
- // const appId="APP-ID"
- const appHandler=useRef(null);
- const [updateTest,setUpdateTest]=useState("");
- const [queryTest,setQueryTest]=useState("");
+  // const appId="APP-ID"
+  const appHandler = useRef(null);
+  const [updateTest, setUpdateTest] = useState("");
+  const [queryTest, setQueryTest] = useState("");
 
 
- const sandboxUpdate=(data)=>{
-  console.log("SANDBOX UPDATE ",data);
-  //localStorage.setItem("updateTest",JSON.stringify(data));
-  //setUpdateTest("UPDATE TEST");
-  return data
-}
-  const dataUpdate=(data)=>{
-      console.log("UPDATE ",data);
-      localStorage.setItem("updateTest",JSON.stringify(data));
-      setUpdateTest("UPDATE TEST");
-      return data
+  const sandboxUpdate = (data) => {
+    console.log("SANDBOX UPDATE ", data);
+    //localStorage.setItem("updateTest",JSON.stringify(data));
+    //setUpdateTest("UPDATE TEST");
+    return data
   }
-  useEffect(()=>{
-      onUpdate("sandbox",sandboxUpdate);
-      appHandler.current=onUpdate(appId,dataUpdate);
-      registerDataConnector(appId, [mockupData]);
-      registerClient([mockupClient,{},{}])
+  const dataUpdate = (data) => {
+    console.log("UPDATE ", data);
+    localStorage.setItem("updateTest", JSON.stringify(data));
+    setUpdateTest("UPDATE TEST");
+    return data
+  }
+  useEffect(() => {
+    onUpdate("sandbox", sandboxUpdate);
+    appHandler.current = onUpdate(appId, dataUpdate);
+    registerDataConnector(appId, [mockupData]);
+    registerClient([mockupClient, {}, {}])
 
-      console.log("TEST ", check(),API );
-    
-     
-  },[])
-  
-  
+    console.log("TEST ", check(), API);
+
+
+  }, [])
+
+
   return <>
-  <div>{"Context `${stage}`"}</div>
-  <button role="queryTest" onClick={()=>{
-    API[appId].Test.queryDataAsync({}).then(res=>{
-      console.log("QUERY ",res)
-      localStorage.setItem("testCaseQuery",JSON.stringify(res));
-      // simulate provider notification sending response to onUpdate callback... 
-      dataUpdate(res);
-      setQueryTest("QueryTest-OK")
-    });
-  }}>Query</button>
-  <div>{queryTest}</div>
-  <div>{updateTest}</div>
-  
+    <div>{"Context `${stage}`"}</div>
+    <button role="queryTest" onClick={() => {
+      API[appId].Test.queryDataAsync({ fields: "idx,val", fieldsList: Object.keys(mockupObject) }).then(res => {
+        console.log("QUERY ", res)
+        localStorage.setItem("testCaseQuery", JSON.stringify(res));
+        // simulate provider notification sending response to onUpdate callback... 
+        dataUpdate(res);
+        setQueryTest("QueryTest-OK")
+      });
+    }}>Query</button>
+    <div>{queryTest}</div>
+    <div>{updateTest}</div>
+
   </>
 }
 

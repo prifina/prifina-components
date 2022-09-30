@@ -258,7 +258,7 @@ export const PrifinaContextProvider = ({ activeApp, activeUser, Context, stage =
       ) {
         if (callbacks.current?.sandbox) {
           callbacks.current["sandbox"][0]({
-            fieldsError: { fieldsList: fieldsList, invalidField: invField },
+            fieldsError: { fieldsList: opts.fieldsList, invalidField: invField },
           });
         }
         //throw new Error("INVALID_FIELD (" + invField + ")");

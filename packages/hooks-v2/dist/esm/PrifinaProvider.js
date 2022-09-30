@@ -271,7 +271,7 @@ var PrifinaContextProvider = function PrifinaContextProvider(_ref) {
         if ((_callbacks$current7 = callbacks.current) !== null && _callbacks$current7 !== void 0 && _callbacks$current7.sandbox) {
           callbacks.current["sandbox"][0]({
             fieldsError: {
-              fieldsList: fieldsList,
+              fieldsList: opts.fieldsList,
               invalidField: invField
             }
           });
