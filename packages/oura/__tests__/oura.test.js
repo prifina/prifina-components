@@ -1,10 +1,12 @@
 'use strict';
-import {getFields,
+import {
+  getFields,
   getInfo,
   getModuleName,
-  queryActivitySummary,queryActivitySummariesAsync,queryReadinessSummariesAsync,queryReadinessSummary,querySleepData,querySleepDataAsync,querySleepSummariesAsync,querySleepSummary,} from "@prifina/oura";
+  queryActivitySummary, queryActivitySummariesAsync, queryReadinessSummariesAsync, queryReadinessSummary, querySleepData, querySleepDataAsync, querySleepSummariesAsync, querySleepSummary,
+} from "@prifina/oura";
 import 'regenerator-runtime/runtime';
-import { ActivitySummary,ActivitySummaryAsync,ReadinessSummary,ReadinessSummaryAsync,SleepSummary,SleepSummaryAsync, } from "@dynamic-data/oura-data";
+import { ActivitySummary, ActivitySummaryAsync, ReadinessSummary, ReadinessSummaryAsync, SleepSummary, SleepSummaryAsync, } from "@dynamic-data/oura-data";
 
 
 
@@ -26,52 +28,52 @@ describe("oura", () => {
     const name = getInfo()
     // console.log(typeof name)
     //Check if array
-    expect(typeof name).toEqual('object'); 
-    expect(name.length).toBeTruthy() 
+    expect(typeof name).toEqual('object');
+    expect(name.length).toBeTruthy()
     //Check if each item is string
-    expect(typeof name[0]).toEqual('string'); 
+    expect(typeof name[0]).toEqual('string');
 
 
   })
   it("queryActivitySummary", async () => {
-    const result = await queryActivitySummary({stage: "dev"})
+    const result = await queryActivitySummary({ stage: "dev" })
     // console.log("queryActivitySummary ", JSON.stringify(result, undefined, 2));
-    expect(result).toStrictEqual({data:{getDataObject:{content:ActivitySummary}}})
+    expect(result).toStrictEqual({ data: { getDataObject: { content: ActivitySummary } } })
   });
   it("queryActivitySummariesAsync", async () => {
-    const result = await queryActivitySummariesAsync({stage: "dev"})
+    const result = await queryActivitySummariesAsync({ stage: "dev" })
     // console.log("queryActivitySummariesAsync ", JSON.stringify(result, undefined, 2));
-    expect(result).toStrictEqual({data:{getDataObject:{content:ActivitySummaryAsync}}})
+    expect(result).toStrictEqual({ data: { getDataObject: { content: ActivitySummaryAsync.map(m => m.replace(/\t/g, ",")) } } })
   });
   it("queryReadinessSummariesAsync", async () => {
-    const result = await queryReadinessSummariesAsync({stage: "dev"})
+    const result = await queryReadinessSummariesAsync({ stage: "dev" })
     // console.log("queryReadinessSummariesAsync ", JSON.stringify(result, undefined, 2));
-    expect(result).toStrictEqual({data:{getDataObject:{content:ReadinessSummaryAsync}}})
+    expect(result).toStrictEqual({ data: { getDataObject: { content: ReadinessSummaryAsync.map(m => m.replace(/\t/g, ",")) } } })
   });
   it("queryReadinessSummary", async () => {
-    const result = await queryReadinessSummary({stage: "dev"})
+    const result = await queryReadinessSummary({ stage: "dev" })
     // console.log("queryReadinessSummary ", JSON.stringify(result, undefined, 2));
-    expect(result).toStrictEqual({data:{getDataObject:{content:ReadinessSummary}}})
+    expect(result).toStrictEqual({ data: { getDataObject: { content: ReadinessSummary } } })
   });
   it("querySleepData", async () => {
-    const result = await querySleepData({stage: "dev"})
+    const result = await querySleepData({ stage: "dev" })
     // console.log("querySleepData ", JSON.stringify(result, undefined, 2));
-    expect(result).toStrictEqual({data:{getDataObject:{content:SleepSummary}}})
+    expect(result).toStrictEqual({ data: { getDataObject: { content: SleepSummary } } })
   });
   it("querySleepDataAsync", async () => {
-    const result = await querySleepDataAsync({stage: "dev"})
+    const result = await querySleepDataAsync({ stage: "dev" })
     // console.log("querySleepDataAsync ", JSON.stringify(result, undefined, 2));
-    expect(result).toStrictEqual({data:{getDataObject:{content:SleepSummaryAsync}}})
+    expect(result).toStrictEqual({ data: { getDataObject: { content: SleepSummaryAsync.map(m => m.replace(/\t/g, ",")) } } })
   });
   it("querySleepSummary", async () => {
-    const result = await querySleepSummary({stage: "dev"})
+    const result = await querySleepSummary({ stage: "dev" })
     // console.log("querySleepSummary ", JSON.stringify(result, undefined, 2));
-    expect(result).toStrictEqual({data:{getDataObject:{content:SleepSummary}}})
+    expect(result).toStrictEqual({ data: { getDataObject: { content: SleepSummary } } })
   });
   it("querySleepSummariesAsync", async () => {
-    const result = await querySleepSummariesAsync({stage: "dev"})
+    const result = await querySleepSummariesAsync({ stage: "dev" })
 
     // console.log("querySleepSummariesAsync ", JSON.stringify(result, undefined, 2));
-    expect(result).toStrictEqual({data:{getDataObject:{content:SleepSummaryAsync}}})
+    expect(result).toStrictEqual({ data: { getDataObject: { content: SleepSummaryAsync.map(m => m.replace(/\t/g, ",")) } } })
   });
 });

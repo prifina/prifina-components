@@ -21,7 +21,7 @@ const polarPkg = require("./packages/polar/package.json")
 const runkeeperPkg = require("./packages/runkeeper/package.json")
 const stravaPkg = require("./packages/strava/package.json")
 const twitchPkg = require("./packages/twitch/package.json")
-const uberPkg = require("./packages/uber/package.json")
+//const uberPkg = require("./packages/uber/package.json")
 const whoopPkg = require("./packages/whoop/package.json")
 const withingsPkg = require("./packages/withings/package.json")
 
@@ -414,16 +414,6 @@ module.exports = {
     testMatch: [
       "<rootDir>/packages/twitch/**/__tests__/*.test.js",
       "<rootDir>/packages/twitch/**/__tests__/*.test.mjs",
-    ],
-
-  }, {
-    ...base,
-
-    displayName: uberPkg.name,
-
-    testMatch: [
-      "<rootDir>/packages/uber/**/__tests__/*.test.js",
-      "<rootDir>/packages/uber/**/__tests__/*.test.mjs",
     ],
 
   }, {

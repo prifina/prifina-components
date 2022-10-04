@@ -88,7 +88,7 @@ export const queryActivitySummariesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: ActivitySummaryAsync },
+        getDataObject: { content: ActivitySummaryAsync.map(m => m.replace(/\t/g, ",")) },
       },
     });
   } else {
@@ -150,7 +150,7 @@ export const queryReadinessSummariesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: ReadinessSummaryAsync },
+        getDataObject: { content: ReadinessSummaryAsync.map(m => m.replace(/\t/g, ",")) },
       },
     });
   } else {
@@ -211,7 +211,7 @@ export const querySleepSummariesAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: SleepSummaryAsync },
+        getDataObject: { content: SleepSummaryAsync.map(m => m.replace(/\t/g, ",")) },
       },
     });
   } else {
@@ -272,7 +272,7 @@ export const querySleepDataAsync = ({
   if (stage === "dev") {
     return Promise.resolve({
       data: {
-        getDataObject: { content: SleepSummaryAsync },
+        getDataObject: { content: SleepSummaryAsync.map(m => m.replace(/\t/g, ",")) },
       },
     });
   } else {

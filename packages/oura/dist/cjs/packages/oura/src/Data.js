@@ -82,7 +82,9 @@ var queryActivitySummariesAsync = function queryActivitySummariesAsync(_ref) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: activitySummaryAsync.ActivitySummaryAsync
+          content: activitySummaryAsync.ActivitySummaryAsync.map(function (m) {
+            return m.replace(/\t/g, ",");
+          })
         }
       }
     });
@@ -145,7 +147,9 @@ var queryReadinessSummariesAsync = function queryReadinessSummariesAsync(_ref3) 
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: readinessSummaryAsync.ReadinessSummaryAsync
+          content: readinessSummaryAsync.ReadinessSummaryAsync.map(function (m) {
+            return m.replace(/\t/g, ",");
+          })
         }
       }
     });
@@ -207,7 +211,9 @@ var querySleepSummariesAsync = function querySleepSummariesAsync(_ref5) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: sleepSummaryAsync.SleepSummaryAsync
+          content: sleepSummaryAsync.SleepSummaryAsync.map(function (m) {
+            return m.replace(/\t/g, ",");
+          })
         }
       }
     });
@@ -269,7 +275,9 @@ var querySleepDataAsync = function querySleepDataAsync(_ref7) {
     return Promise.resolve({
       data: {
         getDataObject: {
-          content: sleepSummaryAsync.SleepSummaryAsync
+          content: sleepSummaryAsync.SleepSummaryAsync.map(function (m) {
+            return m.replace(/\t/g, ",");
+          })
         }
       }
     });

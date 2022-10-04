@@ -374,6 +374,7 @@ const mockupData = {
 export const TestContext = ({ appId, usePrifina, Op }) => {
   const { stage, check, onUpdate, registerDataConnector, API, registerClient, currentUser, getAppSubscriptions } = usePrifina();
 
+  console.log("USE PRIFINA STAGE ", stage);
   //onUpdate(appID, dataUpdate);
   // registerClient([appSyncClient, GRAPHQL, Storage]);
   // const appId="APP-ID"

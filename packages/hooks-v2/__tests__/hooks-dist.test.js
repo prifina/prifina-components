@@ -25,7 +25,7 @@ jest.mock("react", () => {
 
 const componentProps = { usePrifina, Op };
 
-describe.only('Sandbox', () => {
+describe('Sandbox', () => {
 
 
   test("Provider sandbox test", async () => {
@@ -95,7 +95,7 @@ describe.only('Sandbox', () => {
 
 });
 
-describe('Connectors', () => {
+describe.only('Connectors', () => {
 
 
   test("Provider test", async () => {
@@ -103,7 +103,7 @@ describe('Connectors', () => {
 
     //const mRef = { current: {["APP-ID"]:["1","2"]} };
     //useRef.mockReturnValueOnce(mRef);
-    const stage = "prod"
+    const stage = "sandbox"
 
     render(<PrifinaProvider activeApp={"hookTest"} stage={stage} Context={PrifinaContext}>
       <TestContext appId={"APP-ID"} {...componentProps} />
