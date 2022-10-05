@@ -4621,10 +4621,10 @@
   resolved "https://registry.yarnpkg.com/@dynamic-data/ancestry-data/-/ancestry-data-0.0.8.tgz#e1f19e50bf1e0f421d7507e08688af25b1eb7865"
   integrity sha512-BMOqy7MRKwXpLYDOTLTrSIT5gigzZAdfahMwXNn6PlrPXglPqXR5I8GIE2iUZcgURCpffGyRI86Q+u666nAL0w==
 
-"@dynamic-data/fitbit-data@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@dynamic-data/fitbit-data/-/fitbit-data-0.0.7.tgz#a9834675aff75e9404e89aa028d4a788ff43c966"
-  integrity sha512-xMYaZootoynuBag/1eqNVgH5FZIOklkyQkEIHyt0oKVAKM9XJM8jOePQmQKV8QsAbJuZzhFv3iQwWT8LRd3BDQ==
+"@dynamic-data/fitbit-data@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@dynamic-data/fitbit-data/-/fitbit-data-0.0.8.tgz#c4428cb4f684771cfaedf2fc5dfa98192ffe7287"
+  integrity sha512-lsQEIuQ5gWzpVaS7z7ySok4s5eahBrXH3f7TRbgJ/CzC0TuUMEtWv/cTQ4shGtPHaVZeq0kpy28pJXn56gYxsQ==
 
 "@dynamic-data/foursquare-data@^1.0.2":
   version "1.0.2"
