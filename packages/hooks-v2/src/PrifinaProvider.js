@@ -97,11 +97,13 @@ export const PrifinaContextProvider = ({ activeApp, activeUser, Context, stage =
           query: gql(opts.mutation),
           variables: {
             ...variables,
+            /*
             dataconnector: opts.name,
             userId: currentUser.uuid,
             appId: opts.appId,
             execId: shortId(),
             stage: providerContext.current.init.stage,
+            */
           },
         })
         .subscribe({
