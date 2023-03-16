@@ -72,7 +72,7 @@ export const PrifinaContextProvider = ({ activeApp, activeUser, Context, stage =
   */
 
 
-  const createSubscription = (opts) => {
+  const createSubscriptionAppsyncClientVersion = (opts) => {
     console.log("SUBSCRIPTION OPTS ", opts);
     if (callbacks.current?.sandbox) {
       let connectorFunction = Object.assign({}, opts);
@@ -102,6 +102,92 @@ export const PrifinaContextProvider = ({ activeApp, activeUser, Context, stage =
             appId: opts.appId,
             execId: shortId(),
             stage: providerContext.current.init.stage,
+          },
+        })
+        .subscribe({
+          next: (res) => {
+            console.log("NOTIFICATION SUBS RESULTS3 ", res, appHandler);
+
+            //appSubscriptions.current[opts.appId][appHandler]=subHandler;
+
+            const appIndex = providerContext.current.init.apps[opts.appId];
+            console.log("APP INDEX ARRAY ", appIndex);
+            /*
+            NOTIFICATION SUBS RESULTS3  { data: 'Subsription Testing...' } s8af6yaxis
+            console.log
+            APP INDEX  [ 's8af6yaxis' ]
+            console.log
+            SUBS HANDLER  181ujb3avr
+        
+          console.log
+            SUBS  { 'APP-ID': { s8af6yaxis: '181ujb3avr' } }
+            */
+
+            let callBackIndex = 0;
+            if (appIndex.length > 1) {
+              callBackIndex = appIndex.findIndex((id) => {
+                return id === appHandler;
+              });
+            }
+
+            callbacks.current[opts.appId][callBackIndex](res.data);
+          },
+          error: (error) => {
+            console.warn(error);
+            //const appIndex = providerContext.current.init.apps[opts.appId];
+            let callBackIndex = 0;
+            callbacks.current[opts.appId][callBackIndex]({ error: error });
+          },
+        });
+
+      console.log("SUBS HANDLER ", subHandler);
+      if (appSubscriptions.current?.[opts.appId]) {
+        // not array so we can support multiple subscriptions for same app/widget... 
+        appSubscriptions.current[opts.appId][appHandler] = subHandler;
+        //appSubscriptions.current[opts.appId].push(subHandler);
+      } else {
+        appSubscriptions.current[opts.appId] = { [appHandler]: subHandler };
+      }
+      resolve(true);
+    });
+  };
+
+  const createSubscription = (opts) => {
+    console.log("SUBSCRIPTION OPTS ", opts);
+    if (callbacks.current?.sandbox) {
+      let connectorFunction = Object.assign({}, opts);
+      callbacks.current["sandbox"][0]({
+        [connectorFunction.name]: connectorFunction,
+      });
+    }
+
+    if (callbacks.current?.sandbox) {
+      callbacks.current["sandbox"][0]({
+        mutationRequest: {
+          appID: opts.appId,
+          variables: opts.variables,
+        },
+      });
+    }
+    /*
+        const subscription = this.Client.graphql(graphqlOperation(rq, vars)).subscribe({
+          next: ({ provider, value }) => { this.callback(provider, value) },
+          error: error => {
+            console.error(error);
+            // do we need to throw exception here ???
+          }
+        });
+    
+        this.subscriptions[subscriptionID] = subscription;
+        */
+
+    return new Promise(function (resolve, reject) {
+      const { appHandler, ...variables } = opts.variables;
+      const subHandler = CLIENT.current.user
+        .subscribe({
+          query: gql(opts.mutation),
+          variables: {
+            ...variables
           },
         })
         .subscribe({
