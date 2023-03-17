@@ -87,7 +87,7 @@ const subscribeCreateDataMessage = `subscription msgSubscription($receiver: Stri
       result
     }
   }`;
-  
+
 function randomID() {
   let chars = "qwertyuiopasdfghjklzxcvbnm";
   let randomstring = "";
@@ -103,6 +103,11 @@ function randomID() {
   }
 
   return randomstring;
+}
+
+const shortId = () => {
+  // this is unique enough...
+  return Math.random().toString(36).slice(-10);
 }
 
 export const queryGetUnreadMessages = ({
@@ -188,28 +193,28 @@ export const queryGetMessages = ({
   uuid,
 }) => {
   if (stage === "dev") {
-   
+
     const msgs = localStorage.getItem("prifinaMessaging");
-    console.log("GET MSGS ",msgs,filter);
+    console.log("GET MSGS ", msgs, filter);
     let receiverMsgs = [];
     if (msgs !== null) {
       receiverMsgs = JSON.parse(msgs).filter((m) => {
-        console.log("FILTER ",m)
+        console.log("FILTER ", m)
         //console.log(uuid, m);
         const logicalOperators = Object.getOwnPropertySymbols(filter);
-        console.log("MSG FILTER ", Object.keys(filter),logicalOperators);
-        if (typeof filter!=="undefined" && logicalOperators.length===0 && Object.keys(filter).length>0) {
+        console.log("MSG FILTER ", Object.keys(filter), logicalOperators);
+        if (typeof filter !== "undefined" && logicalOperators.length === 0 && Object.keys(filter).length > 0) {
           // console.log("SIMPLE FILTER ");
           let filterMatch = false;
           Object.keys(filter).forEach((f) => {
-          
+
             // console.log("FILTER KEY ",f);
             // console.log("FILTER OBJ ",m);
             // console.log("FILTER KEY VAL ",filter[f]);
             // console.log("FILTER OBJ VAL ",m[f]);
-            
+
             Object.getOwnPropertySymbols(filter[f]).forEach((e, i) => {
-            
+
               //filter[logicalOP][k][e]
               // only eq is accepted...
               if (m.hasOwnProperty(f) && m[f] === filter[f][e]) {
@@ -219,28 +224,28 @@ export const queryGetMessages = ({
               }
             });
 
-            
-        
+
+
           });
           return filterMatch;
 
         } else if (typeof filter !== "undefined" && logicalOperators.length > 0) {
-         
-         let logicalOP = logicalOperators[0];
+
+          let logicalOP = logicalOperators[0];
           //  Object.keys(filter[logicalOP]).forEach((k, ii) => {
           //console.log("OP ",logicalOP);
           let filterMatch = false;
           Object.keys(filter[logicalOP]).forEach((f) => {
             Object.getOwnPropertySymbols(filter[logicalOP][f]).forEach((e, i) => {
-            
-            //filter[logicalOP][k][e]
-            // only eq is accepted...
-            if (m.hasOwnProperty(f) && m[f] === filter[logicalOP][f][e]) {
-              filterMatch = true;
-            } else {
-              filterMatch = false;
-            }
-          });
+
+              //filter[logicalOP][k][e]
+              // only eq is accepted...
+              if (m.hasOwnProperty(f) && m[f] === filter[logicalOP][f][e]) {
+                filterMatch = true;
+              } else {
+                filterMatch = false;
+              }
+            });
           });
           return filterMatch;
         } else {
@@ -371,7 +376,7 @@ export const mutationCreateMessage = ({
       messageId: randomID(),
       body: variables.body,
       chatId: variables.chatId,
-      owner:uuid,
+      owner: uuid,
       sender: uuid,
       receiver: variables.receiver,
       createdAt: new Date().getTime(),
@@ -440,7 +445,7 @@ export const mutationCreateTestMessage = ({
       chatId: variables.chatId,
       sender: variables.sender,
       receiver: uuid,
-      owner:uuid,
+      owner: uuid,
       createdAt: new Date().getTime(),
     };
     let msgQueue = [msg];
@@ -513,7 +518,7 @@ export const mutationCreateDataMessage = ({
       body: variables.body,
       chatId: variables.chatId,
       sender: uuid,
-      owner:uuid,
+      owner: uuid,
       receiver: variables.receiver,
       createdAt: new Date().getTime(),
     };
@@ -551,7 +556,7 @@ export const mutationCreateTestDataMessage = ({
       chatId: variables.chatId,
       sender: variables.sender,
       receiver: uuid,
-      owner:uuid,
+      owner: uuid,
       createdAt: new Date().getTime(),
     };
 
@@ -597,7 +602,7 @@ export const subscribeMessagingStatus = ({
     return createSubscription({
       name: name,
       mutation: subscribeCreateMessage,
-      variables: { receiver: uuid },
+      variables: { receiver: uuid, appHandler: variables.appHandler || shortId() },
       appId: appID,
     });
   }
@@ -618,7 +623,7 @@ export const subscribeMessagingData = ({
     return createSubscription({
       name: name,
       mutation: subscribeCreateDataMessage,
-      variables: { receiver: uuid },
+      variables: { receiver: uuid, appHandler: variables.appHandler || shortId() },
       appId: appID,
     });
   }

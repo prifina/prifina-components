@@ -53,6 +53,11 @@ function randomID() {
   return randomstring;
 }
 
+var shortId = function shortId() {
+  // this is unique enough...
+  return Math.random().toString(36).slice(-10);
+};
+
 var queryGetUnreadMessages = function queryGetUnreadMessages(_ref) {
   var stage = _ref.stage,
       appID = _ref.appID,
@@ -562,7 +567,8 @@ var subscribeMessagingStatus = function subscribeMessagingStatus(_ref9) {
       name: name,
       mutation: subscribeCreateMessage,
       variables: {
-        receiver: uuid
+        receiver: uuid,
+        appHandler: variables.appHandler || shortId()
       },
       appId: appID
     });
@@ -572,9 +578,9 @@ var subscribeMessagingData = function subscribeMessagingData(_ref10) {
   var stage = _ref10.stage,
       appID = _ref10.appID,
       name = _ref10.name,
-      createSubscription = _ref10.createSubscription;
-      _ref10.variables;
-      var uuid = _ref10.uuid;
+      createSubscription = _ref10.createSubscription,
+      variables = _ref10.variables,
+      uuid = _ref10.uuid;
 
   if (stage === "dev") {
     return Promise.resolve(true);
@@ -584,7 +590,8 @@ var subscribeMessagingData = function subscribeMessagingData(_ref10) {
       name: name,
       mutation: subscribeCreateDataMessage,
       variables: {
-        receiver: uuid
+        receiver: uuid,
+        appHandler: variables.appHandler || shortId()
       },
       appId: appID
     });
