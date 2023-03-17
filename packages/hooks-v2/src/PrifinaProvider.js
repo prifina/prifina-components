@@ -107,8 +107,10 @@ export const PrifinaContextProvider = ({ activeApp, activeUser, Context, stage =
           },
         })
         .subscribe({
-          next: (res) => {
-            console.log("NOTIFICATION SUBS RESULTS3 ", res, appHandler);
+          next: ({ provider, value }) => {
+            console.log("NOTIFICATION SUBS RESULTS ", appHandler);
+            console.log("NOTIFICATION SUBS RESULTS ", provider);
+            console.log("NOTIFICATION SUBS RESULTS ", value);
 
             //appSubscriptions.current[opts.appId][appHandler]=subHandler;
 
@@ -132,7 +134,7 @@ export const PrifinaContextProvider = ({ activeApp, activeUser, Context, stage =
               });
             }
 
-            callbacks.current[opts.appId][callBackIndex](res.data);
+            callbacks.current[opts.appId][callBackIndex](value.data);
           },
           error: (error) => {
             console.warn(error);

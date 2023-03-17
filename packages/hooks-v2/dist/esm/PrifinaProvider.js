@@ -108,16 +108,14 @@ var PrifinaContextProvider = function PrifinaContextProvider(_ref) {
 
       var subHandler = CLIENT.current.user.subscribe({
         query: gql(opts.mutation),
-        variables: _objectSpread2(_objectSpread2({}, variables), {}, {
-          dataconnector: opts.name,
-          userId: currentUser.uuid,
-          appId: opts.appId,
-          execId: shortId(),
-          stage: providerContext.current.init.stage
-        })
+        variables: _objectSpread2({}, variables)
       }).subscribe({
-        next: function next(res) {
-          console.log("NOTIFICATION SUBS RESULTS3 ", res, appHandler); //appSubscriptions.current[opts.appId][appHandler]=subHandler;
+        next: function next(_ref2) {
+          var provider = _ref2.provider,
+              value = _ref2.value;
+          console.log("NOTIFICATION SUBS RESULTS ", appHandler);
+          console.log("NOTIFICATION SUBS RESULTS ", provider);
+          console.log("NOTIFICATION SUBS RESULTS ", value); //appSubscriptions.current[opts.appId][appHandler]=subHandler;
 
           var appIndex = providerContext.current.init.apps[opts.appId];
           console.log("APP INDEX ARRAY ", appIndex);
@@ -139,7 +137,7 @@ var PrifinaContextProvider = function PrifinaContextProvider(_ref) {
             });
           }
 
-          callbacks.current[opts.appId][callBackIndex](res.data);
+          callbacks.current[opts.appId][callBackIndex](value.data);
         },
         error: function error(_error) {
           console.warn(_error); //const appIndex = providerContext.current.init.apps[opts.appId];
@@ -391,12 +389,12 @@ var PrifinaContextProvider = function PrifinaContextProvider(_ref) {
           console.log("REGISTER new ", q);
 
           if (q.startsWith("query")) {
-            fn[q] = function (_ref2) {
+            fn[q] = function (_ref3) {
               var _callbacks$current13;
 
-              var fields = _ref2.fields,
-                  filter = _ref2.filter,
-                  next = _ref2.next;
+              var fields = _ref3.fields,
+                  filter = _ref3.filter,
+                  next = _ref3.next;
               console.log("INIT ", providerContext.current.init);
               var stage = providerContext.current.init.stage;
               var fieldsList = [];
@@ -425,10 +423,10 @@ var PrifinaContextProvider = function PrifinaContextProvider(_ref) {
               });
             };
           } else if (q.startsWith("subscribe")) {
-            fn[q] = function (_ref3) {
+            fn[q] = function (_ref4) {
               var _callbacks$current14;
 
-              var variables = _ref3.variables;
+              var variables = _ref4.variables;
               console.log("INIT MUTATION", providerContext.current.init);
               var stage = providerContext.current.init.stage; //const executionID = short.generate();
 
@@ -448,10 +446,10 @@ var PrifinaContextProvider = function PrifinaContextProvider(_ref) {
               });
             };
           } else if (q.startsWith("mutation")) {
-            fn[q] = function (_ref4) {
+            fn[q] = function (_ref5) {
               var _callbacks$current15;
 
-              var variables = _ref4.variables;
+              var variables = _ref5.variables;
               console.log("INIT MUTATION", providerContext.current.init);
               var stage = providerContext.current.init.stage; //const executionID = short.generate();
 
